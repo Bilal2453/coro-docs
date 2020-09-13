@@ -64,7 +64,7 @@ Establishes a new TCP connection with the given host on the given port.
 
   *default*: `nil`.
 
-  In case of using a table value for `tls`, acceptable fields are;
+  In case of using a table value for `tls`, acceptable fields are:
     
 | Field | Type   | Description |
 |:------|:------:|:------------|
@@ -74,6 +74,7 @@ Establishes a new TCP connection with the given host on the given port.
 | cert | string | The TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. See field `ca` for defaults. |
 | ca | string / table | TODO |
 | insecure | boolean | TODO |
+
 *All of the fields are optional and should only be touched when you know what you are doing.*
 
 - **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request.
