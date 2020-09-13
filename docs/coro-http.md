@@ -78,7 +78,7 @@ Establishes a new TCP connection with the given host on the given port.
 
 - **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
   - Time is given in milliseconds.
-  - if nothing is supplied libuv will timeout after an undefined amount of seconds.
+  - If nothing is supplied libuv will timeout after an undefined amount of seconds.
 
 #### Returns
 1. *(table)*: The established connection.
