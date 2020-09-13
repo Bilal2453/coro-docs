@@ -62,7 +62,7 @@ Establishes a new TCP connection with the given host on the given port.
   - Boolean value whether to use TLS cert or not.
   - Table value to use TLS, with optional configurations.
 
-*default*: `nil`.
+  *default*: `nil`.
 
   In case of using a table value for `tls`, acceptable fields are;
     
