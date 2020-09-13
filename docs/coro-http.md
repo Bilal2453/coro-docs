@@ -50,7 +50,9 @@ The returned table contains the following fields:
 
 ### getConnection (host, port [, tls [, timeout]])
 Establishes a new TCP connection with the given host on the given port.
+
   – If the connection was saved previously using `saveConnection`, calling this will return that saved connection and un-save it.
+
   – If the saved connection was closed, a new connection will be established instead.
 
 #### Parameters:
@@ -59,6 +61,7 @@ Establishes a new TCP connection with the given host on the given port.
 - **tls** *(boolean / table)* ***optional***: The use of TLS encrypted protocol.
   - Boolean value whether to use TLS cert or not.
   - Table value to use TLS, with optional configurations.
+
 *default*: `nil`.
 
   In case of using a table value for `tls`, acceptable fields are;
@@ -76,6 +79,7 @@ Establishes a new TCP connection with the given host on the given port.
 - **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request.
   - Time is given in milliseconds.
   - if nothing is supplied libuv will timeout after an undefined amount of seconds.
+
 *default*: `nil`.
 
 #### Returns
@@ -98,6 +102,7 @@ The returned table contains the following fields:
 
 ### saveConnection (connection)
 Saves a pre-established TCP connection to be used later instead of establishing a new one.
+
   – If the passed connection is already closed nothing will be saved.
 
 #### Parameters:
@@ -110,13 +115,21 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 #### Parameters
 -  **method** *(string)*: An all uppercase HTTP method.
+
 - **url** *(string)*: An HTTP(s) URL that the request should be sent to.
+
 - **headers** *(table)* ***optional***: An array of headers, where a header is a table its first entry the header name, and its second is the value.
-  - Eg. `{{name, value}, {"Expires", "-1"}}`
+  - Eg. `{{"name", "value"}, {"Expires", "-1"}}`
+
 - **body** *(string)* ***optional***: The request's body as string (if the request method requires one).
+
+*default*: ` ` (empty string).
+
 - **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request.
+
   - Time is given in milliseconds.
   - if nothing is supplied libuv will timeout after an undefined amount of seconds.
+
 *default*: `nil`.
 
 ---
