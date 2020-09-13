@@ -80,7 +80,7 @@ Establishes a new TCP connection with the given host on the given port.
   - Time is given in milliseconds.
   - if nothing is supplied libuv will timeout after an undefined amount of seconds.
 
-*default*: `nil`.
+  *default*: `nil`.
 
 #### Returns
 1. *(table)*: The established connection.
@@ -123,14 +123,14 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 - **body** *(string)* ***optional***: The request's body as string (if the request method requires one).
 
-*default*: ` ` (empty string).
+  *default*: ` ` (empty string).
 
 - **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request.
 
   - Time is given in milliseconds.
   - if nothing is supplied libuv will timeout after an undefined amount of seconds.
 
-*default*: `nil`.
+  *default*: `nil`.
 
 ---
 
