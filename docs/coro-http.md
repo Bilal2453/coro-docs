@@ -5,6 +5,7 @@ It can be used as a great replacement for the built-in http library in Luvit for
 
 These docs will guide you through all the available methods and their usage. If you find any wrong documentation, confusing wording, or even typos, please open an issue or even a PR!
 
+Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behaind the scenes by correcting many invalid infos, and helping out with the wording, and pointing out many typos.
 # Documentations
 
 ## Functions
