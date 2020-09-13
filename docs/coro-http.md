@@ -1,9 +1,9 @@
 # About
 These are unofficial docs for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by Tim Caswell, and the help of the contributors.
 
-It can be used as a great replacement for the built-in http library in Luvit for those who don't like the callback style, this library uses Lua's coroutines to keep the sync style with optional coroutines wrapping for asynchronous execution. And for its chunks handling, and other behind the scenes.
+It can be used as a great replacement for the built-in http library in Luvit for those who don't like the callback style, this library uses Lua's coroutines to keep the sync style with optional coroutines wrapping for asynchronous execution. And where it also handles things the standard http library does not handle, such as chunking.
 
-These docs will guide you through all the available methods and their usage. If you find any wrong documentation, confusing wording, or even typos, please open an issue or a PR.
+These docs will guide you through all the available methods and their usage. If you find any wrong documentation, confusing wording, or even typos, please open an issue or even a PR!
 
 # Documentations
 
@@ -40,11 +40,11 @@ The returned table contains the following fields:
 
 | Fields | Type   | Description |
 |:------ |:------:|:------------|
-| tls  | boolean  | Whether the given URL does use TLS (HTTPS) or not. |
-| host | string   | The full host URI including its port. |
-| hostname | string | The name of the host, does not include the host port. |
-| port | number | The port that the host should use for the provided URL. |
-| path | string | The requested path from the host (the part after the host name `/`). |
+| tls  | boolean  | Whether or not the parsed URL uses TLS/SSL (HTTPS). |
+| host | string   | The authority of the parsed URL (hostname:port). |
+| hostname | string | The host name of the parsed URL (excluding port). |
+| port | number | The host port of the parsed URL (defaults to `80` for HTTP and `443` for HTTPS). |
+| path | string | Everything following the host of the parsed URL (including first `/`) |
 
 ---
 
@@ -58,13 +58,11 @@ Establishes a new TCP connection with the given host on the given port.
 #### Parameters:
 - **host** *(string)*: The host which the established connection refers to.
 - **port** *(number)*: The port that this connection should use to connect to the host.
-- **tls** *(boolean / table)* ***optional***: The use of TLS encrypted protocol.
+- **tls** *(boolean / table)* ***optional***: The use of TLS encrypted protocol. *default*: `nil`.
   - Boolean value whether to use TLS cert or not.
   - Table value to use TLS, with optional configurations.
 
-  *default*: `nil`.
-
-  In case of using a table value for `tls`, acceptable fields are:
+  In case of using a table value for `tls`, acceptable fields are
     
 | Field | Type   | Description |
 |:------|:------:|:------------|
@@ -74,14 +72,11 @@ Establishes a new TCP connection with the given host on the given port.
 | cert | string | The TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. See field `ca` for defaults. |
 | ca | string / table | TODO |
 | insecure | boolean | TODO |
-
 *All of the fields are optional and should only be touched when you know what you are doing.*
 
-- **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request.
+- **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
   - Time is given in milliseconds.
   - if nothing is supplied libuv will timeout after an undefined amount of seconds.
-
-  *default*: `nil`.
 
 #### Returns
 1. *(table)*: The established connection.
@@ -122,16 +117,12 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 - **headers** *(table)* ***optional***: An array of headers, where a header is a table its first entry the header name, and its second is the value.
   - Eg. `{{"name", "value"}, {"Expires", "-1"}}`
 
-- **body** *(string)* ***optional***: The request's body as string (if the request method requires one).
+- **body** *(string)* ***optional***: The request's body as string (if the request method requires one). *default*: `nil`.
 
-  *default*: ` ` (empty string).
-
-- **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request.
+- **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
 
   - Time is given in milliseconds.
   - if nothing is supplied libuv will timeout after an undefined amount of seconds.
-
-  *default*: `nil`.
 
 ---
 
