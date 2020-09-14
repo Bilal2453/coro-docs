@@ -6,6 +6,12 @@ It can be used as a great replacement for the built-in http library in Luvit for
 These docs will guide you through all the available methods and their usage. If you find any wrong documentation, confusing wording, or even typos, please open an issue or even a PR!
 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behaind the scenes by correcting many invalid infos, and helping out with the wording, and pointing out many typos.
+
+# TODOs
+1. Complete the TLS parameter table entries for #getConnection [1]/[2].
+2. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
+3. Document #request `headers` parameter defaults [8].
+
 # Documentations
 
 ## Functions
@@ -71,8 +77,8 @@ Establishes a new TCP connection with the given host on the given port.
 | ciphers | string | The encryption algorithm to encrypt data with, value **MUST** be a valid cipher suite string. Defaults are `TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256` for TLS 1.3, `ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256` for LTS 1.2, `RC4:HIGH:!MD5:!aNULL:!EDH` for LTS 1.0. |
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). |
 | cert | string | The TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. See field `ca` for defaults. |
-| ca | string / table | TODO |
-| insecure | boolean | TODO |
+| ca | string / table | TODO[1] |
+| insecure | boolean | TODO[2] |
 
 *All of the fields are optional and should only be touched when you know what you are doing.*
 
@@ -91,11 +97,11 @@ The returned table contains the following fields:
 | host | string | Same as the parameter `host`. |
 | port | number | Same as the parameter `port`. |
 | tls  | table / boolean | Same as the parameter `tls`. |
-| read | function | TODO |
-| write| function | TODO |
-| updateEncoder | function | TODO |
-| updateDecoder | function | TODO |
-| reset | function | TODO | 
+| read | function | TODO[3] |
+| write| function | TODO[4] |
+| updateEncoder | function | TODO[5] |
+| updateDecoder | function | TODO[6] |
+| reset | function | TODO[7] | 
 ---
 
 ### saveConnection (connection)
@@ -116,7 +122,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 - **url** *(string)*: An HTTP(s) URL that the request should be sent to.
 
-- **headers** *(table)* ***optional***: An array of headers, where a header is a table its first entry the header name, and its second is the value.
+- **headers** *(table)* ***optional***: An array of headers, where a header is a table its first entry the header name, and its second is the value. *default*: TODO[8].
   - Eg. `{{"name", "value"}, {"Expires", "-1"}}`
 
 - **body** *(string)* ***optional***: The request's body as string (if the request method requires one). *default*: `nil`.
