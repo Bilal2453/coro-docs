@@ -130,7 +130,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 - **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
 
   - Time is given in milliseconds.
-  - if nothing is supplied libuv will timeout after an undefined amount of seconds.
+  - If nothing is supplied libuv will timeout after an undefined amount of seconds.
 
 ---
 
