@@ -5,7 +5,7 @@ It can be used as a great replacement for the built-in http library in Luvit for
 
 These docs will guide you through all the available methods and their usage. If you find any wrong documentation, confusing wording, or even typos, please open an issue or even a PR!
 
-Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behaind the scenes by correcting many invalid infos, and helping out with the wording, and pointing out many typos.
+Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out many typos.
 
 # TODOs
 1. Complete the TLS parameter table entries for #getConnection [2].
@@ -29,7 +29,7 @@ The callback has the following parameters:
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| head  | table  | The headers provided by the client alongside with general informations about the request. |
+| head  | table  | The headers provided by the client alongside with general information about the request. |
 | body  | string | The provided request's body as string, empty string in case nothing is provided. |
 | socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) / [uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
 
