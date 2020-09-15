@@ -11,8 +11,6 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out from
 1. Complete the TLS parameter table entries for #getConnection [2].
 2. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
 3. Document #request `headers` parameter defaults [8].
-4. Maybe consider sorting similar tables structures into their own section.
-  - For example, a response/request structure where it is used in createServer's callback and in request's first return can be refereed to the same section for description.
 
 # Documentations
 
@@ -135,7 +133,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 #### Returns
 
-1. *(table)*: The response headers and status.
+1. *(table [Response](#request--response))*: The response headers and status.
    - The headers structure is as following: `{"header-name", "value"}, {etc}`.
    - Available free fields (statuses) are:
      - code *(number)*: The HTTP code of the response.
