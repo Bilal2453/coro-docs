@@ -29,9 +29,9 @@ The callback has the following parameters:
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| head  | table  | The headers provided by the client alongside with general information about the request. |
-| body  | string | The provided request's body as string, empty string in case nothing is provided. |
-| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) / [uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
+| req   | table ([Request](#request--response)) | The request headers and status. |
+| body  | string | The provided request's payload as string, empty string in case nothing is provided. |
+| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) / [uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
 
 ---
 
@@ -49,10 +49,10 @@ The returned table contains the following fields:
 
 | Fields | Type   | Description |
 |:------ |:------:|:------------|
-| tls  | boolean  | Whether or not the parsed URL uses TLS/SSL (HTTPS). |
-| host | string   | The authority of the parsed URL (hostname:port). |
+| tls    | boolean| Whether or not the parsed URL uses TLS/SSL (HTTPS). |
+| host   | string | The authority of the parsed URL (hostname:port). |
 | hostname | string | The host name of the parsed URL (excluding port). |
-| port | number | The host port of the parsed URL (defaults to `80` for HTTP and `443` for HTTPS). |
+| port   | number | The host port of the parsed URL (defaults to `80` for HTTP and `443` for HTTPS). |
 | path | string | Everything following the host of the parsed URL (including first `/`) |
 
 ---
@@ -78,7 +78,7 @@ Establishes a new TCP connection with the given host on the given port.
 | protocol | string | The secure transport layer protocol to use, supported values depends on the openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default and supports other versions.
 | ciphers | string | The encryption algorithm to encrypt data with, value **MUST** be a valid cipher suite string. Defaults are `TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256` for TLS 1.3, `ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256` for LTS 1.2, `RC4:HIGH:!MD5:!aNULL:!EDH` for LTS 1.0. |
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). |
-| cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. See field `ca` for defaults. |
+| cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
 | ca | string / table | The x509 certificates/CRLs to store. Defaults to a root certification (`root_ca.dat` file) when available. |
 | insecure | boolean | TODO[2] |
 
@@ -95,7 +95,7 @@ The returned table contains the following fields:
 
 | Field | Type   | Description |
 |:------|:------:|:------------|
-| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP handle used to bind the established connection. |
+| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket (handle) used to bind the established connection. |
 | host | string | Same as the parameter `host`. |
 | port | number | Same as the parameter `port`. |
 | tls  | table / boolean | Same as the parameter `tls`. |
@@ -124,10 +124,9 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 - **url** *(string)*: An HTTP(s) URL that the request should be sent to.
 
-- **headers** *(table)* ***optional***: An array of headers, where a header is a table its first entry the header name, and its second is the value. *default*: TODO[8].
-  - Eg. `{{"name", "value"}, {"Expires", "-1"}}`
+- **headers** *(table [http-header](#http-header))* ***optional***: The request headers. *default*: TODO[8].
 
-- **body** *(string)* ***optional***: The request's body as string (if the request method requires one). *default*: `nil`.
+- **body** *(string)* ***optional***: The request's payload (if needed). *default*: `nil`.
 
 - **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
 
@@ -189,8 +188,8 @@ Represents an HTTP(s) request/response including the headers, and general inform
    **Where**:
 | Entry        | Type   | Description       |
 |:------------ |:------:|:----------------- |
-| http-header  | table ([http-header](#request--response)) | A sequence of [http-header](#request--response) structures. |
-| code         | number | The HTTP status code. |
+| http-header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures. |
+| code         | number | The HTTP status code.  |
 | reason       | string | The reason behind getting the past status code (Reason-Phrase).
 | version      | number | The version of the used HTTP(s) protocol as decimal number.|
 | keepAlive    | boolean| Whether or not the connection should be kept alive. |
