@@ -8,7 +8,7 @@ These docs will guide you through all the available methods and their usage. If 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behaind the scenes by correcting many invalid infos, and helping out with the wording, and pointing out many typos.
 
 # TODOs
-1. Complete the TLS parameter table entries for #getConnection [1]/[2].
+1. Complete the TLS parameter table entries for #getConnection [2].
 2. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
 3. Document #request `headers` parameter defaults [8].
 4. Maybe consider sorting similar tables structures into their own section.
@@ -67,9 +67,9 @@ Establishes a new TCP connection with the given host on the given port.
 #### Parameters:
 - **host** *(string)*: The host which the established connection refers to.
 - **port** *(number)*: The port that this connection should use to connect to the host.
-- **tls** *(boolean / table)* ***optional***: The use of TLS encrypted protocol. *default*: `nil`.
-  - Boolean value whether to use TLS cert or not.
-  - Table value to use TLS, with optional configurations.
+- **tls** *(boolean / table)* ***optional***: The use of SSL/TLS encrypted protocol. *default*: `false`.
+  - Boolean value whether to use SSL/TLS cert or not.
+  - Table value to use SSL/TLS, with optional configurations.
 
   In case of using a table value for `tls`, acceptable fields are
     
@@ -78,8 +78,8 @@ Establishes a new TCP connection with the given host on the given port.
 | protocol | string | The secure transport layer protocol to use, supported values depends on the openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default and supports other versions.
 | ciphers | string | The encryption algorithm to encrypt data with, value **MUST** be a valid cipher suite string. Defaults are `TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256` for TLS 1.3, `ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256` for LTS 1.2, `RC4:HIGH:!MD5:!aNULL:!EDH` for LTS 1.0. |
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). |
-| cert | string | The TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. See field `ca` for defaults. |
-| ca | string / table | TODO[1] |
+| cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. See field `ca` for defaults. |
+| ca | string / table | The x509 certificates/CRLs to store. Defaults to a root certification (`root_ca.dat` file) when available. |
 | insecure | boolean | TODO[2] |
 
 *All of the fields are optional and should only be touched when you know what you are doing.*
@@ -137,13 +137,13 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 #### Returns
 
 1. *(table)*: The response headers and status.
-  - The headers structure is as following: `{"header-name", "value"}, {etc}`.
-  - Available free fields (statuses) are:
-    - code *(number)*: The HTTP code of the response.
-    - reason *(string)*: A string explaining why received the past HTTP code.
-    - version *(number)*: The version of the used HTTP(s) protocol.
-    - keepAlive *(boolean)*: Whether to keep the connection alive or to close it.
-  - The complete return structure is as following: `{headers, status-fields}`.
+   - The headers structure is as following: `{"header-name", "value"}, {etc}`.
+   - Available free fields (statuses) are:
+     - code *(number)*: The HTTP code of the response.
+     - reason *(string)*: A string explaining why received the past HTTP code.
+     - version *(number)*: The version of the used HTTP(s) protocol.
+     - keepAlive *(boolean)*: Whether to keep the connection alive or to close it.
+   - The complete return structure is as following: `{headers, status-fields}`.
 2. *(string)*: The response payload (body) as string.
   - This is whatever the server responds with.
 
