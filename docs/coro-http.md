@@ -134,13 +134,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 #### Returns
 
 1. *(table [Response](#request--response))*: The response headers and status.
-   - The headers structure is as following: `{"header-name", "value"}, {etc}`.
-   - Available free fields (statuses) are:
-     - code *(number)*: The HTTP code of the response.
-     - reason *(string)*: A string explaining why received the past HTTP code.
-     - version *(number)*: The version of the used HTTP(s) protocol.
-     - keepAlive *(boolean)*: Whether to keep the connection alive or to close it.
-   - The complete return structure is as following: `{headers, status-fields}`.
+
 2. *(string)*: The response payload (body) as string.
   - This is whatever the server responds with.
 
