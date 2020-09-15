@@ -82,9 +82,7 @@ Establishes a new TCP connection with the given host on the given port.
 
 *All of the fields are optional and should only be touched when you know what you are doing.*
 
-- **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
-  - Time is given in milliseconds.
-  - If nothing is supplied libuv will timeout after an undefined amount of seconds.
+- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
 
 #### Returns
 1. *(table)*: The established connection.
@@ -126,10 +124,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 - **body** *(string)* ***optional***: The request's payload (if needed). *default*: `nil`.
 
-- **timeout** *(number)* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
-
-  - Time is given in milliseconds.
-  - If nothing is supplied libuv will timeout after an undefined amount of seconds.
+- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out. *default*: `nil`.
 
 #### Returns
 
@@ -161,6 +156,7 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
    - `{"Expires", "-1"}`.
    - `{"Accept", "text/plain"}`.
 
+---
 
 ### Request / Response
 Represents an HTTP(s) request/response including the headers, and general information about it. The exact data is highly dependent on the server/client side and therefore the docs cannot tell what values to expect or to not. If you want to know such information you should debug your code, or read the API manual of the said server.
@@ -188,5 +184,10 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 **Examples**:
    - `{{"Content-Type", "text/html"}, {"Content-Length", "1587"}, code = 200, reason = "OK", version = 1.1, keepAlive = true}`.
+
+---
+
+### Timeout
+A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libUV](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
 
 ---
