@@ -149,3 +149,43 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 ---
 
+## Structures
+Here are general structures (tables usually) used by the library's functions, either as returns or as parameters. They were moved and linked to here to safe up space. Since they are usually repetitive and/or fairly big.
+
+The `[number]` syntax links where this structure is used. The functions when referring to a structure also links this section of the used structure for easier browsing. 
+
+### Request / Response
+Represents an HTTP(s) request/response including the headers, and general information about it. The data is highly dependent on the server/client side and therefore the docs cannot tell what values to expect or to not. If you want to know such information you should debug your code, or read the API manual of the said server.
+
+#### The Structuring
+**Full**: `{http-header..., code, reason, version, keepAlive}`.
+
+   **Where**:
+| Entry        | Type   | Description       |
+|:------------ |:------:|:----------------- |
+| http-header  | table ([http-header]()) | A sequence of [http-header]() structures.  |
+| code         | number | The HTTP status code. |
+| reason       | string | The reason behind getting the past status code (Reason-Phrase).
+| version      | number | The version of the used HTTP(s) protocol as decimal number.|
+| keepAlive    | boolean| Whether or not the connection should be kept alive. |
+
+**Examples**:
+   - `{{"Content-Type", "text/html"}, {"Content-Length", "1587"}, code = 200, reason = "OK", version = 1.1, keepAlive = true}`.
+
+### HTTP header
+A table structure representing an HTTP(s) header. The structure is a two-length strings array, the first entry is the header-name, and the second entry is the header-value, both as string. See the [officially available HTTP(s) 1.1 fields](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more information about headers.
+
+#### The Structuring
+**Full**: `{header-name, header-value}`. 
+
+  **Where**:
+| Entry        | Type   | Description       |
+|:------------ |:------:|:----------------- |
+| header-name  | string | The name of the header.  |
+| header-value | string | The value of the header. |
+
+**Examples**:
+   - `{"Expires", "-1"}`.
+   - `{"Accept", "text/plain"}`.
+
+---
