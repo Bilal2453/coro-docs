@@ -85,30 +85,18 @@ Establishes a new TCP connection with the given host on the given port.
 - **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
 
 #### Returns
-1. *(table)*: The established connection.
+1. *(table [TCP Connection](#tcp-connection))*: The established connection.
+   - See [TCP Connection](#tcp-connection) structure for more information.
 
-The returned table contains the following fields:
-
-| Field | Type   | Description |
-|:------|:------:|:------------|
-| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket (handle) used to bind the established connection. |
-| host | string | Same as the parameter `host`. |
-| port | number | Same as the parameter `port`. |
-| tls  | table / boolean | Same as the parameter `tls`. |
-| read | function | TODO[3] |
-| write| function | TODO[4] |
-| updateEncoder | function | TODO[5] |
-| updateDecoder | function | TODO[6] |
-| reset | function | TODO[7] | 
 ---
 
 ### saveConnection (connection)
-Saves a pre-established TCP connection to be used later instead of establishing a new one.
+Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one.
 
   – If the passed connection is already closed nothing will be saved.
 
 #### Parameters:
-- **connection** *(table)*: A TCP connection returned by `getConnection`.
+- **connection** *(table [TCP Connection](#tcp-connection))*: A TCP connection returned by `getConnection`.
 
 ---
 
@@ -187,7 +175,28 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 ---
 
+### TCP connection
+A table that represents a wrapped TCP connection (wrapped using coro-channel), it contains many useful things sometimes when you want to directly work with the connection and the socket, other than that you probably should not be touching it.
+
+#### The Structuring
+The accessible fields (keys) are:
+
+| Field | Type   | Description |
+|:------|:------:|:------------|
+| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket (handle) used to bind the established connection. |
+| host | string | Same as the passed parameter `host` when establishing. |
+| port | number | Same as the passed parameter `port` when establishing. |
+| tls  | table / boolean | Same as the passed parameter `tls` when establishing. |
+| read | function | TODO[3] |
+| write| function | TODO[4] |
+| updateEncoder | function | TODO[5] |
+| updateDecoder | function | TODO[6] |
+| reset | function | TODO[7] | 
+
 ### Timeout
 A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libUV](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
 
+**Examples**:
+   - `1000`, waits for a one second.
+   - `500`, waits for half of a second.
 ---
