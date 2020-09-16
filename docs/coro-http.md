@@ -199,7 +199,7 @@ A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that re
 
 
 ### Timeout
-A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libUV](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
+A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libuv](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
 
 **Examples**:
    - `1000`, waits for a one second.
