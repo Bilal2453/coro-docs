@@ -113,8 +113,8 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
 **Full**: `{header-name, header-value}`. 
 
   **Where**:
-| Entry        | Type   | Description       |
-|:------------ |:------:|:----------------- |
+| Entry        | Type   | Description              |
+|:------------ |:------:|:------------------------ |
 | header-name  | string | The name of the header.  |
 | header-value | string | The value of the header. |
 
@@ -140,11 +140,11 @@ Represents an HTTP(s) request/response including the headers, and general inform
 ```
 
    **Where**:
-| Entry        | Type   | Description       |
-|:------------ |:------:|:----------------- |
-| http-header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures. |
-| code         | number | The HTTP status code.  |
-| reason       | string | The reason behind getting the past status code (Reason-Phrase).
+| Entry        | Type   | Description                |
+|:------------ |:------:|:-------------------------- |
+| http-header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures individually. |
+| code         | number | The HTTP status code.      |
+| reason       | string | The reason for getting the past status code (Reason-Phrase).        |
 | version      | number | The version of the used HTTP(s) protocol as decimal number.|
 | keepAlive    | boolean| Whether or not the connection should be kept alive. |
 
@@ -154,7 +154,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 ---
 
 ### TCP Connection
-A table that represents a wrapped TCP connection (wrapped using coro-channel), it contains many useful things when you want to directly work with the connection and the socket. Usually you only should touch this directly when you do know what you are dealing with.
+A table that represents a wrapped TCP connection (wrapped using coro-channel). It contains many useful fields when you're working directly with the the socket. Usually you only should touch this *directly* when you do know what you are dealing with.
 
 #### Available Fields
 
@@ -168,10 +168,10 @@ A table that represents a wrapped TCP connection (wrapped using coro-channel), i
 | write| function | TODO[4] |
 | updateEncoder | function | TODO[5] |
 | updateDecoder | function | TODO[6] |
-| reset | function | TODO[7] | 
+| reset | function | TODO[7] |
 
 ### TLS Options
-Here are the available options and fields for configuring SSL/TLS connections.
+Here are the available options and fields for configuring an SSL/TLS connections.
 
 #### Acceptable Fields
 | Field | Type   | Description |
