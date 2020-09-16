@@ -11,6 +11,8 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out from
 1. Complete the TLS parameter table entries for #getConnection [2].
 2. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
 3. Document #request `headers` parameter defaults [8].
+5. General examples and guides.
+6. Execute this idea [9].
 
 # Documentations
 
@@ -65,24 +67,10 @@ Establishes a new TCP connection with the given host on the given port.
 #### Parameters:
 - **host** *(string)*: The host which the established connection refers to.
 - **port** *(number)*: The port that this connection should use to connect to the host.
-- **tls** *(boolean / table)* ***optional***: The use of SSL/TLS encrypted protocol. *default*: `false`.
+- **tls** *(boolean / table [TLS Options](#tls-options))* ***optional***: The use of SSL/TLS encrypted protocol. *default*: `false`.
   - Boolean value whether to use SSL/TLS cert or not.
-  - Table value to use SSL/TLS, with optional configurations.
-
-  In case of using a table value for `tls`, acceptable fields are
-    
-| Field | Type   | Description |
-|:------|:------:|:------------|
-| protocol | string | The secure transport layer protocol to use, supported values depends on the openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default and supports other versions.
-| ciphers | string | The encryption algorithm to encrypt data with, value **MUST** be a valid cipher suite string. Defaults are `TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256` for TLS 1.3, `ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256` for LTS 1.2, `RC4:HIGH:!MD5:!aNULL:!EDH` for LTS 1.0. |
-| key | string | The PEM key of the supplied certification (if `cert` field is passed). |
-| cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
-| ca | string / table | The x509 certificates/CRLs to store. Defaults to a root certification (`root_ca.dat` file) when available. |
-| insecure | boolean | TODO[2] |
-
-*All of the fields are optional and should only be touched when you know what you are doing.*
-
-- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request. *default*: `nil`.
+  - Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.
+- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out. *default*: `nil`.
 
 #### Returns
 1. *(table [TCP Connection](#tcp-connection))*: The established connection.
@@ -96,7 +84,7 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
   – If the passed connection is already closed nothing will be saved.
 
 #### Parameters:
-- **connection** *(table [TCP Connection](#tcp-connection))*: A TCP connection returned by `getConnection`.
+- **connection** *(table [TCP Connection](#tcp-connection))*: A table representing a TCP connection returned by `getConnection`.
 
 ---
 
@@ -116,19 +104,19 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 #### Returns
 
-1. *(table [Response](#request--response))*: The response headers and status.
+1. *(table [Response](#request--response))*: The response headers and status. See [Response](#request--response) structure for more details.
 
 2. *(string)*: The response payload (body) as string.
-  - This is whatever the server responds with.
+   - This is whatever the server responds with.
 
 ---
 
 ## Structures
-Here are general structures (tables usually) used by the library's functions, either as returns or as parameters. They were moved and linked to here to safe up space. Since they are usually repetitive and/or fairly big.
+Here are the data structures (tables usually) used by the library's functions, either as returns or as parameters. They were moved and linked to here to safe up space. Since they usually are repetitive and/or fairly big.
 
-The `[number]` syntax links where this structure is used. The functions when referring to a structure also links this section of the used structure for easier browsing. 
+The `@string` syntax in this section links where the said structure was used TODO[9]. Any function referring to one of the listed structures here will also give a link at its type definition for easier browsing.
 
-### HTTP header
+### HTTP Header
 A table structure representing an HTTP(s) header. The structure is a two-length strings array, the first entry is the header-name, and the second entry is the header-value, both as string. See the [officially available HTTP(s) 1.1 fields](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more information about headers.
 
 #### The Structuring
@@ -175,11 +163,10 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 ---
 
-### TCP connection
-A table that represents a wrapped TCP connection (wrapped using coro-channel), it contains many useful things when you want to directly work with the connection and the socket.
+### TCP Connection
+A table that represents a wrapped TCP connection (wrapped using coro-channel), it contains many useful things when you want to directly work with the connection and the socket. Usually you only should touch this directly when you do know what you are dealing with.
 
-#### The Structuring
-The accessible fields (keys) are:
+#### Available Fields
 
 | Field | Type   | Description |
 |:------|:------:|:------------|
@@ -192,6 +179,21 @@ The accessible fields (keys) are:
 | updateEncoder | function | TODO[5] |
 | updateDecoder | function | TODO[6] |
 | reset | function | TODO[7] | 
+
+### TLS Options
+Here are the available options and fields for configuring SSL/TLS connections.
+
+#### Acceptable Fields
+| Field | Type   | Description |
+|:------|:------:|:------------|
+| protocol | string | The transport-layer-secure protocol to use. Supported values depends on lua-openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default and supports other versions.
+| ciphers | string | The encryption algorithm to encrypt data with, value **MUST** be a valid cipher suite string. Defaults are `TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256` for TLS 1.3, `ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256` for LTS 1.2, `RC4:HIGH:!MD5:!aNULL:!EDH` for LTS 1.0. |
+| key | string | The PEM key of the supplied certification (if `cert` field is passed). |
+| cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
+| ca | string / table | The x509 certificates/CRLs to store. Defaults to a root certification (`root_ca.dat` file) when available. |
+| insecure | boolean | TODO[2] |
+
+*All of the fields are optional and should only be touched when you know what you are dealing with.*
 
 ### Timeout
 A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libUV](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
