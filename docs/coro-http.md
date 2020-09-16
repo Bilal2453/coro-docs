@@ -176,7 +176,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 ---
 
 ### TCP connection
-A table that represents a wrapped TCP connection (wrapped using coro-channel), it contains many useful things sometimes when you want to directly work with the connection and the socket, other than that you probably should not be touching it.
+A table that represents a wrapped TCP connection (wrapped using coro-channel), it contains many useful things when you want to directly work with the connection and the socket.
 
 #### The Structuring
 The accessible fields (keys) are:
