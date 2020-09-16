@@ -104,10 +104,10 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 ## Structures
 Here are the data structures (tables usually) used by the library's functions, either as returns or as parameters. They were moved and linked to here to safe up space. Since they usually are repetitive and/or fairly big.
 
-The `@string` syntax in this section links where the said structure was used TODO[9]. Any function referring to one of the listed structures here will also give a link at its type definition for easier browsing.
+The `@string` syntax in this section links where the said structure was used TODO[9]. Any function referring to one of the listed structures will also link the said structure at its types definition for easier browsing.
 
 ### HTTP Header
-A table structure representing an HTTP(s) header. The structure is a two-length strings array, the first entry is the header-name, and the second entry is the header-value, both as string. See the [rfc2616 paper](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP headers.
+A table structure representing an HTTP(s) header. The structure is a two-length array of strings, the first entry is the header-name, and the second entry is the header-value. See the [rfc2616 paper](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP headers.
 
 #### The Structuring
 **Full**: `{header-name, header-value}`. 
@@ -142,7 +142,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
    **Where**:
 | Entry        | Type   | Description                |
 |:------------ |:------:|:-------------------------- |
-| http-header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures individually. |
+| http-header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures each individually. |
 | code         | number | The HTTP status code.      |
 | reason       | string | The reason for getting the past status code (Reason-Phrase).        |
 | version      | number | The version of the used HTTP(s) protocol as decimal number.|
@@ -171,7 +171,7 @@ A table that represents a wrapped TCP connection (wrapped using coro-channel). I
 | reset | function | TODO[7] |
 
 ### TLS Options
-Here are the available options and fields for configuring an SSL/TLS connections.
+Here are the available options and fields for configuring an SSL/TLS connection.
 
 #### Acceptable Fields
 | Field | Type   | Description |
@@ -181,7 +181,7 @@ Here are the available options and fields for configuring an SSL/TLS connections
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). |
 | cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
 | ca | string / table | The x509 root certificates/CRLs to check against. Defaults to a root certification (`root_ca.dat` file) when available. |
-| insecure | boolean | Weather or not to accept invalid certificates. Please only tinker with this when you do know what it means. *default*: `false`. |
+| insecure | boolean | Weather or not to accept invalid certificates on handshakes. Please only tinker with this when you do know what it means. *default*: `false`. |
 
 *All of the fields are optional and should only be touched when you know what you are dealing with.*
 
