@@ -1,13 +1,17 @@
 # About
+
 These are unofficial docs for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by Tim Caswell, and the help of the contributors.
 
-It can be used as a great replacement for the built-in http library in Luvit for those who don't like the callback style, this library uses Lua's coroutines to keep the sync style with optional coroutines wrapping for asynchronous execution. And where it also handles things the standard http library does not handle, such as chunking.
+It can be used as a great replacement for the built-in http library in Luvit for those who don't like the callback style, this library uses Lua's coroutines to keep the sync style with optional coroutines wrapping for asynchronous execution.
+And where it also handles things the standard http library does not handle, such as chunking.
 
-These docs will guide you through all the available methods and their usage. If you find any wrong documentation, confusing wording, or even typos, please open an issue or even a PR!
+These docs will guide you through all the available methods and their usage.
+If you find any wrong documentation, confusing wording, or even typos, please open an issue or even a PR!
 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out many typos.
 
 # TODOs
+
 1. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
 2. Document #request `headers` parameter defaults [8].
 3. General examples and guides.
@@ -18,12 +22,15 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out from
 ## Functions
 
 ### createServer (host, port, onConnect)
+
 Creates a new server instance and asynchronously binds it to host:port.
 
 #### Parameters
+
 - **host** *(string)*: The host which the server corresponds to.
 - **port** *(number)*: The opened port for the server to listen to.
 - **onConnect** *(function)*: A callback that will be asynchronously called every time a new connection is established to the server.
+
 The callback has the following parameters:
 
 | Param | Type   | Description |
@@ -34,27 +41,32 @@ The callback has the following parameters:
 
 ---
 
-### parseUrl (url)  
+### parseUrl (url)
+
 Parses the given string representing an HTTP(s) URL to a Lua table.
 
-#### Parameters:
+#### Parameters
+
 - **url** *(string)*: The URL that should be parsed.
   - Must be a valid HTTP(s) URL or an error will be raised.
 
-#### Returns:
+#### Returns
+
 1. *(table [Parsed URL](#parsed-url))*: The parsed URL as a Lua table.
    - See [Parsed URL](#parsed-url) structure for more details.
 
 ---
 
 ### getConnection (host, port [, tls [, timeout]])
+
 Establishes a new TCP connection with the given host on the given port.
 
   – If the connection was saved previously using `saveConnection`, calling this will return that saved connection and un-save it.
 
   – If the saved connection was closed, a new connection will be established instead.
 
-#### Parameters:
+#### Parameters
+
 - **host** *(string)*: The host which the established connection refers to.
 - **port** *(number)*: The port that this connection should use to connect to the host.
 - **tls** *(boolean / table [TLS Options](#tls-options))* ***optional***: The use of SSL/TLS encrypted protocol. *default*: `false`.
@@ -63,26 +75,31 @@ Establishes a new TCP connection with the given host on the given port.
 - **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out. *default*: `nil`.
 
 #### Returns
+
 1. *(table [TCP Connection](#tcp-connection))*: The established connection.
    - See [TCP Connection](#tcp-connection) structure for more information.
 
 ---
 
 ### saveConnection (connection)
+
 Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one.
 
   – If the passed connection is already closed nothing will be saved.
 
-#### Parameters:
+#### Parameters
+
 - **connection** *(table [TCP Connection](#tcp-connection))*: A table representing a TCP connection returned by `getConnection`.
 
 ---
 
 ### request  (method, url[, headers[, body[, timeout]]])
+
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
 #### Parameters
--  **method** *(string)*: An all uppercase HTTP method.
+
+- **method** *(string)*: An all uppercase HTTP method.
 
 - **url** *(string)*: An HTTP(s) URL that the request should be sent to.
 
@@ -102,15 +119,18 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 ---
 
 ## Structures
+
 Here are the data structures (tables usually) used by the library's functions, either as returns or as parameters. They were moved and linked to here to safe up space. Since they usually are repetitive and/or fairly big.
 
 The `@string` syntax in this section links where the said structure was used TODO[9]. Any function referring to one of the listed structures will also link the said structure at its types definition for easier browsing.
 
 ### HTTP Header
+
 A table structure representing an HTTP(s) header. The structure is a two-length array of strings, the first entry is the header-name, and the second entry is the header-value. See the [rfc2616 paper](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP headers.
 
 #### The Structuring
-**Full**: `{header-name, header-value}`. 
+
+**Full**: `{header-name, header-value}`.
 
   **Where**:
 | Entry        | Type   | Description              |
@@ -119,16 +139,20 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
 | header-value | string | The value of the header. |
 
 **Examples**:
+
    - `{"Expires", "-1"}`.
    - `{"Accept", "text/plain"}`.
 
 ---
 
 ### Request / Response
+
 Represents an HTTP(s) request/response including the headers, and general information about it. The exact data is highly dependent on the server/client side and therefore the docs cannot tell what values to expect or to not. If you want to know such information you should debug your code, or read the API manual of the said server.
 
 #### The Structuring
+
 **Full**:
+
 ```lua
   {
     http-header...,
@@ -149,11 +173,13 @@ Represents an HTTP(s) request/response including the headers, and general inform
 | keepAlive    | boolean| Whether or not the connection should be kept alive. |
 
 **Examples**:
+
    - `{{"Content-Type", "text/html"}, {"Content-Length", "1587"}, code = 200, reason = "OK", version = 1.1, keepAlive = true}`.
 
 ---
 
 ### TCP Connection
+
 A table that represents a wrapped TCP connection (wrapped using coro-channel). It contains many useful fields when you're working directly with the the socket. Usually you only should touch this *directly* when you do know what you are dealing with.
 
 #### Available Fields
@@ -173,9 +199,11 @@ A table that represents a wrapped TCP connection (wrapped using coro-channel). I
 ---
 
 ### TLS Options
+
 Here are the available options and fields for configuring an SSL/TLS connection.
 
 #### Acceptable Fields
+
 | Field | Type   | Description |
 |:------|:------:|:------------|
 | protocol | string | The transport-layer-secure protocol to use. Supported values depends on lua-openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default and supports other versions.
@@ -190,9 +218,11 @@ Here are the available options and fields for configuring an SSL/TLS connection.
 ---
 
 ### Parsed URL
+
 A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that represents an HTTP(s) URL.
 
 #### Available Fields
+
 | Fields   | Type   | Description |
 |:-------- |:------:|:------------|
 | tls      | boolean| Whether or not the parsed URL uses TLS/SSL (HTTPS). |
@@ -204,9 +234,11 @@ A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that re
 ---
 
 ### Timeout
+
 A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libuv](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
 
 **Examples**:
+
    - `1000`, waits for a one second.
    - `500`, waits for half of a second.
 
