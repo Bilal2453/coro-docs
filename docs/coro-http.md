@@ -43,17 +43,8 @@ Parses the given string representing an HTTP(s) URL to a Lua table.
   - Must be a valid HTTP(s) URL or an error will be raised.
 
 #### Returns:
-1. *(table)*: The parsed URL as a Lua table.
-
-The returned table contains the following fields:
-
-| Fields | Type   | Description |
-|:------ |:------:|:------------|
-| tls    | boolean| Whether or not the parsed URL uses TLS/SSL (HTTPS). |
-| host   | string | The authority of the parsed URL (hostname:port). |
-| hostname | string | The host name of the parsed URL (excluding port). |
-| port   | number | The host port of the parsed URL (defaults to `80` for HTTP and `443` for HTTPS). |
-| path | string | Everything following the host of the parsed URL (including first `/`) |
+1. *(table [Parsed URL](#parsed-url))*: The parsed URL as a Lua table.
+   - See [Parsed URL](#parsed-url) structure for more details.
 
 ---
 
@@ -194,6 +185,19 @@ Here are the available options and fields for configuring SSL/TLS connections.
 | insecure | boolean | TODO[2] |
 
 *All of the fields are optional and should only be touched when you know what you are dealing with.*
+
+### Parsed URL
+A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that represents an HTTP(s) URL.
+
+#### Available Fields
+| Fields   | Type   | Description |
+|:-------- |:------:|:------------|
+| tls      | boolean| Whether or not the parsed URL uses TLS/SSL (HTTPS). |
+| host     | string | The authority of the parsed URL (hostname:port). |
+| hostname | string | The host name of the parsed URL (excluding port). |
+| port     | number | The host port of the parsed URL (defaults to `80` for HTTP and `443` for HTTPS). |
+| path     | string | Everything following the host of the parsed URL (including first `/`) |
+
 
 ### Timeout
 A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libUV](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
