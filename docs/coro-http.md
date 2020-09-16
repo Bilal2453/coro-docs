@@ -8,11 +8,10 @@ These docs will guide you through all the available methods and their usage. If 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out many typos.
 
 # TODOs
-1. Complete the TLS parameter table entries for #getConnection [2].
-2. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
-3. Document #request `headers` parameter defaults [8].
-5. General examples and guides.
-6. Execute this idea [9].
+1. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
+2. Document #request `headers` parameter defaults [8].
+3. General examples and guides.
+4. Execute this idea [9].
 
 # Documentations
 
@@ -35,7 +34,7 @@ The callback has the following parameters:
 
 ---
 
-### parseUrl (url)
+### parseUrl (url)  
 Parses the given string representing an HTTP(s) URL to a Lua table.
 
 #### Parameters:
@@ -181,8 +180,8 @@ Here are the available options and fields for configuring SSL/TLS connections.
 | ciphers | string | The encryption algorithm to encrypt data with, value **MUST** be a valid cipher suite string. Defaults are `TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256` for TLS 1.3, `ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256` for LTS 1.2, `RC4:HIGH:!MD5:!aNULL:!EDH` for LTS 1.0. |
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). |
 | cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
-| ca | string / table | The x509 certificates/CRLs to store. Defaults to a root certification (`root_ca.dat` file) when available. |
-| insecure | boolean | TODO[2] |
+| ca | string / table | The x509 root certificates/CRLs to check against. Defaults to a root certification (`root_ca.dat` file) when available. |
+| insecure | boolean | Weather or not to accept invalid certificates. Please only tinker with this when you do know what it means. *default*: `false`. |
 
 *All of the fields are optional and should only be touched when you know what you are dealing with.*
 
