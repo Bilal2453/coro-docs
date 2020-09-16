@@ -107,7 +107,7 @@ Here are the data structures (tables usually) used by the library's functions, e
 The `@string` syntax in this section links where the said structure was used TODO[9]. Any function referring to one of the listed structures here will also give a link at its type definition for easier browsing.
 
 ### HTTP Header
-A table structure representing an HTTP(s) header. The structure is a two-length strings array, the first entry is the header-name, and the second entry is the header-value, both as string. See the [officially available HTTP(s) 1.1 fields](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more information about headers.
+A table structure representing an HTTP(s) header. The structure is a two-length strings array, the first entry is the header-name, and the second entry is the header-value, both as string. See the [rfc2616 paper](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP headers.
 
 #### The Structuring
 **Full**: `{header-name, header-value}`. 
