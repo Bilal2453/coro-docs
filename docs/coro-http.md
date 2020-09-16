@@ -155,7 +155,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 ```lua
   {
-    http-header...,
+    http_header...,
     code = (number),
     reason = (string),
     version = (number),
@@ -166,7 +166,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
    **Where**:
 | Entry        | Type   | Description                |
 |:------------ |:------:|:-------------------------- |
-| http-header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures each individually. |
+| http_header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures each individually. |
 | code         | number | The HTTP status code.      |
 | reason       | string | The reason for getting the past status code (Reason-Phrase).        |
 | version      | number | The version of the used HTTP(s) protocol as decimal number.|
