@@ -170,6 +170,8 @@ A table that represents a wrapped TCP connection (wrapped using coro-channel). I
 | updateDecoder | function | TODO[6] |
 | reset | function | TODO[7] |
 
+---
+
 ### TLS Options
 Here are the available options and fields for configuring an SSL/TLS connection.
 
@@ -185,6 +187,8 @@ Here are the available options and fields for configuring an SSL/TLS connection.
 
 *All of the fields are optional and should only be touched when you know what you are dealing with.*
 
+---
+
 ### Parsed URL
 A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that represents an HTTP(s) URL.
 
@@ -197,6 +201,7 @@ A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that re
 | port     | number | The host port of the parsed URL (defaults to `80` for HTTP and `443` for HTTPS). |
 | path     | string | Everything following the host of the parsed URL (including first `/`) |
 
+---
 
 ### Timeout
 A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libuv](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
@@ -204,4 +209,5 @@ A number value in milliseconds indicts how much time to wait for the response/re
 **Examples**:
    - `1000`, waits for a one second.
    - `500`, waits for half of a second.
+
 ---
