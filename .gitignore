@@ -1,2 +1,3 @@
 *.code-workspace
 docs/.vscode/*
+.vscode
