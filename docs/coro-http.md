@@ -103,7 +103,11 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 - **url** *(string)*: An HTTP(s) URL that the request should be sent to.
 
-- **headers** *(table [http-header](#http-header))* ***optional***: The request headers. *default*: TODO[8].
+- **headers** *(table [http-header](#http-header))* ***optional***: The request headers. *defaults*:
+
+   - ***Host: url.host***: This is a mandatory header. The library always auto include it if it isn't already supplied.
+
+   - ***Content-Length: #body***: If the payload is not chunked and `Content-Length` header is not supplied, the library will auto supply it.
 
 - **body** *(string)* ***optional***: The request's payload (if needed). *default*: `nil`.
 
