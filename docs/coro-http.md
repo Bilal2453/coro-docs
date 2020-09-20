@@ -13,9 +13,8 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out from
 # TODOs
 
 1. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
-2. Document #request `headers` parameter defaults [8].
-3. General examples and guides.
-4. Execute this idea [9].
+2. General examples and guides.
+3. Execute this idea [9].
 
 # Documentations
 
@@ -69,10 +68,15 @@ Establishes a new TCP connection with the given host on the given port.
 
 - **host** *(string)*: The host which the established connection refers to.
 - **port** *(number)*: The port that this connection should use to connect to the host.
-- **tls** *(boolean / table [TLS Options](#tls-options))* ***optional***: The use of SSL/TLS encrypted protocol. *default*: `false`.
+- **tls** *(boolean / table [TLS Options](#tls-options))* ***optional***: The use of SSL/TLS encrypted protocol.
+
+   ***default***: `false`.
+
   - Boolean value whether to use SSL/TLS cert or not.
   - Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.
-- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out. *default*: `nil`.
+- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out.
+
+   ***default***: `nil`.
 
 #### Returns
 
@@ -103,15 +107,22 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 - **url** *(string)*: An HTTP(s) URL that the request should be sent to.
 
-- **headers** *(table [http-header](#http-header))* ***optional***: The request headers. *defaults*:
+- **headers** *(table [http-header](#http-header))* ***optional***: The request headers.
 
-   - ***Host: url.host***: This is a mandatory header. The library always auto include it if it isn't already supplied.
+   ***default***:
+      The default value is always a table, the contents of the table explained below.  `Header: value` syntax is used to represent a default header with said value.
 
-   - ***Content-Length: #body***: If the payload is not chunked and `Content-Length` header is not supplied, the library will auto supply it.
+   - `Host: url.host`: This is a mandatory header. The library always auto include it if it isn't already supplied.
 
-- **body** *(string)* ***optional***: The request's payload (if needed). *default*: `nil`.
+   - `Content-Length: #body`: If the payload is not chunked and `Content-Length` header is not supplied, the library will auto assign the length of the body.
 
-- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out. *default*: `nil`.
+- **body** *(string)* ***optional***: The request's payload (if needed).
+
+  ***default***: `nil`.
+
+- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out.
+
+   ***default***: `nil`.
 
 #### Returns
 
@@ -215,7 +226,7 @@ Here are the available options and fields for configuring an SSL/TLS connection.
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). |
 | cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
 | ca | string / table | The x509 root certificates/CRLs to check against. Defaults to a root certification (`root_ca.dat` file) when available. |
-| insecure | boolean | Weather or not to accept invalid certificates on handshakes. Please only tinker with this when you do know what it means. *default*: `false`. |
+| insecure | boolean | Weather or not to accept invalid certificates on handshakes. Please only tinker with this when you do know what it means. ***default***: `false`. |
 
 *All of the fields are optional and should only be touched when you know what you are dealing with.*
 
