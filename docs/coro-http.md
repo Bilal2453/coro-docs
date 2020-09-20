@@ -12,9 +12,9 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out from
 
 # TODOs
 
-1. Complete the return table of the #getConnection function [4]/[5]/[6]/[7].
+1. Complete the return table of [getConnection](#getconnection-host-port--tls--timeout) function [4]/[5]/[6]/[7].
 2. General examples and guides.
-3. Execute this idea [9].
+3. Execute this idea [9](#structures).
 
 # Documentations
 
@@ -195,7 +195,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 ### TCP Connection
 
-A table that represents a wrapped TCP connection (wrapped using coro-channel). It contains many useful fields when you're working directly with the the socket. Usually you only should touch this *directly* when you do know what you are dealing with.
+A table structure that represents a TCP connection (wrapped using coro-channel). The structure offers methods to directly read and write from the socket, and general details about the connection. Generally speaking you should only use those *directly* when it is the only way to accomplish what you need.
 
 #### Available Fields
 
