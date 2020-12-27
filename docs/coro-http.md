@@ -188,9 +188,9 @@ Represents an HTTP(s) request/response including the headers, and general inform
 | keepAlive    | boolean| Whether or not the connection should be kept alive. |
 
 **Examples**:
-
+{% raw %}
    - `{{"Content-Type", "text/html"}, {"Content-Length", "1587"}, code = 200, reason = "OK", version = 1.1, keepAlive = true}`.
-
+{% endraw %}
 ---
 
 ### TCP Connection
