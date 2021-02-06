@@ -28,7 +28,7 @@ Creates a new server instance and asynchronously binds it to host:port.
 
 - **host** *(string)*: The host which the server corresponds to.
 - **port** *(number)*: The opened port for the server to listen to.
-- **onConnect** *(function)*: A callback that will be asynchronously called every time a new connection is established to the server.
+- **onConnect** *(function)*: A callback that will be asynchronously called every time a new connection is established to the server. You are suppose to return at least one value every time this callback is called: `head, body` where `head` is a [Response](#request--response) structure, and `body` is optionally a string representing the response payload.
 
 The callback has the following parameters:
 
@@ -42,7 +42,7 @@ The callback has the following parameters:
 
 ### parseUrl (url)
 
-Parses the given string representing an HTTP(s) URL to a Lua table.
+Parses the given string representing an HTTP(s) URL into a Lua table.
 
 #### Parameters
 
@@ -87,7 +87,7 @@ Establishes a new TCP connection with the given host on the given port.
 
 ### saveConnection (connection)
 
-Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one.
+Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one (e.g. when using [request](#request--method-url-headers-body-timeout)).
 
   – If the passed connection is already closed nothing will be saved.
 
