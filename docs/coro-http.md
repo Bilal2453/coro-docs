@@ -148,6 +148,7 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
 **Full**: `{header-name, header-value}`.
 
   **Where**:
+
 | Entry       | Type   | Description             |
 |:------------|:------:|:------------------------|
 | header-name | string | The name of the header. |
@@ -179,6 +180,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 ```
 
    **Where**:
+
 | Entry        | Type   | Description                |
 |:-------------|:------:|:---------------------------|
 | http_header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures each individually. |
