@@ -10,11 +10,11 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out from
 
 ## Functions
 
-### createServer (host, port, onConnect)
+### createServer (host, port, onConnect)   {#createServer}
 
 Creates a new server instance and asynchronously binds it to host:port.
 
-#### Parameters
+#### Parameters   {#createServer-Parameters}
 
 - **host** *(string)*: The host which the server corresponds to.
 - **port** *(number)*: The opened port for the server to listen to.
@@ -30,23 +30,23 @@ The callback has the following parameters:
 
 ---
 
-### parseUrl (url)
+### parseUrl (url)   {#parseUrl}
 
 Parses the given string representing an HTTP(s) URL into a Lua table.
 
-#### Parameters
+#### Parameters   {#parseUrl-Parameters}
 
 - **url** *(string)*: The URL that should be parsed.
   - Must be a valid HTTP(s) URL or an error will be raised.
 
-#### Returns
+#### Returns   {#parseUrl-Returns}
 
 1. *(table [Parsed URL](#parsed-url))*: The parsed URL as a Lua table.
    - See [Parsed URL](#parsed-url) structure for more details.
 
 ---
 
-### getConnection (host, port [, tls [, timeout]])
+### getConnection (host, port [, tls [, timeout]])   {#getConnection}
 
 Establishes a new TCP connection with the given host on the given port.
 
@@ -54,7 +54,7 @@ Establishes a new TCP connection with the given host on the given port.
 
   – If the saved connection was closed, a new connection will be established instead.
 
-#### Parameters
+#### Parameters   {#getConnection-Parameters}
 
 - **host** *(string)*: The host which the established connection refers to.
 - **port** *(number)*: The port that this connection should use to connect to the host.
@@ -68,30 +68,30 @@ Establishes a new TCP connection with the given host on the given port.
 
    ***default***: `nil`.
 
-#### Returns
+#### Returns   {#getConnection-Returns}
 
 1. *(table [TCP Connection](#tcp-connection))*: The established connection.
    - See [TCP Connection](#tcp-connection) structure for more information.
 
 ---
 
-### saveConnection (connection)
+### saveConnection (connection)   {#saveConnection}
 
 Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one (e.g. when using [request](#request--method-url-headers-body-timeout)).
 
   – If the passed connection is already closed nothing will be saved.
 
-#### Parameters
+#### Parameters   {#saveConnection-Parameters}
 
 - **connection** *(table [TCP Connection](#tcp-connection))*: A table representing a TCP connection returned by `getConnection`.
 
 ---
 
-### request  (method, url[, headers[, body[, timeout]]])
+### request  (method, url[, headers[, body[, timeout]]])   {#request}
 
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
-#### Parameters
+#### Parameters   {#request-Parameters}
 
 - **method** *(string)*: An all uppercase HTTP method.
 
@@ -114,7 +114,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
    ***default***: `nil`.
 
-#### Returns
+#### Returns   {#request-Parameters}
 
 1. *(table [Response](#request--response))*: The response headers and status. See [Response](#request--response) structure for more details.
 
@@ -133,7 +133,7 @@ The `@string` syntax in this section links where the said structure was used TOD
 
 A table structure representing an HTTP(s) header. The structure is a two-length array of strings, the first entry is the header-name, and the second entry is the header-value. See the [rfc2616 paper](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP headers.
 
-#### The Structuring
+#### The Structuring   {#http-header-structuring}
 
 **Full**: `{header-name, header-value}`.
 
@@ -151,11 +151,11 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
 
 ---
 
-### Request / Response
+### Request / Response   {#request-response-structuring}
 
 Represents an HTTP(s) request/response including the headers, and general information about it. The exact data is highly dependent on the server/client side and therefore the docs cannot tell what values to expect or to not. If you want to know such information you should debug your code, or read the API manual of the said server.
 
-#### The Structuring
+#### The Structuring   {#request-response-structuring}
 
 **Full**:
 
@@ -191,7 +191,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 A table structure that represents a TCP connection (wrapped using coro-channel). The structure offers methods to directly read and write from the socket, and general details about the connection. Generally speaking you should only use those *directly* when it is the only way to accomplish what you need.
 
-#### Available Fields
+#### Available Fields   {#tcp-connection-fields}
 
 | Field | Type   | Description |
 |:------|:------:|:------------|
@@ -211,7 +211,7 @@ A table structure that represents a TCP connection (wrapped using coro-channel).
 
 Here are the available options and fields for configuring an SSL/TLS connection.
 
-#### Acceptable Fields
+#### Acceptable Fields   {#tls-options-fields}
 
 | Field | Type   | Description |
 |:------|:------:|:------------|
@@ -230,7 +230,7 @@ Here are the available options and fields for configuring an SSL/TLS connection.
 
 A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that represents an HTTP(s) URL.
 
-#### Available Fields
+#### Available Fields   {#parsed-url-fields}
 
 | Fields   | Type   | Description |
 |:-------- |:------:|:------------|
