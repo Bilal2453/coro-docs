@@ -1,22 +1,12 @@
-# About
-
-These are unofficial docs for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by Tim Caswell, and the help of the contributors.
-
-It can be used as a great replacement for the built-in http library in Luvit for those who don't like the callback style, this library uses Lua's coroutines to keep the sync style with optional coroutines wrapping for asynchronous execution.
-And where it also handles things the standard http library does not handle, such as chunking.
-
-These docs will guide you through all the available methods and their usage.
-If you find any wrong documentation, confusing wording, or even typos, please open an issue or even a PR!
-
-Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out many typos.
-
-# TODOs
-
-1. Complete the return table of [getConnection](#getconnection-host-port--tls--timeout) function [4]/[5]/[6]/[7].
-2. General examples and guides.
-3. Execute this idea [9](#structures).
-
 # Documentations
+
+These are unofficial documentations for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by Tim Caswell, and the help of the contributors.
+
+It can be used as a great replacement for the built-in http library in Luvit for those who don't like the callback style, this library uses Lua's coroutines to keep the sync style with optional coroutine wrapping for asynchronous execution.
+
+Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out typos.
+
+---
 
 ## Functions
 
@@ -191,7 +181,9 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 **Examples**:
 {% raw %}
+
    - `{{"Content-Type", "text/html"}, {"Content-Length", "1587"}, code = 200, reason = "OK", version = 1.1, keepAlive = true}`.
+
 {% endraw %}
 ---
 
@@ -258,5 +250,12 @@ A number value in milliseconds indicts how much time to wait for the response/re
 
    - `1000`, waits for a one second.
    - `500`, waits for half of a second.
+
+---
+
+# TODOs
+
+1. Complete the return table of [getConnection](#getconnection-host-port--tls--timeout) function [4]/[5]/[6]/[7].
+2. General examples and guides.
 
 ---
