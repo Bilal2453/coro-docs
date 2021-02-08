@@ -89,7 +89,7 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 ---
 
-### request  (method, url[, headers[, body[, timeout]]])   {#request}
+### request  (method, url[, headers[, body[, options]]])   {#request}
 
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
@@ -112,7 +112,10 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
   ***default***: `nil`.
 
-- **timeout** *(number [Timeout](#timeout))* ***optional***: How much time to wait for the response before canceling the request out.
+- **options** *(table [Request-Options](#request-option) / number [Timeout](#timeout))* ***optional***:
+  
+   - If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.
+   - If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.
 
    ***default***: `nil`.
 
@@ -252,6 +255,28 @@ A number value in milliseconds indicts how much time to wait for the response/re
 
    - `1000`, waits for a one second.
    - `500`, waits for half of a second.
+
+### Request Options   {#request-options}
+
+A table that could configure some of [Request](#request) behavior
+
+### The Structuring   {#request-options-structuring}
+
+**Full**:
+
+```lua
+   {
+      timeout = (number),
+      followRedirects = (boolean)
+   }
+```
+
+   **Where**:
+
+| Entry          | Type   | Description |
+|:---------------|:------:|:------------|
+| timeout        | number ([Timeout](#timeout)) | See [Timeout](#timeout) for description. |
+| followRedirects| boolean | whether or not to follow redirect requests. ***default***: `true`. |
 
 ---
 
