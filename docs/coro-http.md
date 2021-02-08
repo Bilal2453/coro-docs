@@ -156,7 +156,7 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
 
 ---
 
-### Request / Response
+### Request / Response   {#request-response}
 
 Represents an HTTP(s) request/response including the headers, and general information about it. The exact data is highly dependent on the server/client side and therefore the docs cannot tell what values to expect or to not. If you want to know such information you should debug your code, or read the API manual of the said server.
 
