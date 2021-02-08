@@ -10,6 +10,8 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out from
 
 ## Functions
 
+---
+
 ### createServer (host, port, onConnect)   {#createServer}
 
 Creates a new server instance and asynchronously binds it to host:port.
@@ -18,13 +20,13 @@ Creates a new server instance and asynchronously binds it to host:port.
 
 - **host** *(string)*: The host which the server corresponds to.
 - **port** *(number)*: The opened port for the server to listen to.
-- **onConnect** *(function)*: A callback that will be asynchronously called every time a new connection is established to the server. You are suppose to return at least one value every time this callback is called: `head, body` where `head` is a [Response](#request--response) structure, and `body` is optionally a string representing the response payload.
+- **onConnect** *(function)*: A callback that will be asynchronously called every time a new connection is established to the server. You are suppose to return at least one value every time this callback is called: `head, body` where `head` is a [Response](#request-response) structure, and `body` is optionally a string representing the response payload.
 
 The callback has the following parameters:
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| req   | table ([Request](#request--response)) | The request headers and status. |
+| req   | table ([Request](#request-response)) | The request headers and status. |
 | body  | string | The provided request's payload as string, empty string in case nothing is provided. |
 | socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) / [uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
 
@@ -64,7 +66,7 @@ Establishes a new TCP connection with the given host on the given port.
 
   - Boolean value whether to use SSL/TLS cert or not.
   - Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.
-- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out.
+- **timeout** *(number [Timeout](#timeout))* ***optional***: How much time to wait for the response before canceling the request out.
 
    ***default***: `nil`.
 
@@ -77,7 +79,7 @@ Establishes a new TCP connection with the given host on the given port.
 
 ### saveConnection (connection)   {#saveConnection}
 
-Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one (e.g. when using [request](#request--method-url-headers-body-timeout)).
+Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one (e.g. when using [request](#request)).
 
   – If the passed connection is already closed nothing will be saved.
 
@@ -110,13 +112,13 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
   ***default***: `nil`.
 
-- **timeout** *(number [Timeout](#Timeout))* ***optional***: How much time to wait for the response before canceling the request out.
+- **timeout** *(number [Timeout](#timeout))* ***optional***: How much time to wait for the response before canceling the request out.
 
    ***default***: `nil`.
 
 #### Returns   {#request-Parameters}
 
-1. *(table [Response](#request--response))*: The response headers and status. See [Response](#request--response) structure for more details.
+1. *(table [Response](#request-response))*: The response headers and status. See [Response](#request-response) structure for more details.
 
 2. *(string)*: The response payload (body) as string.
    - This is whatever the server responds with.
@@ -151,7 +153,7 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
 
 ---
 
-### Request / Response   {#request-response-structuring}
+### Request / Response
 
 Represents an HTTP(s) request/response including the headers, and general information about it. The exact data is highly dependent on the server/client side and therefore the docs cannot tell what values to expect or to not. If you want to know such information you should debug your code, or read the API manual of the said server.
 
@@ -187,7 +189,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 {% endraw %}
 ---
 
-### TCP Connection
+### TCP Connection   {#tcp-connection}
 
 A table structure that represents a TCP connection (wrapped using coro-channel). The structure offers methods to directly read and write from the socket, and general details about the connection. Generally speaking you should only use those *directly* when it is the only way to accomplish what you need.
 
@@ -207,7 +209,7 @@ A table structure that represents a TCP connection (wrapped using coro-channel).
 
 ---
 
-### TLS Options
+### TLS Options   {#tls-options}
 
 Here are the available options and fields for configuring an SSL/TLS connection.
 
@@ -226,7 +228,7 @@ Here are the available options and fields for configuring an SSL/TLS connection.
 
 ---
 
-### Parsed URL
+### Parsed URL   {#parsed-url}
 
 A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that represents an HTTP(s) URL.
 
@@ -242,7 +244,7 @@ A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that re
 
 ---
 
-### Timeout
+### Timeout   {#timeout}
 
 A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libuv](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
 
@@ -253,7 +255,7 @@ A number value in milliseconds indicts how much time to wait for the response/re
 
 ---
 
-# TODOs
+# TODOs   {#todos}
 
 1. Complete the return table of [getConnection](#getconnection-host-port--tls--timeout) function [4]/[5]/[6]/[7].
 2. General examples and guides.
