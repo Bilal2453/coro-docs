@@ -112,7 +112,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
   ***default***: `nil`.
 
-- **options** *(table [Request-Options](#request-option) / number [Timeout](#timeout))* ***optional***:
+- **options** *(table [Request-Options](#request-options) / number [Timeout](#timeout))* ***optional***:
   
    - If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.
    - If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.
