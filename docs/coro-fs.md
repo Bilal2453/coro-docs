@@ -31,7 +31,7 @@ The owner of the created directory __should__ be the effective user/group ID of 
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | path  | string | The path of the directory to create | ❌ |
-| mode  | number | The inode bit mode at which to create said directory. Not implemented on Windows. | ✔ Default: `511`. |
+| mode  | number | The inode bit mode at which to create said directory. Not implemented on Windows. | ✔ <br> Default: `511`. |
 
 #### Returns
 
@@ -53,8 +53,8 @@ The owner of a created file __should__ be the effective user/group ID of said pr
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | path  | string | The path of the file to open/create. | ❌ |
-| flags | string | The access mode of the opened file. See ***TODO*** for valid values. | ✔ Default: `"r"`. |
-| mode  | number | The file's inode mode to be applied when a file is created. Note that this only applies to future access of the newly created file. | ✔ Default: `438`. |
+| flags | string | The access mode of the opened file. See ***TODO*** for valid values. | ✔ <br> Default: `"r"`. |
+| mode  | number | The file's inode mode to be applied when a file is created. Note that this only applies to future access of the newly created file. | ✔ <br> Default: `438`. |
 
 #### Returns
 
@@ -71,9 +71,9 @@ Deletes (unlinks) a file from the filesystem.
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The path of the file to be deleted/unlinked. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The path of the file to be deleted/unlinked. |
 
 #### Returns
 
@@ -90,9 +90,9 @@ Retrieves information about the file/directory pointed out by `path`.
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The path to the file or directory you want to retrieves information about. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The path to the file or directory you want to retrieves information about. |
 
 #### Returns
 
@@ -109,9 +109,9 @@ Identical to [stat](#stat), except if the path was for a symbolic link, the info
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The path to the file or directory you want to retrieves information about. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The path to the file or directory you want to retrieves information about. |
 
 #### Returns
 
@@ -128,9 +128,9 @@ Identical to [stat](#stat), except that instead of a path to file/directory, thi
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| fd    | number | The descriptor of the file you want to get the information about. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| fd    | number | The descriptor of the file you want to get the information about. |
 
 #### Returns
 
@@ -150,10 +150,10 @@ Creates a symbolic link (also known as soft link) at `path` that points to `targ
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| target| string | The path of the file you want to link against. | ❌ |
-| path  | string | The path to where to create the said link at. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| target| string | The path of the file you want to link against. |
+| path  | string | The path to where to create the said link at. |
 
 #### Returns
 
@@ -170,9 +170,9 @@ Retrieves the target path (the content) of the said symbolic link `path`.
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The path to the symbolic link you want to retrieve its target. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The path to the symbolic link you want to retrieve its target. |
 
 #### Returns
 
@@ -189,10 +189,10 @@ Changes the mode bits (e.g. the permissions) of said file.
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | Path to the file you want to manipulate. | ❌ |
-| mode  | number | Decimal number representing the bit mode. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | Path to the file you want to manipulate. |
+| mode  | number | Decimal number representing the bit mode. |
 
 #### Returns
 
@@ -209,10 +209,10 @@ Identical to [chmod](#chmod), except that instead of a path to a file, you use a
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| fd    | number | The descriptor of the file to manipulate. | ❌ |
-| mode  | number | Decimal number representing the bit mode. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| fd    | number | The descriptor of the file to manipulate. |
+| mode  | number | Decimal number representing the bit mode. |
 
 #### Returns
 
@@ -232,8 +232,8 @@ Reads `length` bytes of `fd` file's contents.
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | fd    | number | The descriptor of the file to read from. | ❌ |
-| length  | number | How many bytes should be read from the file. | ✔ Default: `49152`. |
-| offset | number | How many bytes should be sought before start reading. `-1` means "Use current file position". |  ✔ Default: `-1`. |
+| length  | number | How many bytes should be read from the file. | ✔ <br> Default: `49152`. |
+| offset | number | How many bytes should be sought before start reading. `-1` means "Use current file position". |  ✔ <br> Default: `-1`. |
 
 #### Returns
 
@@ -254,7 +254,7 @@ Writes data to file using its descriptor `fd`.
 |:------|:------:|:------------|:--------:|
 | fd    | number | The descriptor of the file to write data to. | ❌ |
 | data  | string | The data you want to write to the file as string. | ❌ |
-| offset | number | How many bytes should be sought before start writing. `-1` means "Use current file position". |  ✔ Default: `-1`. |
+| offset | number | How many bytes should be sought before start writing. `-1` means "Use current file position". |  ✔ <br> Default: `-1`. |
 
 #### Returns
 
@@ -293,7 +293,7 @@ Checks whether the calling process have permissions to access the file/directory
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | path  | string | The path to the file/directory you want to check against. | ❌ |
-| mode  | number/string | The accessibility check, number to specify the bit permissions mode, string to specify access mode (`R` for read, `W` for write, `X` for execute.). | ✔ Default: `""`. |
+| mode  | number/string | The accessibility check, number to specify the bit permissions mode, string to specify access mode (`R` for read, `W` for write, `X` for execute.). | ✔ <br> Default: `""`. |
 
 #### Returns
 
@@ -310,10 +310,10 @@ Renames a file or a directory to `newPath`. Can be also used to move a file/dire
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path    | string | The path to the file or directory you want to rename(move). | ❌ |
-| newPath | string | The new path/name of the renamed/moved file or directory. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path    | string | The path to the file or directory you want to rename(move). |
+| newPath | string | The new path/name of the renamed/moved file or directory. |
 
 #### Returns
 
@@ -330,9 +330,9 @@ Removes and deletes an empty (and only an empty) directory. For recursive remove
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The path to the directory you want to delete. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The path to the directory you want to delete. |
 
 #### Returns
 
@@ -353,9 +353,9 @@ Tries to recursively delete `path`, while handling most possible scenarios. Most
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The path to the object you want to remove. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The path to the object you want to remove. |
 
 #### Returns
 
@@ -372,9 +372,9 @@ An iterator that iterates a directory for files and sub-directories.
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The directory path to be scanned. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The directory path to be scanned. |
 
 #### Returns
 
@@ -391,9 +391,9 @@ Fully reads a file and returns its contents as single string.
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| path  | string | The path to the file you want to read. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| path  | string | The path to the file you want to read. |
 
 #### Returns
 
@@ -414,7 +414,7 @@ Writes data to file `path` in a one go.
 |:------|:------:|:------------|:--------:|
 | path  | string | The path to the file you want to write into. | ❌ |
 | data  | string | The data you want to write into the file as string. | ❌ |
-| mkdir | boolean| Whether you want coro-fs to create any missing directories in the provided `path` or not. | ✔️ Default: `false`. |
+| mkdir | boolean| Whether you want coro-fs to create any missing directories in the provided `path` or not. | ✔️ <br> Default: `false`. |
 
 #### Returns
 
