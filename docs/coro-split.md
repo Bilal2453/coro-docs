@@ -15,11 +15,11 @@ The tasks will be called directly without wrapping them in protected mode, there
 ### Parameters {#split-parameters}
 
 | Param | Type   | Description |
-|:------|:------:|:------------|
+|:-----:|:------:|:------------|
 | ...   | function | The tasks you want to concurrently run. |
 
 ### Returns {#split-returns}
 
 | Return | Type   | Description |
-|:-------|:------:|:------------|
+|:------:|:------:|:------------|
 | ...    | Any    | The returns of each task by the order you supplied them in, only one return per task is respected. |
