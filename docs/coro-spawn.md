@@ -15,6 +15,7 @@ We will call the only function return of this module `spawn`. You should always 
 ### spawn(path, options) {#spawn}
 
 Spawns a process of an executable at `path` using the said `options`.
+
 Note: The `options` parameter is NOT optional, if you don't want to provide any options just pass an empty table.
 
 ***This method MUST be run in a coroutine***
@@ -82,8 +83,8 @@ A table structure that represents the the spawned process.
 | handle| [uv_process_t](https://github.com/luvit/luv/blob/master/docs.md#uv_process_t--process-handle) | The handle object of the spawned process. |
 | pid   | number | The PID process number assigned to the spawned process. |
 | waitExit | function | Calling this will yield the current coroutine and resume it when the process finishes, will immediately returns if the process already finished. Returns `exitCode` and `exitSignal`. |
-| stdin | table([stdio](#stdio) / nil | The used stdin stream, or nil if no handle is created. |
-| stdout| table([stdio](#stdio) / nil | The used stdout stream, or nil if no handle is created. |
-| stderr| table([stdio](#stdio) / nil | The used stderr stream, or nil if no handle is created. |
+| stdin | table([stdio](#stdio)) / nil | The used stdin stream, or nil if no handle is created. |
+| stdout| table([stdio](#stdio)) / nil | The used stdout stream, or nil if no handle is created. |
+| stderr| table([stdio](#stdio)) / nil | The used stderr stream, or nil if no handle is created. |
 
 ----
