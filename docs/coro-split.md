@@ -1,6 +1,6 @@
 # Documentations
 
-Unofficial docs for the [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) module, version 2.0.0.
+Unofficial docs for the [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) module, version 2.0.0.
 
 [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) is single-function module that takes multiple functions as input, and runs them in concurrent coroutines.
 
