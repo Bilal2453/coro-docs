@@ -6,17 +6,17 @@ It can be used as a great replacement for the Luvit built-in http library, to ge
 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out typos.
 
----
+----
 
 ## Functions
 
----
+----
 
 ### createServer (host, port, onConnect)   {#createServer}
 
 Creates a new server instance and asynchronously binds it to host:port.
 
-#### Parameters   {#createServer-Parameters}
+#### Parameters   {#createServer-parameters}
 
 - **host** *(string)*: The host which the server corresponds to.
 - **port** *(number)*: The opened port for the server to listen to.
@@ -30,23 +30,23 @@ The callback has the following parameters:
 | body  | string | The provided request's payload as string, empty string in case nothing is provided. |
 | socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) / [uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
 
----
+----
 
 ### parseUrl (url)   {#parseUrl}
 
 Parses the given string representing an HTTP(s) URL into a Lua table.
 
-#### Parameters   {#parseUrl-Parameters}
+#### Parameters   {#parseUrl-parameters}
 
 - **url** *(string)*: The URL that should be parsed.
   - Must be a valid HTTP(s) URL or an error will be raised.
 
-#### Returns   {#parseUrl-Returns}
+#### Returns   {#parseUrl-returns}
 
 1. *(table [Parsed URL](#parsed-url))*: The parsed URL as a Lua table.
    - See [Parsed URL](#parsed-url) structure for more details.
 
----
+----
 
 ### getConnection (host, port [, tls [, timeout]])   {#getConnection}
 
@@ -56,7 +56,7 @@ Establishes a new TCP connection with the given host on the given port.
 
   – If the saved connection was closed, a new connection will be established instead.
 
-#### Parameters   {#getConnection-Parameters}
+#### Parameters   {#getConnection-parameters}
 
 - **host** *(string)*: The host which the established connection refers to.
 - **port** *(number)*: The port that this connection should use to connect to the host.
@@ -70,12 +70,12 @@ Establishes a new TCP connection with the given host on the given port.
 
    ***default***: `nil`.
 
-#### Returns   {#getConnection-Returns}
+#### Returns   {#getConnection-returns}
 
 1. *(table [TCP Connection](#tcp-connection))*: The established connection.
    - See [TCP Connection](#tcp-connection) structure for more information.
 
----
+----
 
 ### saveConnection (connection)   {#saveConnection}
 
@@ -83,17 +83,17 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
   – If the passed connection is already closed nothing will be saved.
 
-#### Parameters   {#saveConnection-Parameters}
+#### Parameters   {#saveConnection-parameters}
 
 - **connection** *(table [TCP Connection](#tcp-connection))*: A table representing a TCP connection returned by `getConnection`.
 
----
+----
 
 ### request  (method, url[, headers[, body[, options]]])   {#request}
 
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
-#### Parameters   {#request-Parameters}
+#### Parameters   {#request-parameters}
 
 - **method** *(string)*: An all uppercase HTTP method.
 
@@ -119,14 +119,14 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
    ***default***: `nil`.
 
-#### Returns   {#request-Parameters}
+#### Returns   {#request-parameters}
 
 1. *(table [Response](#request-response))*: The response headers and status. See [Response](#request-response) structure for more details.
 
 2. *(string)*: The response payload (body) as string.
    - This is whatever the server responds with.
 
----
+----
 
 ## Structures
 
@@ -154,7 +154,7 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
    - `{"Expires", "-1"}`.
    - `{"Accept", "text/plain"}`.
 
----
+----
 
 ### Request / Response   {#request-response}
 
@@ -185,12 +185,14 @@ Represents an HTTP(s) request/response including the headers, and general inform
 | keepAlive    | boolean| Whether or not the connection should be kept alive. |
 
 **Examples**:
+
 {% raw %}
 
    - `{{"Content-Type", "text/html"}, {"Content-Length", "1587"}, code = 200, reason = "OK", version = 1.1, keepAlive = true}`.
 
 {% endraw %}
----
+
+----
 
 ### TCP Connection   {#tcp-connection}
 
@@ -210,7 +212,7 @@ A table structure that represents a TCP connection (wrapped using coro-channel).
 | updateDecoder | function | TODO[6] |
 | reset | function | TODO[7] |
 
----
+----
 
 ### TLS Options   {#tls-options}
 
@@ -224,16 +226,17 @@ Here are the available options and fields for configuring an SSL/TLS connection.
 | ciphers | string | The encryption algorithm to encrypt data with, value **MUST** be a valid cipher suite string. Defaults are `TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256` for TLS 1.3, `ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256` for LTS 1.2, `RC4:HIGH:!MD5:!aNULL:!EDH` for LTS 1.0. |
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). |
 | cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
-| ca | string / table | The x509 root certificates/CRLs to check against. Defaults to a root certification (`root_ca.dat` file) when available. |
+| ca | string / table | The x509 root certificates/
+ to check against. Defaults to a root certification (`root_ca.dat` file) when available. |
 | insecure | boolean | Weather or not to accept invalid certificates on handshakes. Please only tinker with this when you do know what it means. ***default***: `false`. |
 
 *All of the fields are optional and should only be touched when you know what you are dealing with.*
 
----
+----
 
 ### Parsed URL   {#parsed-url}
 
-A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that represents an HTTP(s) URL.
+A parsed URL is often returned by [parseUrl](#parseUrl) as a table that represents an HTTP(s) URL.
 
 #### Available Fields   {#parsed-url-fields}
 
@@ -245,7 +248,7 @@ A parsed URL is usually returned by [parseUrl](#parseurl-url) as a table that re
 | port     | number | The host port of the parsed URL (defaults to `80` for HTTP and `443` for HTTPS). |
 | path     | string | Everything following the host of the parsed URL (including first `/`) |
 
----
+----
 
 ### Timeout   {#timeout}
 
@@ -260,7 +263,7 @@ A number value in milliseconds indicts how much time to wait for the response/re
 
 A table that could configure some of [Request](#request) behavior
 
-### The Structuring   {#request-options-structuring}
+#### The Structuring   {#request-options-structuring}
 
 **Full**:
 
@@ -278,11 +281,11 @@ A table that could configure some of [Request](#request) behavior
 | timeout        | number ([Timeout](#timeout)) | See [Timeout](#timeout) for description. |
 | followRedirects| boolean | whether or not to follow redirect requests. ***default***: `true`. |
 
----
+----
 
 # TODOs   {#todos}
 
-1. Complete the return table of [getConnection](#getconnection-host-port--tls--timeout) function [4]/[5]/[6]/[7].
+1. Complete the return table of [getConnection](#getConnection) function [4]/[5]/[6]/[7].
 2. General examples and guides.
 
----
+----
