@@ -1,6 +1,6 @@
 # Documentations
 
-Unofficial docs for [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) module, version 3.0.1.
+Unofficial docs for the [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) module, version 3.0.1.
 
 [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) is single-function module that provides manipulating child-process in a sync style of code using Lua coroutines.
 

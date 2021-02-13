@@ -1,6 +1,8 @@
 # Documentations
 
-These are unofficial documentations for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by [Tim Caswell](https://github.com/creationix). This library is capable of doing HTTP(s) manipulations in a sync styled code.
+Unofficial docs for the [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) module, version 3.2.0.
+
+[coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) is a library for manipulating HTTP(s) requests in a sync styled code using Lua coroutines.
 
 It can be used as a great replacement for the Luvit built-in http library, to get rid of the callback style, and to have more user friendly interface. This is achieved through the use of coroutines to keep the sync style of your code without blocking the main event loop of [luv](https://github.com/luvit/luv/).
 
@@ -12,13 +14,13 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out with
 
 ----
 
-### createServer (host, port, onConnect)   {#createServer}
+### createServer(host, port, onConnect) {#createServer}
 
 Creates a new server instance and asynchronously binds it to host:port.
 
 *This method does not require running in a coroutine*
 
-#### Parameters   {#createServer-parameters}
+#### Parameters {#createServer-parameters}
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
@@ -26,7 +28,7 @@ Creates a new server instance and asynchronously binds it to host:port.
 | port  | number | The port to which the created server should listen on.
 | onConnect | function | See [callback](#createServer-callback) for details. |
 
-#### Callback   {#createServer-callback}
+#### Callback {#createServer-callback}
 
 A callback that will be asynchronously called every time a new connection is established to the server
 
@@ -42,19 +44,19 @@ You are suppose to return at least one value every time this callback is called:
 
 ----
 
-### parseUrl (url)   {#parseUrl}
+### parseUrl(url) {#parseUrl}
 
 Parses the given string representing a valid HTTP(s) URL into a Lua table.
 
 *This method does not require running in a coroutine*
 
-#### Parameters   {#parseUrl-parameters}
+#### Parameters {#parseUrl-parameters}
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
 | url   | string | The HTTP URL to be parsed. An error will be raised up of it isn't a valid URL. |
 
-#### Returns   {#parseUrl-returns}
+#### Returns {#parseUrl-returns}
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
@@ -62,7 +64,7 @@ Parses the given string representing a valid HTTP(s) URL into a Lua table.
 
 ----
 
-### getConnection (host, port [, tls [, timeout]])   {#getConnection}
+### getConnection(host, port [, tls [, timeout]]) {#getConnection}
 
 Establishes a new TCP connection with the given host on the given port.
 
@@ -72,7 +74,7 @@ Establishes a new TCP connection with the given host on the given port.
 
 ***This method MUST be run in a coroutine***
 
-#### Parameters   {#getConnection-parameters}
+#### Parameters {#getConnection-parameters}
 
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
@@ -81,7 +83,7 @@ Establishes a new TCP connection with the given host on the given port.
 | tls   | boolean/table ([TLS Options](#tls-options)) | The use of SSL/TLS encrypted protocol. <br> - Boolean value whether to use SSL/TLS cert or not.<br>- Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.| ✔ <br> Default: `false`. |
 | timeout   | number ([Timeout](#timeout)) | How much time to wait for the response before canceling the request out. | ✔ |
 
-#### Returns   {#getConnection-returns}
+#### Returns {#getConnection-returns}
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
@@ -89,7 +91,7 @@ Establishes a new TCP connection with the given host on the given port.
 
 ----
 
-### saveConnection (connection)   {#saveConnection}
+### saveConnection(connection) {#saveConnection}
 
 Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one (e.g. would be used by [request](#request)).
 
@@ -97,7 +99,7 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 *This method does not require running in a coroutine*
 
-#### Parameters   {#saveConnection-parameters}
+#### Parameters {#saveConnection-parameters}
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
@@ -105,7 +107,7 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 ----
 
-### request  (method, url[, headers[, body[, options]]])   {#request}
+### request(method, url[, headers[, body[, options]]]) {#request}
 
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
@@ -113,7 +115,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 ***This method MUST be run in a coroutine***
 
-#### Parameters   {#request-parameters}
+#### Parameters {#request-parameters}
 
 - **options** *(table  / number )* ***optional***:
 
@@ -125,7 +127,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 | body  | string | The request's payload (if needed).  | ✔ |
 | options | table([Request-Options](#request-options)) / number([Timeout](#timeout))  | - If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.<br>- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
 
-#### Returns   {#request-parameters}
+#### Returns {#request-parameters}
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
@@ -144,7 +146,7 @@ The `@string` syntax in this section links where the said structure was used TOD
 
 A table structure representing an HTTP(s) header. The structure is a two-length array of strings, the first entry is the header-name, and the second entry is the header-value. See the [rfc2616 paper](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP headers.
 
-#### The Structuring   {#http-header-structuring}
+#### The Structuring {#http-header-structuring}
 
 **Full**: `{header-name, header-value}`.
 
@@ -162,11 +164,11 @@ A table structure representing an HTTP(s) header. The structure is a two-length 
 
 ----
 
-### Request / Response   {#request-response}
+### Request / Response {#request-response}
 
 Represents an HTTP(s) request/response including the headers, and general information about it. The exact data is highly dependent on the server/client side and therefore the docs cannot tell what values to expect or to not. If you want to know such information you should debug your code, or read the API manual of the said server.
 
-#### The Structuring   {#request-response-structuring}
+#### The Structuring {#request-response-structuring}
 
 **Full**:
 
@@ -200,11 +202,11 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 ----
 
-### TCP Connection   {#tcp-connection}
+### TCP Connection {#tcp-connection}
 
 A table structure that represents a TCP connection (wrapped using coro-channel). The structure offers methods to directly read and write from the socket, and general details about the connection. Generally speaking you should only use those *directly* when it is the only way to accomplish what you need.
 
-#### Available Fields   {#tcp-connection-fields}
+#### Available Fields {#tcp-connection-fields}
 
 | Field | Type   | Description |
 |:------|:------:|:------------|
@@ -220,11 +222,11 @@ A table structure that represents a TCP connection (wrapped using coro-channel).
 
 ----
 
-### TLS Options   {#tls-options}
+### TLS Options {#tls-options}
 
 Here are the available options and fields for configuring an SSL/TLS connection.
 
-#### Acceptable Fields   {#tls-options-fields}
+#### Acceptable Fields {#tls-options-fields}
 
 | Field | Type   | Description |
 |:------|:------:|:------------|
@@ -240,11 +242,11 @@ Here are the available options and fields for configuring an SSL/TLS connection.
 
 ----
 
-### Parsed URL   {#parsed-url}
+### Parsed URL {#parsed-url}
 
 A parsed URL is often returned by [parseUrl](#parseUrl) as a table that represents an HTTP(s) URL.
 
-#### Available Fields   {#parsed-url-fields}
+#### Available Fields {#parsed-url-fields}
 
 | Fields   | Type   | Description |
 |:-------- |:------:|:------------|
@@ -256,7 +258,7 @@ A parsed URL is often returned by [parseUrl](#parseUrl) as a table that represen
 
 ----
 
-### Timeout   {#timeout}
+### Timeout {#timeout}
 
 A number value in milliseconds indicts how much time to wait for the response/request before canceling it out. If nothing is supplied [libuv](https://github.com/libuv/libuv) will timeout after an undefined amount of seconds.
 
@@ -265,11 +267,11 @@ A number value in milliseconds indicts how much time to wait for the response/re
    - `1000`, waits for a one second.
    - `500`, waits for half of a second.
 
-### Request Options   {#request-options}
+### Request Options {#request-options}
 
 A table that could configure some of [Request](#request) behavior
 
-#### The Structuring   {#request-options-structuring}
+#### The Structuring {#request-options-structuring}
 
 **Full**:
 
@@ -289,7 +291,7 @@ A table that could configure some of [Request](#request) behavior
 
 ----
 
-# TODOs   {#todos}
+# TODOs {#todos}
 
 1. Complete the return table of [getConnection](#getConnection) function [4]/[5]/[6]/[7].
 2. General examples and guides.

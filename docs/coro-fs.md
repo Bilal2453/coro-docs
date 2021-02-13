@@ -1,10 +1,10 @@
 # Documentations
 
-Docs for the library [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) version 2.2.4. This library is basically about filesystem manipulations but with sync style.
+Unofficial docs for the module [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) version 2.2.4.
+
+[coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) is a library for filesystem manipulations while keeping the sync style of your code, making use of Lua coroutines.
 
 This library is a great replacement for the Luvit built-in callback styled fs library, since it uses coroutines to keep the sync style of your code, without blocking the main event loop of luv, and most importantly, without the ugly callbacks! It is also somewhat simpler to use than the built-in fs library.
-
-The only downside to this library is that every call you make has to be inside of a coroutine, whether it is directly wrapped, or wrapped at a higher level. Since any call will always try to yield the current running coroutine (except `fs.chroot`).
 
 ----
 
@@ -279,7 +279,7 @@ Writes data to file using its descriptor `fd`.
 |:------|:------:|:------------|:--------:|
 | fd    | number | The descriptor of the file to write data to. | ❌ |
 | data  | string | The data you want to write to the file as string. | ❌ |
-| offset | number | How many bytes should be sought before start writing. `-1` means "Use current file position". |  ✔ <br> Default: `-1`. |
+| offset | number | How many bytes should be sought before writing the data. `-1` means "Use the current file position". |  ✔ <br> Default: `-1`. |
 
 #### Returns {#write-returns}
 
@@ -322,7 +322,7 @@ Checks whether the current process have permissions to access the file/directory
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | path  | string | The path to the file/directory you want to check against. | ❌ |
-| mode  | number/string | The accessibility check, number to specify the bit permissions mode, string to specify access mode (`R` for read, `W` for write, `X` for execute). | ✔ <br> Default: `""`. |
+| mode  | number/string | The accessibility check, number to specify the bit permissions mode, string to specify access mode (`"R"` for read, `"W"` for write, `"X"` for execute). | ✔ <br> Default: `""`. |
 
 #### Returns {#access-returns}
 
