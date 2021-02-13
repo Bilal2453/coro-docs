@@ -26,6 +26,8 @@ Creates a new directory using the provided `path`.
 
 The owner of the created directory __should__ be the effective user/group ID of said process, or it __could__ inherit the parent directory group-ID. The exact behavior is filesystem dependant.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#mkdir-parameters}
 
 | Param | Type   | Description | Optional |
@@ -48,6 +50,8 @@ Opens a file, or possibly creates one using the said file path.
 
 The owner of a created file __should__ be the effective user/group ID of said process, or it __could__ inherit the parent directory group-ID. The exact behavior is filesystem dependant.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#open-parameters}
 
 | Param | Type   | Description | Optional |
@@ -69,6 +73,9 @@ The owner of a created file __should__ be the effective user/group ID of said pr
 
 Deletes (unlinks) a file from the filesystem.
 
+***This method MUST be run in a coroutine***
+
+
 #### Parameters {#unlink-parameters}
 
 | Param | Type   | Description |
@@ -87,6 +94,8 @@ Deletes (unlinks) a file from the filesystem.
 ### stat(path) {#stat}
 
 Retrieves information about the file/directory pointed out by `path`.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#stat-parameters}
 
@@ -107,6 +116,8 @@ Retrieves information about the file/directory pointed out by `path`.
 
 Identical to [stat](#stat), except if the path was for a symbolic link, the information will be about the link itself instead of its target.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#lstat-parameters}
 
 | Param | Type   | Description |
@@ -125,6 +136,8 @@ Identical to [stat](#stat), except if the path was for a symbolic link, the info
 ### fstat(fd) {#fstat}
 
 Identical to [stat](#stat), except that instead of accepting a path to file/directory, this accepts a file descriptor.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#fstat-parameters}
 
@@ -148,6 +161,8 @@ Creates a symbolic link (also known as soft link) at `path` that points up to `t
 ***WARNING***: There is currently a bug with this, it was fixed in the latest GH version but not yet published to Lit.
 ***TODO***: In the next release of coro-fs a new parameter will be added, document it when it is published to Lit.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#symlink-parameters}
 
 | Param | Type   | Description |
@@ -168,6 +183,8 @@ Creates a symbolic link (also known as soft link) at `path` that points up to `t
 
 Retrieves the target path (the content) of the said symbolic link `path`.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#readlink-parameters}
 
 | Param | Type   | Description |
@@ -186,6 +203,8 @@ Retrieves the target path (the content) of the said symbolic link `path`.
 ### chmod(path, mode) {#chmod}
 
 Changes the inode mode bits (e.g. the permissions) of said file.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#chmod-parameters}
 
@@ -207,6 +226,8 @@ Changes the inode mode bits (e.g. the permissions) of said file.
 
 Identical to [chmod](#chmod), except that instead of accepting a file path, you use a file descriptor.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#fchmod-parameters}
 
 | Param | Type   | Description |
@@ -226,6 +247,8 @@ Identical to [chmod](#chmod), except that instead of accepting a file path, you 
 ### read(fd[, length[, offset]]) {#read}
 
 Reads `length` bytes of `fd` file's contents.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#read-parameters}
 
@@ -248,6 +271,8 @@ Reads `length` bytes of `fd` file's contents.
 
 Writes data to file using its descriptor `fd`.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#write-parameters}
 
 | Param | Type   | Description | Optional |
@@ -269,6 +294,8 @@ Writes data to file using its descriptor `fd`.
 
 Closes the opened file `fd`, so `fd` don't refer to anything anymore.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#close-parameters}
 
 | Param | Type   | Description |
@@ -287,6 +314,8 @@ Closes the opened file `fd`, so `fd` don't refer to anything anymore.
 ### access(path[, mode]) {#access}
 
 Checks whether the current process have permissions to access the file/directory `path`.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#access-parameters}
 
@@ -308,6 +337,8 @@ Checks whether the current process have permissions to access the file/directory
 
 Renames a file or a directory to `newPath`. Can be also used to move a file/directory just by specifying `newPath` to the target path to move files into.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#rename-parameters}
 
 | Param | Type   | Description |
@@ -327,6 +358,8 @@ Renames a file or a directory to `newPath`. Can be also used to move a file/dire
 ### rmdir(path) {#rmdir}
 
 Removes and deletes an empty (and only an empty) directory. For recursive remove see [rmrf](#rmrf).
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#rmdir-parameters}
 
@@ -353,6 +386,8 @@ Tries to recursively delete `path`, while handling most possible scenarios. Most
 
 ***WARNING***: You cannot undo this!
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#rmrf-parameters}
 
 | Param | Type   | Description |
@@ -371,6 +406,8 @@ Tries to recursively delete `path`, while handling most possible scenarios. Most
 ### scandir(path) {#scandir}
 
 An iterator that iterates a directory for files and sub-directories.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#scandir-parameters}
 
@@ -395,6 +432,8 @@ Fully reads a file and returns its contents as a single string.
 
 ***NOTE***: In some rare and system specific cases, only a chunk of the file will be read.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#readFile-parameters}
 
 | Param | Type   | Description |
@@ -413,6 +452,8 @@ Fully reads a file and returns its contents as a single string.
 ### writeFile(path, data[, mkdir]) {#writeFile}
 
 Writes data to file `path` in a one go.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters {#writeFile-parameters}
 
@@ -437,6 +478,8 @@ Recursively creates missing directories in a path with the said bit mode.
 
 For example `mkdir("./a/b/c/")` this call will create a directory `a` that contains directory `b` if they don't already exists, etc.
 
+***This method MUST be run in a coroutine***
+
 #### Parameters {#mkdirp-parameters}
 
 | Param | Type   | Description | Optional |
@@ -456,3 +499,5 @@ For example `mkdir("./a/b/c/")` this call will create a directory `a` that conta
 ### chroot(base) {#chroot}
 
 ***TODO***: Document this.
+
+*This method does not require running in a coroutine*

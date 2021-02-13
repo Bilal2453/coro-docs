@@ -12,6 +12,8 @@ Takes multiple functions (tasks) and concurrently run them in coroutines while y
 
 The tasks will be called directly without running them in protected mode, therefor any errors raised out in one of the provided tasks will be propagated, unless you call `split` using [pcall](https://www.lua.org/manual/5.4/manual.html#pdf-pcall) or [similar](https://www.lua.org/manual/5.4/manual.html#pdf-xpcall) functions.
 
+***This method MUST be run in a coroutine***
+
 ### Parameters {#split-parameters}
 
 | Param | Type   | Description |

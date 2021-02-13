@@ -2,7 +2,7 @@
 
 These are unofficial documentations for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by [Tim Caswell](https://github.com/creationix). This library is capable of doing HTTP(s) manipulations in a sync styled code.
 
-It can be used as a great replacement for the Luvit built-in http library, to get rid of the callback style. This library uses coroutines to keep the sync style of your code without blocking the main event loop of luv.
+It can be used as a great replacement for the Luvit built-in http library, to get rid of the callback style, and to have more user friendly interface. This is achieved through the use of coroutines to keep the sync style of your code without blocking the main event loop of [luv](https://github.com/luvit/luv/).
 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out with correcting many invalid details, better wording and terms, and pointing out typos.
 
@@ -15,6 +15,8 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out with
 ### createServer (host, port, onConnect)   {#createServer}
 
 Creates a new server instance and asynchronously binds it to host:port.
+
+*This method does not require running in a coroutine*
 
 #### Parameters   {#createServer-parameters}
 
@@ -44,6 +46,8 @@ You are suppose to return at least one value every time this callback is called:
 
 Parses the given string representing a valid HTTP(s) URL into a Lua table.
 
+*This method does not require running in a coroutine*
+
 #### Parameters   {#parseUrl-parameters}
 
 | Param | Type   | Description |
@@ -65,6 +69,8 @@ Establishes a new TCP connection with the given host on the given port.
 - If the connection was previously saved using `saveConnection`, calling this will return that connection and un-save it.
 
 - If the saved connection was closed, a new connection will be established instead.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters   {#getConnection-parameters}
 
@@ -89,6 +95,8 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 - If the passed connection is dead nothing will be saved.
 
+*This method does not require running in a coroutine*
+
 #### Parameters   {#saveConnection-parameters}
 
 | Param | Type   | Description |
@@ -102,6 +110,8 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
 - If said connection was already established and is still alive, it will be used instead of establishing a new one.
+
+***This method MUST be run in a coroutine***
 
 #### Parameters   {#request-parameters}
 
