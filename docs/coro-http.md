@@ -4,7 +4,7 @@ These are unofficial documentations for the Luvit library [coro-http](https://gi
 
 It can be used as a great replacement for the Luvit built-in http library, to get rid of the callback style. This library uses coroutines to keep the sync style of your code without blocking the main event loop of luv.
 
-Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out typos.
+Many thanks for [@trumedian](https://github.com/truemedian) for helping out with correcting many invalid details, better wording and terms, and pointing out typos.
 
 ----
 
@@ -18,9 +18,15 @@ Creates a new server instance and asynchronously binds it to host:port.
 
 #### Parameters   {#createServer-parameters}
 
-- **host** *(string)*: The host which the server corresponds to.
-- **port** *(number)*: The opened port for the server to listen to.
-- **onConnect** *(function)*: A callback that will be asynchronously called every time a new connection is established to the server. You are suppose to return at least one value every time this callback is called: `head, body` where `head` is a [Response](#request-response) structure, and `body` is optionally a string representing the response payload.
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| host  | string | The host which the server corresponds to.
+| port  | number | The port to which the created server should listen on.
+| onConnect | function | See [callback](createServer-callback) for details. |
+
+#### Callback   {#createServer-callback}
+
+A callback that will be asynchronously called every time a new connection is established to the server
 
 The callback has the following parameters:
 
@@ -30,21 +36,28 @@ The callback has the following parameters:
 | body  | string | The provided request's payload as string, empty string in case nothing is provided. |
 | socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) / [uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
 
+You are suppose to return at least one value every time this callback is called: `head, body` where `head` is a [Response](#request-response) structure, and `body` is optionally a string representing the response payload.
+
 ----
 
 ### parseUrl (url)   {#parseUrl}
 
-Parses the given string representing an HTTP(s) URL into a Lua table.
+Parses the given string representing a valid HTTP(s) URL into a Lua table.
 
 #### Parameters   {#parseUrl-parameters}
 
 - **url** *(string)*: The URL that should be parsed.
   - Must be a valid HTTP(s) URL or an error will be raised.
 
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| url   | string | The HTTP URL to be parsed. An error will be raised up of it isn't a valid URL. |
+
 #### Returns   {#parseUrl-returns}
 
-1. *(table [Parsed URL](#parsed-url))*: The parsed URL as a Lua table.
-   - See [Parsed URL](#parsed-url) structure for more details.
+| Name | Type   | Description |
+|:-----|:------:|:------------|
+| result | table| A [Parsed URL](#parsed-url) structure representing the URL. |
 
 ----
 
@@ -52,40 +65,38 @@ Parses the given string representing an HTTP(s) URL into a Lua table.
 
 Establishes a new TCP connection with the given host on the given port.
 
-  – If the connection was saved previously using `saveConnection`, calling this will return that saved connection and un-save it.
+- If the connection was previously saved using `saveConnection`, calling this will return that connection and un-save it.
 
-  – If the saved connection was closed, a new connection will be established instead.
+- If the saved connection was closed, a new connection will be established instead.
 
 #### Parameters   {#getConnection-parameters}
 
-- **host** *(string)*: The host which the established connection refers to.
-- **port** *(number)*: The port that this connection should use to connect to the host.
-- **tls** *(boolean / table [TLS Options](#tls-options))* ***optional***: The use of SSL/TLS encrypted protocol.
-
-   ***default***: `false`.
-
-  - Boolean value whether to use SSL/TLS cert or not.
-  - Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.
-- **timeout** *(number [Timeout](#timeout))* ***optional***: How much time to wait for the response before canceling the request out.
-
-   ***default***: `nil`.
+| Param | Type   | Description | Optional |
+|:------|:------:|:------------|:--------:|
+| host  | string | The host which the established connection refers to. | ❌ |
+| port  | number | The port that this connection should use when connecting to the host. | ❌ |
+| tls   | boolean/table ([TLS Options](#tls-options)) | The use of SSL/TLS encrypted protocol. <br> - Boolean value whether to use SSL/TLS cert or not.<br>- Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.| ✔ <br> Default: `false`. |
+| timeout   | number ([Timeout](#timeout)) | How much time to wait for the response before canceling the request out. | ✔ |
 
 #### Returns   {#getConnection-returns}
 
-1. *(table [TCP Connection](#tcp-connection))*: The established connection.
-   - See [TCP Connection](#tcp-connection) structure for more information.
+| Name | Type   | Description |
+|:-----|:------:|:------------|
+| connection | table ([TCP Connection](#tcp-connection)) | The established connection. |
 
 ----
 
 ### saveConnection (connection)   {#saveConnection}
 
-Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one (e.g. when using [request](#request)).
+Saves a pre-established [TCP connection](#tcp-connection) to be used later instead of establishing a new one (e.g. would be used by [request](#request)).
 
-  – If the passed connection is already closed nothing will be saved.
+- If the passed connection is dead nothing will be saved.
 
 #### Parameters   {#saveConnection-parameters}
 
-- **connection** *(table [TCP Connection](#tcp-connection))*: A table representing a TCP connection returned by `getConnection`.
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| connection  | table ([TCP Connection](#tcp-connection)) | A table representing a TCP connection returned by `getConnection`. |
 
 ----
 
@@ -93,38 +104,35 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
+- If said connection was already established and is still alive, it will be used instead of establishing a new one.
+
 #### Parameters   {#request-parameters}
 
-- **method** *(string)*: An all uppercase HTTP method.
+- **options** *(table  / number )* ***optional***:
 
-- **url** *(string)*: An HTTP(s) URL that the request should be sent to.
+| Param | Type   | Description | Optional |
+|:------|:------:|:------------|:--------:|
+| method| string | An all uppercase HTTP method name. | ❌ |
+| url   | url    | An HTTP(s) URL that the request should be sent to.  | ❌ |
+| headers| table ([http-header](#http-header)) | The HTTP headers of the request.  | ✔ |
+| body  | string | The request's payload (if needed).  | ✔ |
+| options | table([Request-Options](#request-options)) / number([Timeout](#timeout))  |
 
-- **headers** *(table [http-header](#http-header))* ***optional***: The request headers.
+- If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.<br>
 
-   ***default***:
-      The default value is always a table, the contents of the table explained below.  `Header: value` syntax is used to represent a default header with said value.
-
-   - `Host: url.host`: This is a mandatory header. The library always auto include it if it isn't already supplied.
-
-   - `Content-Length: #body`: If the payload is not chunked and `Content-Length` header is not supplied, the library will auto assign the length of the body.
-
-- **body** *(string)* ***optional***: The request's payload (if needed).
-
-  ***default***: `nil`.
-
-- **options** *(table [Request-Options](#request-options) / number [Timeout](#timeout))* ***optional***:
-  
-   - If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.
-   - If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.
-
-   ***default***: `nil`.
+- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
 
 #### Returns   {#request-parameters}
 
-1. *(table [Response](#request-response))*: The response headers and status. See [Response](#request-response) structure for more details.
+1. *(table )*: The response headers and status. See [Response](#request-response) structure for more details.
 
-2. *(string)*: The response payload (body) as string.
+2. *(string)*: .
    - This is whatever the server responds with.
+
+| Name | Type   | Description |
+|:-----|:------:|:------------|
+| res  | table([Response](#request-response)) / nil | A [Response](#request-response) structure in case of success, otherwise nil. |
+| body | string/nil | The response payload (body) the server sent as string in case of success, otherwise an error message explaining what went wrong. |
 
 ----
 
