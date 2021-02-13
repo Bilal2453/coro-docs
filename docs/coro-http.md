@@ -46,9 +46,6 @@ Parses the given string representing a valid HTTP(s) URL into a Lua table.
 
 #### Parameters   {#parseUrl-parameters}
 
-- **url** *(string)*: The URL that should be parsed.
-  - Must be a valid HTTP(s) URL or an error will be raised.
-
 | Param | Type   | Description |
 |:------|:------:|:------------|
 | url   | string | The HTTP URL to be parsed. An error will be raised up of it isn't a valid URL. |
