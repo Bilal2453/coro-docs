@@ -8,15 +8,15 @@ We will call the only function return of this module `split`. You should always 
 
 ## split(...) {#split}
 
-Takes multiple functions (tasks) and concurrently run them in coroutines while yielding the current running coroutine called this, till all of the supplied tasks finishes.
+Takes multiple functions (tasks) and concurrently run them in coroutines while yielding the current running coroutine that called this, and then resume it when all of the supplied tasks finishes.
 
-The tasks will be called directly without wrapping them in protected mode, therefor any error raised in one of the provided tasks will be propagated, unless you wrap this in [pcall](https://www.lua.org/manual/5.4/manual.html#pdf-pcall) or [similar](https://www.lua.org/manual/5.4/manual.html#pdf-xpcall) functions.
+The tasks will be called directly without running them in protected mode, therefor any errors raised out in one of the provided tasks will be propagated, unless you call `split` using [pcall](https://www.lua.org/manual/5.4/manual.html#pdf-pcall) or [similar](https://www.lua.org/manual/5.4/manual.html#pdf-xpcall) functions.
 
 ### Parameters {#split-parameters}
 
 | Param | Type   | Description |
 |:-----:|:------:|:------------|
-| ...   | function | The tasks you want to concurrently run. |
+| ...   | function | The tasks you want to concurrently run. No limit defined by coro-split. |
 
 ### Returns {#split-returns}
 

@@ -1,8 +1,8 @@
 # Documentations
 
-These are unofficial documentations for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by [Tim Caswell](https://github.com/creationix), and the help of the contributors.
+These are unofficial documentations for the Luvit library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) that was originally made by [Tim Caswell](https://github.com/creationix). This library is capable of doing HTTP(s) manipulations in a sync styled code.
 
-It can be used as a great replacement for the built-in http library in Luvit for those who don't like the callback style, this library uses Lua's coroutines to keep the sync style with optional coroutine wrapping for asynchronous execution.
+It can be used as a great replacement for the Luvit built-in http library, to get rid of the callback style. This library uses coroutines to keep the sync style of your code without blocking the main event loop of luv.
 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out from behind the scenes by correcting many invalid infos, better wording, and pointing out typos.
 

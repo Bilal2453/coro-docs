@@ -1,8 +1,8 @@
 # Documentations
 
-These are unofficial documentations for the Luvit coroutines based library [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) version 2.2.4, it was originally developed by [Tim Caswell](https://github.com/creationix) for [Lit](https://github.com/luvit/lit/), but can also be used by anyone.
+Docs for the library [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) version 2.2.4. This library is basically about filesystem manipulations but with sync style.
 
-This library is a great replacement for the Luvit built-in callback styled fs library, since it uses coroutines to keep the sync style of your code, without blocking the main event loop of luv, and mos importantly, without the ugly callback! It is also somewhat simpler to use than the built-in fs library.
+This library is a great replacement for the Luvit built-in callback styled fs library, since it uses coroutines to keep the sync style of your code, without blocking the main event loop of luv, and most importantly, without the ugly callbacks! It is also somewhat simpler to use than the built-in fs library.
 
 The only downside to this library is that every call you make has to be inside of a coroutine, whether it is directly wrapped, or wrapped at a higher level. Since any call will always try to yield the current running coroutine (except `fs.chroot`).
 
@@ -30,7 +30,7 @@ The owner of the created directory __should__ be the effective user/group ID of 
 
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
-| path  | string | The path of the directory to create | ❌ |
+| path  | string | The path of the directory you want to create | ❌ |
 | mode  | number | The inode bit mode at which to create said directory. Not implemented on Windows. | ✔ <br> Default: `511`. |
 
 #### Returns
@@ -44,7 +44,7 @@ The owner of the created directory __should__ be the effective user/group ID of 
 
 ### open(path[, flags[, mode]])
 
-Opens a file or possibly creates one using the said file path.
+Opens a file, or possibly creates one using the said file path.
 
 The owner of a created file __should__ be the effective user/group ID of said process, or it __could__ inherit the parent directory group-ID. The exact behavior is filesystem dependant.
 
@@ -92,13 +92,13 @@ Retrieves information about the file/directory pointed out by `path`.
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| path  | string | The path to the file or directory you want to retrieves information about. |
+| path  | string | The path to the file or directory you want to retrieve information about. |
 
 #### Returns
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| info | table/nil | The information about said file/directory on success, See [TODO], nil otherwise. | Always |
+| info | table/nil | The information about said file/directory on success, see ***TODO***, otherwise nil. | Always |
 | err | string | A string explaining what went wrong when executing said operation. | Failure Only |
 
 ----
@@ -111,41 +111,41 @@ Identical to [stat](#stat), except if the path was for a symbolic link, the info
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| path  | string | The path to the file or directory you want to retrieves information about. |
+| path  | string | The path to the file or directory you want to retrieve information about. |
 
 #### Returns
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| info | table/nil | The information about said file/directory on success, See [TODO], nil otherwise. | Always |
+| info | table/nil | The information about said file/directory on success, see ***TODO***, otherwise nil. | Always |
 | err | string | A string explaining what went wrong when executing said operation. | Failure Only |
 
 ----
 
 ### fstat(fd)
 
-Identical to [stat](#stat), except that instead of a path to file/directory, this accepts a file descriptor.
+Identical to [stat](#stat), except that instead of accepting a path to file/directory, this accepts a file descriptor.
 
 #### Parameters
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| fd    | number | The descriptor of the file you want to get the information about. |
+| fd    | number | The descriptor of the file you want to retrieve the information about. |
 
 #### Returns
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| info | table/nil | The information about said file/directory on success, See [TODO], nil otherwise. | Always |
+| info | table/nil | The information about said file/directory on success, see ***TODO***, otherwise nil. | Always |
 | err | string | A string explaining what went wrong when executing said operation. | Failure Only |
 
 ----
 
 ### symlink(target, path)
 
-Creates a symbolic link (also known as soft link) at `path` that points to `target`.
+Creates a symbolic link (also known as soft link) at `path` that points up to `target`.
 
-***WARNING***: There is currently a bug with this, that was fixed in the latest GH version.
+***WARNING***: There is currently a bug with this, it was fixed in the latest GH version but not yet published to Lit.
 ***TODO***: In the next release of coro-fs a new parameter will be added, document it when it is published to Lit.
 
 #### Parameters
@@ -172,7 +172,7 @@ Retrieves the target path (the content) of the said symbolic link `path`.
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| path  | string | The path to the symbolic link you want to retrieve its target. |
+| path  | string | The path to the symbolic link you want to retrieve its content. |
 
 #### Returns
 
@@ -185,7 +185,7 @@ Retrieves the target path (the content) of the said symbolic link `path`.
 
 ### chmod(path, mode)
 
-Changes the mode bits (e.g. the permissions) of said file.
+Changes the inode mode bits (e.g. the permissions) of said file.
 
 #### Parameters
 
@@ -205,7 +205,7 @@ Changes the mode bits (e.g. the permissions) of said file.
 
 ### fchmod(fd, mode)
 
-Identical to [chmod](#chmod), except that instead of a path to a file, you use a file descriptor.
+Identical to [chmod](#chmod), except that instead of accepting a file path, you use a file descriptor.
 
 #### Parameters
 
@@ -267,13 +267,13 @@ Writes data to file using its descriptor `fd`.
 
 ### close(fd)
 
-Closes the opened file descriptor `fd`, so it doesn't refer to anything anymore.
+Closes the opened file `fd`, so `fd` don't refer to anything anymore.
 
 #### Parameters
 
-| Param | Type   | Description | Optional |
-|:------|:------:|:------------|:--------:|
-| fd    | number | The descriptor of the file to be closed. | ❌ |
+| Param | Type   | Description |
+|:------|:------:|:------------|
+| fd    | number | The descriptor of the file to be closed.
 
 #### Returns
 
@@ -286,14 +286,14 @@ Closes the opened file descriptor `fd`, so it doesn't refer to anything anymore.
 
 ### access(path[, mode])
 
-Checks whether the calling process have permissions to access the file/directory `path`.
+Checks whether the current process have permissions to access the file/directory `path`.
 
 #### Parameters
 
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | path  | string | The path to the file/directory you want to check against. | ❌ |
-| mode  | number/string | The accessibility check, number to specify the bit permissions mode, string to specify access mode (`R` for read, `W` for write, `X` for execute.). | ✔ <br> Default: `""`. |
+| mode  | number/string | The accessibility check, number to specify the bit permissions mode, string to specify access mode (`R` for read, `W` for write, `X` for execute). | ✔ <br> Default: `""`. |
 
 #### Returns
 
@@ -312,7 +312,7 @@ Renames a file or a directory to `newPath`. Can be also used to move a file/dire
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| path    | string | The path to the file or directory you want to rename(move). |
+| path    | string | The path to the file or directory you want to rename/move. |
 | newPath | string | The new path/name of the renamed/moved file or directory. |
 
 #### Returns
@@ -351,6 +351,8 @@ Tries to recursively delete `path`, while handling most possible scenarios. Most
 - If the path is a file it will be deleted.
 - If the path is a symbolic link it will be unlinked.
 
+***WARNING***: You cannot undo this!
+
 #### Parameters
 
 | Param | Type   | Description |
@@ -383,11 +385,15 @@ An iterator that iterates a directory for files and sub-directories.
 | entry| table/nil | A table that contains two fields `name` and `type` on success, otherwise nil. | Always |
 | err  | string | A string explaining what went wrong when executing said operation. | Failure Only |
 
+***TODO***: Example.
+
 ----
 
 ### readFile(path)
 
-Fully reads a file and returns its contents as single string.
+Fully reads a file and returns its contents as a single string.
+
+***NOTE***: In some rare and system specific cases, only a chunk of the file will be read.
 
 #### Parameters
 
@@ -427,14 +433,16 @@ Writes data to file `path` in a one go.
 
 ### mkdirp(path[, mode])
 
-Recursively creates a path with the said bit mode. For example `mkdir("./a/b/c/")` this call will create a directory `a` that contains directory `b`, etc.
+Recursively creates missing directories in a path with the said bit mode.
+
+For example `mkdir("./a/b/c/")` this call will create a directory `a` that contains directory `b` if they don't already exists, etc.
 
 #### Parameters
 
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
-| path  | string | The path of directories that will be created. | ❌ |
-| data  | string | The data you want to write into the file as string. | ✔️ |
+| path  | string | The path that might contains the missing directories to be created. | ❌ |
+| mode  | number | Decimal number of the indoe mode bits (e.g. its permissions). | ✔️ |
 
 #### Returns
 
@@ -448,5 +456,3 @@ Recursively creates a path with the said bit mode. For example `mkdir("./a/b/c/"
 ### chroot(base)
 
 ***TODO***: Document this.
-
-----
