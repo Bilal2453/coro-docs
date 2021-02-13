@@ -22,7 +22,7 @@ Creates a new server instance and asynchronously binds it to host:port.
 |:------|:------:|:------------|
 | host  | string | The host which the server corresponds to.
 | port  | number | The port to which the created server should listen on.
-| onConnect | function | See [callback](createServer-callback) for details. |
+| onConnect | function | See [callback](#createServer-callback) for details. |
 
 #### Callback   {#createServer-callback}
 
@@ -116,18 +116,9 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 | url   | url    | An HTTP(s) URL that the request should be sent to.  | ❌ |
 | headers| table ([http-header](#http-header)) | The HTTP headers of the request.  | ✔ |
 | body  | string | The request's payload (if needed).  | ✔ |
-| options | table([Request-Options](#request-options)) / number([Timeout](#timeout))  |
-
-- If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.<br>
-
-- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
+| options | table([Request-Options](#request-options)) / number([Timeout](#timeout))  | - If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.<br>- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
 
 #### Returns   {#request-parameters}
-
-1. *(table )*: The response headers and status. See [Response](#request-response) structure for more details.
-
-2. *(string)*: .
-   - This is whatever the server responds with.
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
