@@ -36,7 +36,7 @@ The callback has the following parameters:
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| req   | table ([Request](#request-response)) | The request headers and status. |
+| req   | [Request](#request-response) | The request headers and status. |
 | body  | string | The provided request's payload as string, empty string in case nothing is provided. |
 | socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) / [uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
 
@@ -58,9 +58,9 @@ Parses the given string representing a valid HTTP(s) URL into a Lua table.
 
 #### Returns {#parseUrl-returns}
 
-| Name | Type   | Description |
-|:-----|:------:|:------------|
-| result | table| A [Parsed URL](#parsed-url) structure representing the URL. |
+| Name | Type    | Description |
+|:-----|:-------:|:------------|
+| result | table | A [Parsed URL](#parsed-url) structure representing the URL. |
 
 ----
 
@@ -80,14 +80,14 @@ Establishes a new TCP connection with the given host on the given port.
 |:------|:------:|:------------|:--------:|
 | host  | string | The host which the established connection refers to. | ❌ |
 | port  | number | The port that this connection should use when connecting to the host. | ❌ |
-| tls   | boolean/table ([TLS Options](#tls-options)) | The use of SSL/TLS encrypted protocol. <br> - Boolean value whether to use SSL/TLS cert or not.<br>- Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.| ✔ <br> Default: `false`. |
-| timeout   | number ([Timeout](#timeout)) | How much time to wait for the response before canceling the request out. | ✔ |
+| tls   | boolean / [TLS Options](#tls-options)) | The use of SSL/TLS encrypted protocol. <br> - Boolean value whether to use SSL/TLS cert or not.<br>- Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.| ✔ <br> Default: `false`. |
+| timeout   | [Timeout](#timeout) | How much time to wait for the response before canceling the request out. | ✔ |
 
 #### Returns {#getConnection-returns}
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
-| connection | table ([TCP Connection](#tcp-connection)) | The established connection. |
+| connection | [TCP Connection](#tcp-connection) | The established connection. |
 
 ----
 
@@ -103,7 +103,7 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 | Param | Type   | Description |
 |:------|:------:|:------------|
-| connection  | table ([TCP Connection](#tcp-connection)) | A table representing a TCP connection returned by `getConnection`. |
+| connection  | [TCP Connection](#tcp-connection) | A table representing a TCP connection returned by `getConnection`. |
 
 ----
 
@@ -122,16 +122,16 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | method| string | An all uppercase HTTP method name. | ❌ |
-| url   | url    | An HTTP(s) URL that the request should be sent to.  | ❌ |
-| headers| table ([http-header](#http-header)) | The HTTP headers of the request.  | ✔ |
+| url   | url    | An HTTP(s) URL that the request should be sent to. | ❌ |
+| headers| [http-header](#http-header) | The HTTP headers of the request.  | ✔ |
 | body  | string | The request's payload (if needed).  | ✔ |
-| options | table([Request-Options](#request-options)) / number([Timeout](#timeout))  | - If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.<br>- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
+| options | [Request-Options](#request-options) / [Timeout](#timeout) | - If a number is supplied, this will act as the timeout to wait for the response before cancelling it out.<br>- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
 
 #### Returns {#request-parameters}
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
-| res  | table([Response](#request-response)) / nil | A [Response](#request-response) structure in case of success, otherwise nil. |
+| res  | [Response](#request-response) / nil | A [Response](#request-response) structure in case of success, otherwise nil. |
 | body | string/nil | The response payload (body) the server sent as string in case of success, otherwise an error message explaining what went wrong. |
 
 ----
@@ -186,7 +186,7 @@ Represents an HTTP(s) request/response including the headers, and general inform
 
 | Entry        | Type   | Description                |
 |:-------------|:------:|:---------------------------|
-| http_header  | table ([http-header](#http-header)) | A sequence of [http-header](#http-header) structures each individually. |
+| http_header  | [http-header](#http-header) | A sequence of [http-header](#http-header) structures each individually. |
 | code         | number | The HTTP status code.      |
 | reason       | string | The reason for getting the past status code (Reason-Phrase).        |
 | version      | number | The version of the used HTTP(s) protocol as decimal number.|
@@ -286,7 +286,7 @@ A table that could configure some of [Request](#request) behavior
 
 | Entry          | Type   | Description |
 |:---------------|:------:|:------------|
-| timeout        | number ([Timeout](#timeout)) | See [Timeout](#timeout) for description. |
+| timeout        | [Timeout](#timeout) | See [Timeout](#timeout) for description. |
 | followRedirects| boolean | whether or not to follow redirect requests. ***default***: `true`. |
 
 ----

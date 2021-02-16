@@ -31,7 +31,7 @@ Note: The `options` parameter is NOT optional, if you don't want to provide any 
 
 | Return | Type   | Description | Provided On |
 |:-------|:------:|:------------|:-----------:|
-| result | table([Process](#process) / nil | Immediately returns with the proper streams and wrappers representing the process on success, otherwise nil. You probably want to call `waitExit` after this, see [Process](#process-fields). | Always |
+| result | [Process](#process) / nil | Immediately returns with the proper streams and wrappers representing the process on success, otherwise nil. You probably want to call `waitExit` after this, see [Process](#process-fields). | Always |
 | err    | string | A string explaining what went wrong when trying to spawn the process. | Failure Only |
 
 ----
@@ -83,8 +83,8 @@ A table structure that represents the the spawned process.
 | handle| [uv_process_t](https://github.com/luvit/luv/blob/master/docs.md#uv_process_t--process-handle) | The handle object of the spawned process. |
 | pid   | number | The PID process number assigned to the spawned process. |
 | waitExit | function | Calling this will yield the current coroutine and resume it when the process finishes, will immediately returns if the process already finished. Returns `exitCode` and `exitSignal`. |
-| stdin | table([stdio](#stdio)) / nil | The used stdin stream, or nil if no handle is created. |
-| stdout| table([stdio](#stdio)) / nil | The used stdout stream, or nil if no handle is created. |
-| stderr| table([stdio](#stdio)) / nil | The used stderr stream, or nil if no handle is created. |
+| stdin | [stdio](#stdio) / nil | The used stdin stream, or nil if no handle is created. |
+| stdout| [stdio](#stdio) / nil | The used stdout stream, or nil if no handle is created. |
+| stderr| [stdio](#stdio) / nil | The used stderr stream, or nil if no handle is created. |
 
 ----
