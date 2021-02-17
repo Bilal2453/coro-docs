@@ -85,6 +85,24 @@ Yields the running coroutine and resumes it after receiving a chunk of data.
 | data   | string / boolean | Returns the chunk of data as string on success, otherwise false. | Always |
 | error  | string   | A string containing the error code caused the failure. | Failure Only |
 
+#### Examples {#reader-examples}
+
+An example for using `read` in an iterator would be:
+```lua
+local handle = uv.new_tty(1) -- or any kind of streams
+local reader = coro_channel.wrapRead(handle)
+
+for err, chunk in reader do
+  if err then
+    print("An error has occurred: " .. err)
+    break
+  end
+  print("Data chunk successfully read: " .. chunk)
+end
+
+print("Reading data done")
+```
+
 ----
 
 ### writer(chunk) {#writer}
@@ -111,4 +129,3 @@ Yields the running coroutine and resumes it when done writing the provided chunk
 Closes the wrapped stream completely if it wasn't already closed. You cannot read or write from a closed stream. Note that this returns immediately, even if the stream isn't closed yet.
 
 ----
-s
