@@ -87,12 +87,13 @@ Yields the running coroutine and resumes it after receiving a chunk of data.
 
 #### Examples {#reader-examples}
 
-An example for using `read` in an iterator would be:
+An example of using `reader` in an iterator would be:
+
 ```lua
-local handle = uv.new_tty(1) -- or any kind of streams
+local handle = uv.new_tty(1, true) -- or any kind of streams
 local reader = coro_channel.wrapRead(handle)
 
-for err, chunk in reader do
+for chunk, err in reader do
   if err then
     print("An error has occurred: " .. err)
     break
@@ -122,7 +123,26 @@ Yields the running coroutine and resumes it when done writing the provided chunk
 | success| boolean  | Whether or not the operation was successful. | Always |
 | error  | string   | A string containing the error code caused this failure | Failure Only |
 
+#### Examples {#writer-examples}
+
+An example of using `writer` with a TTY handle:
+
+```lua
+local handle = uv.new_tty(0, false) -- or any kind of streams
+local writer = coro_channel.wrapWrite(handle)
+
+local tbl = {"Hello ", "There", "!!", "\n"}
+local success, err = writer(tbl)
+if not success then
+  print("An error has occurred: " .. err)
+  return
+end
+```
+
+Note: usually though you don't use that with a TTY, it was used in the above example for simplicity.
+
 ----
+
 
 ### closer() {#closer}
 
