@@ -125,7 +125,7 @@ Yields the running coroutine and resumes it when done writing the provided chunk
 
 #### Examples {#writer-examples}
 
-An example of using `writer` with a TTY handle:
+Assuming the following example of using `writer` with a TTY handle running in a coroutine:
 
 ```lua
 local handle = uv.new_tty(0, false) -- or any kind of streams
@@ -139,7 +139,7 @@ if not success then
 end
 ```
 
-Note: usually though you don't use that with a TTY, it was used in the above example for simplicity.
+Note: usually though you don't use it like this with a TTY handle, it was used like this in the above example just to make it simple.
 
 ----
 
