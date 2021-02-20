@@ -9,3 +9,4 @@ Unofficial docs for the luvit libraries coro-*.
 - [coro-http](https://bilal2453.github.io/coro-docs/docs/coro-http.html)
 - [coro-spawn](https://bilal2453.github.io/coro-docs/docs/coro-spawn.html)
 - [coro-split](https://bilal2453.github.io/coro-docs/docs/coro-split.html)
+- [coro-wrapper](https://bilal2453.github.io/coro-docs/docs/coro-wrapper.html)
