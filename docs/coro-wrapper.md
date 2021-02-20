@@ -39,7 +39,7 @@ Returns an adapter of `read`, where it keeps building a buffer of the read chunk
 | Param | Type     | Description |
 |:-----:|:--------:|:------------|
 | read  | function | Supposedly the coro-channel's [reader](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#reader) you'll be adapting, though any wrapper that returns a chunk of data each time it is called would work. |
-| decode| function | A callback that takes the string buffer and its current index and gets called on each chunk read.<br> If a `nil` is returned the adapter will keep listening for more data to build the buffer with.<br>Otherwise, the returned value will be considered as the decoder result,meaning that value will be returned by the adapter too, and the buffer will be flushed.<br> If a second value of type number is returned that would be considered as the new buffer index to start at, meaning, any data in the buffer before the supplied index will be trimmed down. |
+| decode| function | A callback that gets called on each chunk read while taking the string buffer and its current index as inputs.<br> If a `nil` is returned the adapter will keep listening for more data to build the buffer with.<br>Otherwise, the returned value will be considered as if it were the decoder result, and the buffer will be flushed.<br> If a second value of type number is returned that would be considered as the new buffer index to start at, meaning, any data in the buffer before the supplied index will be trimmed down. |
 
 #### Returns
 
