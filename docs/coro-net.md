@@ -54,7 +54,7 @@ Creates and binds a server instance to a TCP or pipe handle, while asynchronousl
 | Param | Type   | Description |
 |:------|:------:|:------------|
 | options | table | See [Options](#options) for details. |
-| onConnect | function | See [Callback] for details. |
+| onConnect | function | See [Callback](#createServer-callback-onConnect) for details. |
 
 #### Returns {#createServer-returns}
 
@@ -64,7 +64,7 @@ Creates and binds a server instance to a TCP or pipe handle, while asynchronousl
 
 #### Callback: onConnect(read, write, socket, updateDecoder, updateEncoder) {#createServer-callback-onConnect}
 
-A callback that would be called every time a new incoming connection is received.
+A callback that'd be called every time a new incoming connection is received.
 
 **Callback Parameters:**
 
@@ -72,7 +72,7 @@ A callback that would be called every time a new incoming connection is received
 |:------|:--------:|:------------|
 | read  | function | The stream read wrapper. |
 | write | function | The stream write wrapper. |
-| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The socket handle this server was bound to. |
+| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle the server was bound to. |
 | updateDecoder | function | A function that takes a single function argument and sets `options.decode` to that input. |
 | updateEncoder | function | A function that takes a single function argument and sets `options.encode` to that input. |
 
@@ -104,7 +104,7 @@ A string-indexed table structure offering different configurations of how coro-n
 | path  | string | The pipe name the stream refers to, only relevant if `host` and `port` aren't provided. | Either `path` or `port`/`host` must be provided. |
 | host  | string | The hostname a TCP connection should be referring to. If `port` is provided but `host` isn't, the default value's used. | Either `path` or `port`/`host` must be provided.<br> Default: `"127.0.0.1"`. |
 | port  | number | The port of the TCP host the connection refers to. | Required if `host` is provided. |
-| tls   | boolean/table | Whether or not to use secure-layer on top of the connection. A table value for using secure-layer with further configurations, see [TODO] for more details. | Optional |
+| tls   | boolean/table | Whether or not to use secure-layer on top of the connection. A table value for using secure-layer with further configurations, see [options](#options) for more details. | Optional |
 | timeout | number | How many millisecond should be wait before canceling the connection out. An undefined amount of seconds is used if nothing is provided. | Optional |
 | socktype | string | The socket type should be used for outgoing connections. | Optional<br>Default: `"stream"`. |
 | family| string | The outgoing connection family (type). | Optional<br>Default: `"inet"`. |
@@ -123,12 +123,12 @@ Note: when using [createServer](#createServer) you must supply `cert` and `key`.
 #### Fields {#tls-options-fields}
 
 | Field | Type   | Description | Default |
-|:------|:------:|:------------|:-------:|
-| protocol | string | The transport-layer-secure protocol to use. Supported values depends on lua-openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default, and may support other protocols. | `"TLS"` or `"SSLv23"` |
+|:------|:------:|:------------|:--------|
+| protocol | string | The transport-layer-secure protocol to use. Supported values depends on lua-openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default, and may support other protocols. | `"TLS"` or `"SSLv23"`. |
 | ciphers | string | The encryption algorithm to encrypt the stream with, value **MUST** be a valid cipher suite string. | `"TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256"` for TLS 1.3, `"ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256"` for LTS 1.2, `"RC4:HIGH:!MD5:!aNULL:!EDH"` for LTS 1.0. |
 | key | string | The PEM key of the supplied certification (if `cert` field is passed). | |
 | cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. | |
 | ca | string/table | The x509 root certificates authority to check against. | Defaults to a root certification CA (`root_ca.dat` file) when available. |
-| insecure | boolean | Weather or not to accept invalid certificates on handshakes. | `false` |
+| insecure | boolean | Weather or not to accept invalid certificates on handshakes. | `false`. |
 
 ----
