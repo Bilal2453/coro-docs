@@ -60,7 +60,7 @@ Creates and binds a server instance to a TCP or pipe handle, while asynchronousl
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
-| server | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The handle representing the bound server. |
+| server | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle representing the bound server. |
 
 #### Callback: onConnect(read, write, socket, updateDecoder, updateEncoder) {#createServer-callback-onConnect}
 
@@ -87,7 +87,23 @@ A callback that'd be called every time a new incoming connection is received.
 
 ### makeCallback([timeout]) {#makeCallback}
 
-**TODO**
+Resumes the current coroutine after `timeout` ms, otherwise returns a function that when called resumes it.
+
+- Resumes with `data` on success, `nil, err` on failure.
+
+Note: this function is suppose to be used with luv async calls.
+
+#### Parameters {#makeCallback-parameters}
+
+| Param   | Type   | Description | Optional |
+|:--------|:------:|:------------|:--------:|
+| timeout | number | How many millisecond to wait before resuming the coroutine. | ✔️ |
+
+#### Returns {#makeCallback-returns}
+
+| Return | Type     | Description |
+|:------:|:--------:|:------------|
+| resume | function | Resumes the coroutine if not already resumed, can be used as a callback that accepts two arguments `err, data`. |
 
 ----
 
