@@ -122,13 +122,13 @@ Note: when using [createServer](#createServer) you must supply `cert` and `key`.
 
 #### Fields {#tls-options-fields}
 
-| Field | Type   | Default | Description |
-|:------|:------:|:-------:|:------------|
-| protocol | string | `"TLS"` or `"SSLv23"`. | The transport-layer-secure protocol to use. Supported values depends on lua-openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default, and may support other protocols. |
-| ciphers | string | `"TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256"` for TLS 1.3, `"ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256"` for LTS 1.2, `"RC4:HIGH:!MD5:!aNULL:!EDH"` for LTS 1.0. | The encryption algorithm to encrypt the stream with, value **MUST** be a valid cipher suite string. |
-| key | string | | The PEM key of the supplied certification (if `cert` field is passed). | |
+| Field | Type   | Description |
+|:------|:------:|:------------|
+| protocol | string | The transport-layer-secure protocol to use. Supported values depends on lua-openssl version, openssl TLS 1.3 compatible supports: `TLS` (default) or `DTLS`. LibreSSL and others uses `SSLv23` by default, and may support other protocols.<br> Default: `"TLS"` or `"SSLv23"`.|
+| ciphers | string | The encryption algorithm to encrypt the stream with, value **MUST** be a valid cipher suite string.<br> Default: `"TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_SHA256"` for TLS 1.3, `"ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256"` for LTS 1.2, `"RC4:HIGH:!MD5:!aNULL:!EDH"` for LTS 1.0. |
+| key | string | The PEM key of the supplied certification (if `cert` field is passed). |
 | cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
-| ca | string/table | Defaults to a root certification CA (`root_ca.dat` file) when available. | The x509 root certificates authority to check against. |
-| insecure | boolean | `false`. | Weather or not to accept invalid certificates on handshakes. |
+| ca | string/table | The x509 root certificates authority to check against.<br> Default: a root certification authority (`root_ca.dat` file) when available. |
+| insecure | boolean | Weather or not to accept invalid certificates on handshakes.<br> Default: `false`. |
 
 ----
