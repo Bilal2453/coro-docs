@@ -39,8 +39,6 @@ Parses a WebSocket URL into a Lua table.
 
 ----
 
-####
-
 ### wrapIo(rawRead, rawWrite, options) {#wrapIo}
 
 Wraps [coro-channel](https://bilal2453.github.io/coro-docs/docs/coro-channel.html) wrappers to be WS compatible. This assumes the raw wrapper can understand WebSocket protocol, meaning, it uses [WebSocket-Codec](https://github.com/luvit/lit/blob/master/deps/websocket-codec.lua) encoders&decoders adapters.
@@ -59,8 +57,8 @@ Wraps [coro-channel](https://bilal2453.github.io/coro-docs/docs/coro-channel.htm
 
 | Name  | Type   | Description |
 |:------|:------:|:------------|
-| read  | function | The wrapped reader, works similarly to [coro-channel reader](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#reader). Except that it smartly responds to opcodes 8 & 9 messages making use out of [WebSocket-Codec](https://github.com/luvit/lit/blob/master/deps/websocket-codec.lua) decoder. |
-| write | function | the wrapped writer, works similarly to [coro-channel writer](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#writer). Except that it handles opcodes and masking making use out of [WebSocket-Codec](https://github.com/luvit/lit/blob/master/deps/websocket-codec.lua) encoder. |
+| read  | function | See [read](#read) for details. |
+| write | function | See [write](#write) for details. |
 
 ----
 
