@@ -197,6 +197,8 @@ An array of string list representing multiple headers, where the first value is 
 
 #### The Structuring {#headers-structuring}
 
+{% raw %}
+
 **Full**: `{{header-name, header-value}, ...}}`.
 
   **Where**:
@@ -209,5 +211,7 @@ An array of string list representing multiple headers, where the first value is 
 **Examples**:
 
    - `{{"Expires", "-1"}, {"Accept", "text/plain"}}`.
+
+{% endraw %}
 
 ----
