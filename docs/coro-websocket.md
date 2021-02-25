@@ -115,7 +115,7 @@ Sends (writes) a WebSocket [Message](#message) into the host stream while yieldi
 
 Yields the current coroutine till the stream to receive a WebSocket message, then resumes with the received message structure.
 
-***This method MUST be run in a coroutine***
+***This method MUST be run in a coroutine***  
 
 #### Returns {#read-returns}
 
@@ -197,7 +197,7 @@ An array of string list representing multiple headers, where the first value is 
 
 #### The Structuring {#headers-structuring}
 
-**Full**: `{{header-name, header-value}, ...}`.
+**Full**: `{{header-name, header-value}, ...}}`.
 
   **Where**:
 
