@@ -120,7 +120,7 @@ A string-indexed table structure offering different configurations of how coro-n
 | path  | string | The pipe name the stream refers to, only relevant if `host` and `port` aren't provided. | Either `path` or `port`/`host` must be provided. |
 | host  | string | The hostname a TCP connection should be referring to. If `port` is provided but `host` isn't, the default value's used. | Either `path` or `port`/`host` must be provided.<br> Default: `"127.0.0.1"`. |
 | port  | number | The port of the TCP host the connection refers to. | Required if `host` is provided. |
-| tls   | boolean/table | Whether or not to use secure-layer on top of the connection. A table value for using secure-layer with further configurations, see [options](#options) for more details. | Optional |
+| tls   | boolean/table | Whether or not to use secure-layer on top of the connection. A table value for using secure-layer with further configurations, see [TLS Options](#tls-options) for more details. | Optional |
 | timeout | number | How many millisecond should be wait before canceling the connection out. An undefined amount of seconds is used if nothing is provided. | Optional |
 | socktype | string | The socket type should be used for outgoing connections. | Optional<br>Default: `"stream"`. |
 | family| string | The outgoing connection family (type). | Optional<br>Default: `"inet"`. |
