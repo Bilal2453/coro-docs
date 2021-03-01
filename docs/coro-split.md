@@ -1,4 +1,8 @@
-# Documentations
+---
+layout: doc
+---
+
+# Documentation
 
 Unofficial docs for the [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) module, version 2.0.0.
 

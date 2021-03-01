@@ -1,4 +1,8 @@
-# Documentations
+---
+layout: doc
+---
+
+# Documentation
 
 Unofficial docs for the [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) module, version 3.2.0.
 

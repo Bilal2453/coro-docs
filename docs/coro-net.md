@@ -1,4 +1,8 @@
-# Documentations
+---
+layout: doc
+---
+
+# Documentation
 
 Unofficial docs for the module [coro-net](https://github.com/luvit/lit/blob/master/deps/coro-net.lua) version 3.2.1.
 

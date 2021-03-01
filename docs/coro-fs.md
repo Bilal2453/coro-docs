@@ -1,4 +1,8 @@
-# Documentations
+---
+layout: doc
+---
+
+# Documentation
 
 Unofficial docs for the module [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) version 2.2.4.
 

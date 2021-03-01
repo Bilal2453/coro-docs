@@ -1,4 +1,8 @@
-# Documentations
+---
+layout: doc
+---
+
+# Documentation
 
 Unofficial docs for the [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) module, version 3.0.1.
 

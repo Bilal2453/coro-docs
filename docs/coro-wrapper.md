@@ -1,4 +1,8 @@
-# Documentations
+---
+layout: doc
+---
+
+# Documentation
 
 Unofficial docs for the [coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) module, version 3.1.0.
 

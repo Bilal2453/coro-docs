@@ -1,4 +1,8 @@
-# Documentations
+---
+layout: doc
+---
+
+# Documentation
 
 Unofficial docs for the module [coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua) version 3.1.0.
 
