@@ -84,7 +84,7 @@ Establishes a new TCP connection with the given host on the given port.
 |:------|:------:|:------------|:--------:|
 | host  | string | The host which the established connection refers to. | ❌ |
 | port  | number | The port that this connection should use when connecting to the host. | ❌ |
-| tls   | boolean / [TLS Options](#tls-options) | The use of SSL/TLS encrypted protocol. <br> - Boolean value whether to use SSL/TLS cert or not.<br>- Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.| ✔ <br> Default: `false`. |
+| tls   | boolean/[TLS Options](#tls-options) | The use of SSL/TLS encrypted protocol. <br> - Boolean value whether to use SSL/TLS cert or not.<br>- Table value to use SSL/TLS, with optional configurations. See [TLS Options](#tls-options) for the acceptable fields.| ✔ <br> Default: `false`. |
 | timeout   | [Timeout](#timeout) | How much time to wait for the response before canceling the request out. | ✔ |
 
 #### Returns {#getConnection-returns}
