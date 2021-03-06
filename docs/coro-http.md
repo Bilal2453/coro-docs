@@ -135,8 +135,8 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
-| res  | [Response](#request-response) / nil | A [Response](#request-response) structure in case of success, otherwise nil. |
-| body | string/nil | The response payload (body) the server sent as string in case of success, otherwise an error message explaining what went wrong. |
+| res  | [Response](#request-response) | A [Response](#request-response) structure representing the received response. |
+| body | string/nil | The response payload (body) the server sent as string if any, otherwise nil. |
 
 ----
 
