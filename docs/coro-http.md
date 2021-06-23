@@ -200,7 +200,7 @@ Represents an HTTP(s) request or a response including the headers, and general i
 
 {% raw %}
 
-```lua
+- ```lua
 
       {
          {"Content-Type", "text/html"},
@@ -211,7 +211,7 @@ Represents an HTTP(s) request or a response including the headers, and general i
          keepAlive = true
       }
 
-```.
+```
 
 {% endraw %}
 
