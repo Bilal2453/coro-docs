@@ -8,9 +8,9 @@ Unofficial documentation for the library [coro-http](https://github.com/luvit/li
 
 [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) is a library for manipulating the HTTP(s) protocol in a sync code-style making use of Lua coroutines, while actually keeping it async behind the scenes.
 
-Can used as a great replacement for the Luvit 2 built-in http & https libraries, to get rid of the callback code-style, with a more user-friendly interface. This is achieved through coroutines yielding and resuming without blocking the main event loop of [luv](https://github.com/luvit/luv/), although that means your requests must always run inside some kind of a coroutine, which some may consider it a downside since Luvit 2 doesn't wrap the main code chunk in a coroutine automatically.
+Can be used as a great replacement for the Luvit 2 built-in http & https libraries, to get rid of the callback code-style, with a more user-friendly interface. This is achieved through coroutines yielding and resuming without blocking the main event loop of [luv](https://github.com/luvit/luv/), although that means your requests must always run inside some kind of a coroutine, which some may consider as a downside since Luvit 2 doesn't wrap the main code chunk in a coroutine automatically.
 
-Many thanks for [@trumedian](https://github.com/truemedian) for helping out with correcting many invalid details, better wording and terms, and pointing out typos.
+Many thanks for [@trumedian](https://github.com/truemedian) for helping out with correcting many details, better wording, and pointing out typos.
 
 ----
 
@@ -22,7 +22,7 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out with
 
 Synchronously performs an HTTP(s) request after establishing a connection with the said host.
 
-- This method is not error-safe, meaning, if something goes wrong it will raise an error. Advised to be called with pcall/xpcall.
+- This method will raise an error up upon failure. Advised to be called with pcall/xpcall.
 
 - If said connection \[with the host specified in `url`\] was already established and is still alive, it will be used instead of establishing another connection. Generally this is done either by a previous `request` call or by manually calling `saveConnection`.
 
@@ -43,7 +43,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 | Name | Type   | Description |
 |:-----|:------:|:------------|
 | res  | [Response](#request-response) | A [Response](#request-response) structure representing the received response. |
-| body | string | The response payload (body) the server responded with as a string if any, otherwise empty an string. |
+| body | string | The response payload (body) the server responded with as a string if any, otherwise an empty string. |
 
 ----
 
@@ -200,7 +200,7 @@ Represents an HTTP(s) request or a response including the headers, and general i
 
 {% raw %}
 
-   - ```lua
+```lua
 
       {
          {"Content-Type", "text/html"},
@@ -211,7 +211,7 @@ Represents an HTTP(s) request or a response including the headers, and general i
          keepAlive = true
       }
 
-   ```.
+```.
 
 {% endraw %}
 
