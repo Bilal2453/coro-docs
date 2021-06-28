@@ -6,11 +6,56 @@ layout: doc
 
 Unofficial docs for the module [coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua) version 3.1.0.
 
-[coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua) is a library that implements the WebSockt ws(s) protocol and provides synchronous manipulations over it.
+[coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua) is a library that implements the WebSocket WS(s) protocol with synchronous manipulations.
 
 ----
 
 ## Functions
+
+----
+
+### connect(options) {#connect}
+
+Establishes a WebSocket connection with the said host.
+
+***This method MUST be run in a coroutine***
+
+#### Parameters {#connect-parameters}
+
+| Param | Type   | Description |
+|:-----:|:------:|:------------|
+| options | table | See [Options](#options) for details. |
+
+#### Returns {#connect-returns}
+
+| Name  | Type   | Description |
+|:------|:------:|:------------|
+| connection| [Response](#response) | The response of the WebSocket upgrade request. |
+| read  | function | See [read](#read) for details. |
+| write | function | See [write](#write) for details. |
+
+----
+
+### wrapIo(rawRead, rawWrite, options) {#wrapIo}
+
+Wraps [coro-channel](https://bilal2453.github.io/coro-docs/docs/coro-channel.html) wrappers to be WS compatible. This assumes the raw wrapper can understand WebSocket protocol, meaning, it uses [WebSocket-Codec](https://github.com/luvit/lit/blob/master/deps/websocket-codec.lua) encoders&decoders adapters.
+
+*This method does not require running in a coroutine*
+
+#### Parameters {#wrapIo-parameters}
+
+| Param | Type   | Description |
+|:-----:|:------:|:------------|
+| rawRead | function | Supposedly [coro-channel reader](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#reader), or an [adapter](https://bilal2453.github.io/coro-docs/docs/coro-wrapper.html) of it that can correctly decode WebSocket frames. |
+| rawWrite | function | Supposedly [coro-channel writer](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#writer), or an [adapter](https://bilal2453.github.io/coro-docs/docs/coro-wrapper.html#encoder) of it that can correctly encode WebSocket frames. |
+| options | table | See [Options](#options) for details. |
+
+#### Returns {#wrapIo-returns}
+
+| Name  | Type   | Description |
+|:------|:------:|:------------|
+| read  | function | See [read](#read) for details. |
+| write | function | See [write](#write) for details. |
 
 ----
 
@@ -40,51 +85,6 @@ Parses a WebSocket URL into a Lua table.
 |:-----|:------:|:------------|
 | fail | nil    | If the first return was `nil`, that'd mean the operation has failed. |
 | error| string | An error message explaining what went wrong. |
-
-----
-
-### wrapIo(rawRead, rawWrite, options) {#wrapIo}
-
-Wraps [coro-channel](https://bilal2453.github.io/coro-docs/docs/coro-channel.html) wrappers to be WS compatible. This assumes the raw wrapper can understand WebSocket protocol, meaning, it uses [WebSocket-Codec](https://github.com/luvit/lit/blob/master/deps/websocket-codec.lua) encoders&decoders adapters.
-
-*This method does not require running in a coroutine*
-
-#### Parameters {#wrapIo-parameters}
-
-| Param | Type   | Description |
-|:-----:|:------:|:------------|
-| rawRead | function | Supposedly [coro-channel reader](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#reader), or an [adapter](https://bilal2453.github.io/coro-docs/docs/coro-wrapper.html) of it that can correctly decode WebSocket frames. |
-| rawWrite | function | Supposedly [coro-channel writer](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#writer), or an [adapter](https://bilal2453.github.io/coro-docs/docs/coro-wrapper.html#encoder) of it that can correctly encode WebSocket frames. |
-| options | table | See [Options](#options) for details. |
-
-#### Returns {#wrapIo-returns}
-
-| Name  | Type   | Description |
-|:------|:------:|:------------|
-| read  | function | See [read](#read) for details. |
-| write | function | See [write](#write) for details. |
-
-----
-
-### connect(options) {#connect}
-
-Establishes a WebSocket connection with the said host.
-
-***This method MUST be run in a coroutine***
-
-#### Parameters {#connect-parameters}
-
-| Param | Type   | Description |
-|:-----:|:------:|:------------|
-| options | table | See [Options](#options) for details. |
-
-#### Returns {#connect-returns}
-
-| Name  | Type   | Description |
-|:------|:------:|:------------|
-| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The socket handle the WebSocket connection was bound to. |
-| read  | function | See [read](#read) for details. |
-| write | function | See [write](#write) for details. |
 
 ----
 
@@ -168,8 +168,8 @@ If an option field name matches one of coro-net [Options](https://bilal2453.gith
 | Field | Type   | Description |
 |:-----:|:------:|:------------|
 | path  | string | The pipe name the stream should refer to, only relevant if `host` and `port` aren't provided. |
-| host  | string | The hostname a TCP connection should be referring to. If `port` is provided but `host` isn't, the default value's used. |
-| port  | number | The port of the TCP host the connection refers to. |
+| host  | string | The hostname the TCP socket should be referring to. If `port` is provided but `host` isn't, the default value is used. |
+| port  | number | The port of the host the connection refers to. |
 | tls   | boolean/table | Whether or not to use secure-layer on top of the connection. A table value for using secure-layer with further configurations, see [coro-net TLS Options](https://bilal2453.github.io/coro-docs/docs/coro-net.html#tls-options) for more details. |
 | pathname | string | The path at which to connect to the host. That's, everything after the first `/`. |
 | subprotocol | string | The WebSocket sub-protocol. See [RFC6455 Section 1.9](https://tools.ietf.org/html/rfc6455#section-1.9) for details. |
@@ -212,7 +212,43 @@ An array of string list representing multiple headers, where the first value is 
 
 **Examples**:
 
-   - `{{"Expires", "-1"}, {"Accept", "text/plain"}}`.
+- `{{"Connection", "Upgrade"}, {"Upgrade", "websocket"}}`.
+
+{% endraw %}
+
+----
+
+### Response {#response}
+
+A table structure that represents a successfully established TCP connection.
+
+#### The Structuring {#response-structuring}
+
+{% raw %}
+
+**Full**:
+
+```lua
+  {
+    header...,
+    code = (number),
+    reason = (string),
+    socket = (uv_tcp_t),
+    version = (number),
+    keepAlive = (boolean),
+  }
+```
+
+  **Where**:
+
+| Entry        | Type   | Description                |
+|:-------------|:------:|:---------------------------|
+| header  | [header](#headers) | A sequence of [header](#headers) structures each individually. Meaning, each header is assigned to a numerical index in the structure.  |
+| code         | number | The HTTP status code. 101 if WS connection has successfully upgraded. |
+| reason       | string | The reason for getting the past status code (Reason-Phrase). |
+| version      | number | The version of the used HTTP protocol as decimal number. |
+| keepAlive    | boolean| Whether or not the connection should be kept alive. This would be `false` most often. |
+| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket handle the WebSocket connection was bound to. |
 
 {% endraw %}
 
