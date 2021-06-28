@@ -30,7 +30,7 @@ Establishes a WebSocket connection with the said host.
 
 | Name  | Type   | Description |
 |:------|:------:|:------------|
-| connection| [Response](#response) | The response of the WebSocket upgrade request. |
+| res   | [Response](#response) | The response of the WebSocket upgrade request. |
 | read  | function | See [read](#read) for details. |
 | write | function | See [write](#write) for details. |
 
