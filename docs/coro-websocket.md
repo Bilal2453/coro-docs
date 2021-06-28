@@ -34,6 +34,40 @@ Establishes a WebSocket connection with the said host.
 | read  | function | See [read](#read) for details. |
 | write | function | See [write](#write) for details. |
 
+#### Examples {#connect-examples}
+
+- Writing and listening to an echo WSS server
+
+```lua
+-- Establish a new WSS connection to wss://echo.websocket.org:443
+-- Which is an echo server, meaning, whatever you send will
+-- get a response with the same contents you originally sent.
+local res, read, write = connect {
+  host = "echo.websocket.org",
+  port = 443,
+  tls = true
+}
+
+-- Did the connection get established successfully? if not what's the error?
+if not res then
+  print("Error establishing connection!\n" .. read); return
+end
+
+-- Send a message opcode 2 with the payload of "Hello There!"
+write {
+  payload = "Hello There!"
+}
+
+-- Execute the code inside the for loop each time we receive a message and then wait for more
+for msg in read do
+  -- Print the payload we got, since it is an echo server should be same as our request
+  print("Host responded with " .. msg.payload)
+  -- Listen to more stuff ...
+  res.socket:shutdown() -- Stop listening and close the connection
+end
+print("Connection closed!")
+```
+
 ----
 
 ### wrapIo(rawRead, rawWrite, options) {#wrapIo}
@@ -85,6 +119,16 @@ Parses a WebSocket URL into a Lua table.
 |:-----|:------:|:------------|
 | fail | nil    | If the first return was `nil`, that'd mean the operation has failed. |
 | error| string | An error message explaining what went wrong. |
+
+#### Examples {#parseUrl-examples}
+
+```lua
+local url = parseUrl("ws://ex.example.org/path/name")
+print(string.format(
+  "host: %s\nport: %d\npathname: %s\nWSS?: %s",
+  url.host, url.port, url.pathname, url.tls and true or false
+))
+```
 
 ----
 
