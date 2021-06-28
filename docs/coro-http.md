@@ -57,25 +57,28 @@ end
 print("Received Google main page HTML: " .. body)
 ```
 
-- Uploading text to TODO
+- Sending a Discord webhook using coro-http POST
 
 ```lua
-local msg = [[
-Hello There!
-How is it going?
-This is a POST request with some headers uploaded as an example to coro-http.
-]]
+local webhook_url = "https://discord.com/api/webhooks/{ID}/{TOKEN}" -- Your webhook URL here
+local body = {
+   content = "Hello There!\nThis is an example for a POST request using coro-http!"
+}
+body = require("json").encode(body)
 
 local headers = {
-   {},
-   {}
+   {"Content-Length", tostring(#body)}, -- How big is our payload string?
+   {"Content-Type", "application/json"}, -- We are sending a JSON form string for the body
 }
 
-local res = request("POST", "todo", headers, msg, 5000)
-if res.code >= 200 and res.code < 300 then
-   print("Could not upload message: " .. res.reason); return
+-- Send the POST request
+local res = request("POST", webhook_url, headers, body, 5000)
+
+-- Did it send it successfully or error?
+if res.code < 200 or res.code >= 300 then
+   print("Failed to send webhook: " .. res.reason); return
 end
-print("Message uploaded successfully")
+print("Webhook sent successfully!")
 ```
 
 ----
