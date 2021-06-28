@@ -8,7 +8,7 @@ Unofficial documentation for the library [coro-http](https://github.com/luvit/li
 
 [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) is a library for manipulating the HTTP(s) protocol in a sync code-style making use of Lua coroutines, while actually keeping it async behind the scenes.
 
-Can be used as a great replacement for the Luvit 2 built-in http & https libraries, to get rid of the callback code-style, with a more user-friendly interface. This is achieved through coroutines yielding and resuming without blocking the main event loop of [luv](https://github.com/luvit/luv/), although that means your requests must always run inside some kind of a coroutine, which some may consider as a downside since Luvit 2 doesn't wrap the main code chunk in a coroutine automatically.
+Can be used as a great replacement for the Luvit 2 built-in http & https libraries, to get rid of the callback code-style, with a more user-friendly interface. This is achieved through coroutines yielding and resuming without blocking the main event loop of [luv](https://github.com/luvit/luv/).
 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out with correcting many details, better wording, and pointing out typos.
 
@@ -38,12 +38,45 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 | body  | string | The request's payload (if needed). | ✔ |
 | options | [Request-Options](#request-options)/[Timeout](#timeout) | - If a number is supplied, this will act as the timeout to wait before giving up on receiving a response.<br>- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
 
-#### Returns {#request-parameters}
+#### Returns {#request-returns}
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
 | res  | [Response](#request-response) | A [Response](#request-response) structure representing the received response. |
 | body | string | The response payload (body) the server responded with as a string if any, otherwise an empty string. |
+
+#### Examples {#request-examples}
+
+- Requesting Google's main page
+
+```lua
+local res, body = request("GET", "https://www.google.com")
+if res.code ~= 200 then
+   print("Could not fetch www.google.com successfully: " .. res.reason); return
+end
+print("Received Google main page HTML: " .. body)
+```
+
+- Uploading text to TODO
+
+```lua
+local msg = [[
+Hello There!
+How is it going?
+This is a POST request with some headers uploaded as an example to coro-http.
+]]
+
+local headers = {
+   {},
+   {}
+}
+
+local res = request("POST", "todo", headers, msg, 5000)
+if res.code >= 200 and res.code < 300 then
+   print("Could not upload message: " .. res.reason); return
+end
+print("Message uploaded successfully")
+```
 
 ----
 
@@ -61,6 +94,12 @@ Creates a new server instance and asynchronously binds it to host:port.
 | port  | number | The port to which the created server should listen on. |
 | onConnect | function | See [onConnect](#createServer-onConnect) for details. |
 
+#### Returns {#createServer-returns}
+
+| Name | Type   | Description |
+|:-----|:------:|:------------|
+| server | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket of the created server. Server connection can be stopped and manipulated using this. |
+
 #### onConnect {#createServer-onConnect}
 
 A callback that will asynchronously be called each time a new connection is established to the server. That is, each time a client is connecting to the created server.
@@ -75,7 +114,26 @@ The callback has the following parameters:
 |:------|:------:|:------------|
 | req   | [Request](#request-response) | The request's headers and general information. |
 | body  | string | The provided request's payload as a string, empty string incase no payload is provided. |
-| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle)| The socket that the connection was bound to. |
+| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The socket that the connection was bound to. |
+
+#### Examples {#createServer-examples}
+
+- A local server that responds with 200
+
+```lua
+local res_payload = "Hello!"
+local res_headers = {
+   {"Content-Length", tostring(#res_payload)}, -- Must always be set if a payload is returned
+   {"Content-Type", "text/plain"}, -- Type of the response's payload (res_payload)
+   {"Connection", "close"}, -- Whether to keep the connection alive, or close it
+   code = 200,
+   reason = "OK",
+}
+createServer("127.0.0.1", 8080, function(req, body)
+   print(req.method .. " request with the payload of '" .. body .. "'")
+   return res_headers, res_payload -- respond with this to every request
+end)
+```
 
 ----
 
@@ -97,6 +155,25 @@ Parses the given string representing a valid HTTP(s) URL into a Lua table.
 |:-----|:-------:|:------------|
 | result | table | A [Parsed URL](#parsed-url) structure representing the URL as a Lua table. |
 
+#### Examples {#parseUrl-examples}
+
+- Parse a url and print its information
+
+```lua
+local url = "https://www.example:8080.com/path/to/index"
+local pu = parseUrl(url)
+print(([[
+hostname: %s
+path: %s
+host: %s
+port: %d
+HTTPS?: %s
+]]):format(
+   pu.hostname, pu.path, pu.host, pu.port,
+   pu.tls and true or false
+))
+```
+
 ----
 
 ### getConnection(host, port [, tls [, timeout]]) {#getConnection}
@@ -106,6 +183,8 @@ Establishes a new TCP connection with the given host on the given port.
 - If the connection was previously saved using `saveConnection`, calling this will return that connection and un-save it.
 
 - If the saved connection was closed, or there were none previously saved, a new connection will be established instead.
+
+- User should never need this in normal scenarios.
 
 ***This method MUST be run in a coroutine***
 
@@ -132,6 +211,8 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 - If the passed connection is dead nothing will be saved.
 
+- User should never need this in normal scenarios.
+
 *This method does not require running in a coroutine*
 
 #### Parameters {#saveConnection-parameters}
@@ -144,7 +225,7 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 ## Structures
 
-Here are the data structures (tables usually) used by the library's methods, either for a returned valueor for a parameter.
+Here are the data structures (tables mostly) used by the library's methods, either for a returned value or for.
 
 ### HTTP Header
 
@@ -154,7 +235,7 @@ A table structure representing an HTTP(s) header. The structure is an array of t
 
 **Full**: `{header-name, header-value}`.
   
-   - **Where**:
+- **Where**:
 
 | Entry       | Type   | Description             |
 |:------------|:------:|:------------------------|
@@ -163,14 +244,14 @@ A table structure representing an HTTP(s) header. The structure is an array of t
 
 **Examples**:
 
-   - `{"Expires", "-1"}`.
-   - `{"Accept", "text/plain"}`.
+- `{"Expires", "-1"}`.
+- `{"Accept", "text/plain"}`.
 
 ----
 
 ### Request/Response {#request-response}
 
-Represents an HTTP(s) request or a response including the headers, and general information about the connection. The exact data is highly dependent on the server/client and therefore the docs cannot tell exactly what fields you are going to receive. If you want to know such information, you should either debug your code, or read the API manual of the said server.
+Represents an HTTP(s) request or a response including the headers, and other general information about the connection. The exact data is highly dependent on the server/client and therefore the docs cannot tell exactly what fields to expect. If you need to know the exact provided fields, you should either debug your code or read the API manual of the said server.
 
 #### Structure {#request-response-structure}
 
@@ -186,7 +267,7 @@ Represents an HTTP(s) request or a response including the headers, and general i
   }
 ```
 
-   - **Where**:
+- **Where**:
 
 | Entry        | Type   | Description                |
 |:-------------|:------:|:---------------------------|
@@ -201,16 +282,14 @@ Represents an HTTP(s) request or a response including the headers, and general i
 {% raw %}
 
 ```lua
-
-      {
-         {"Content-Type", "text/html"},
-         {"Content-Length", "1587"},
-         code = 200,
-         reason = "OK",
-         version = 1.1,
-         keepAlive = true
-      }
-
+{
+   {"Content-Type", "text/html"},
+   {"Content-Length", "1587"},
+   code = 200,
+   reason = "OK",
+   version = 1.1,
+   keepAlive = true
+}
 ```
 
 {% endraw %}
@@ -219,7 +298,7 @@ Represents an HTTP(s) request or a response including the headers, and general i
 
 ### TCP Connection {#tcp-connection}
 
-A table structure that represents a TCP connection (wrapped using coro-channel). The structure offers methods to directly read and write from the socket, and other details about the connection. Generally speaking you should only use these when it is the only way to accomplish what you need since they are a bit for advanced users.
+A table structure that represents a TCP connection (wrapped using coro-channel). The structure offers methods to directly read and write from the socket, and other details about the connection. Generally speaking you should only use these when it is the only way to accomplish what you need since they are for advanced uses.
 
 #### Available Fields {#tcp-connection-fields}
 
@@ -278,12 +357,14 @@ A numerical value in milliseconds that indicates how much time to wait for the r
 
 **Examples**:
 
-   - `1000`, waits for a one second.
-   - `500`, waits for half of a second.
+- `1000`, waits for a one second.
+- `500`, waits for half of a second.
+
+----
 
 ### Request Options {#request-options}
 
-A table that could configure some of [Request](#request) behavior
+A table that could configure some of [Request](#request) behavior.
 
 #### Structure {#request-options-structure}
 
@@ -296,7 +377,7 @@ A table that could configure some of [Request](#request) behavior
    }
 ```
 
-   - **Where**:
+- **Where**:
 
 | Entry          | Type   | Description |
 |:---------------|:------:|:------------|
