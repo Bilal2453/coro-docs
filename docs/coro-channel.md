@@ -4,9 +4,9 @@ layout: doc
 
 # Documentation
 
-Unofficial docs for the [coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) module, version 3.0.2.
+Unofficial documentation for the [coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) module, version 3.0.2.
 
-[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper module that provides manipulating read/write streams in a sync style of code using Lua coroutines.
+[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper module that provides manipulating read/write streams in a sync style of code using Lua coroutines without blocking the event loop.
 
 ----
 
@@ -16,7 +16,7 @@ Unofficial docs for the [coro-channel](https://github.com/luvit/lit/blob/master/
 
 ### wrapRead(socket) {#wrapRead}
 
-Wraps a [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle for a coroutine based reading.
+Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for a coroutine based reading.
 
 *This method does not require running in a coroutine*
 
@@ -32,6 +32,22 @@ Wraps a [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--s
 |:-------|:--------:|:------------|
 | reader | function | See [reader](#reader). |
 | closer | function | see [closer](#closer). |
+
+#### Examples {#wrapRead-examples}
+
+- A standard input echo example<br>(Type something in the console to get an echo)
+
+```lua
+local uv = require("uv") -- or luv outside of Luvi
+local stdin = uv.new_tty(0, true) -- Create a readable stream, a TTY stream in this case
+local reader, closer = wrapRead(stdin) -- Wrap the readable stream
+for chunk in reader do -- Each time something is typed in console: execute reader and store the result in chunk
+  if not chunk or chunk == '\n' then break end -- If the user inputs an empty chunk then stop reading
+  print("You typed: " .. chunk) -- Output what the user have input
+end
+closer() -- Close the handle if reading has stopped
+print("You have exited")
+```
 
 ----
 
@@ -52,11 +68,50 @@ Wraps a [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--s
 | writer | function | See [writer](#writer). |
 | closer | function | see [closer](#closer). |
 
+#### Examples {#wrapWrite-examples}
+
+- Timer writing to stdout TTY every second
+
+```lua
+local uv = require("uv") -- or luv outside of Luvi
+local stdout = uv.new_tty(1, false) -- Create a writable stdout stream
+local writer, closer = wrapWrite(stdout) -- Wrap the writable stream
+
+local passed = 0 -- How many second have passed?
+local function callback() -- A callback to be executed every second
+  coroutine.wrap(function() -- A new coroutine each time
+    passed = passed + 1
+    writer(passed .. " seconds has passed!\n") -- Write to stdout
+  end)()
+end
+
+writer("Hello to the timer! To exit press Ctrl + C\n")
+local timer = uv.new_timer() -- Create a timer handle
+timer:start(1000, 1000, callback) -- Start it and repeat every second
+```
+
+Note: In the previous example the callback could be defined in the following way:
+```lua
+local callback = coroutine.wrap(function()
+  while true do
+    passed = passed + 1
+    writer(passed .. " seconds has passed!\n")
+    coroutine.yield()
+  end
+end)
+```
+
 ----
 
 ### wrapSteam(socket) {#wrapStream}
 
 Wraps a [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle for both writing and reading.
+
+Has the same effect to calling `wrapRead` and `wrapWrite` on a stream, such as:
+```lua
+local reader = wrapRead(stream)
+local writer, closer = wrapWrite(stream)
+```
 
 #### Parameters {#wrapStream-parameters}
 
@@ -91,7 +146,7 @@ Yields the running coroutine and resumes it after receiving a chunk of data.
 
 #### Examples {#reader-examples}
 
-An example of using `reader` in an iterator would be:
+- Using a reader in an iterator
 
 ```lua
 local handle = uv.new_tty(1, true) -- or any kind of streams
