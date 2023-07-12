@@ -264,6 +264,7 @@ Represents an HTTP(s) request or a response including the headers, and other gen
   {
     http_header...,
     code = (number),
+    method = (string),
     reason = (string),
     version = (number),
     keepAlive = (boolean),
