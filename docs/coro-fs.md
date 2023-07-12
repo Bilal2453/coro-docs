@@ -4,19 +4,37 @@ layout: doc
 
 # Documentation
 
-Unofficial docs for the module [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) version 2.2.4.
+Documentation for the module [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua), version 2.2.4.
 
-[coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) is a library for filesystem manipulations while keeping the sync style of your code, making use of Lua coroutines.
+[coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) is a library for asynchronous non-blocking filesystem manipulations while keeping the sync style of your code, making use of Lua coroutines.
 
-This library is a great replacement for the Luvit built-in callback styled fs library, since it uses coroutines to keep the sync style of your code, without blocking the main event loop of luv, and most importantly, without the ugly callbacks! It is also somewhat simpler to use than the built-in fs library.
+Luvit's built-in `fs` module already has asynchronous non-blocking operations (the calls not suffixed with `Sync`, as `Sync` calls *are* blocking!) but they use the ugly callbacks!
+
+Note: that by choosing to do asynchronous FS, you are making a tradeoff.
+First Luvit (and coro-fs) uses Libuv for filesystem IO, while the synchronous blocking calls in the Luvit `fs` API (e.x. `fs.writeFileSync`) will block the main thread (when executed outside of a luv callback), they *still* allow other I/O operations to happen, and the event loop can still tick just fine, this is because Libuv has a threadpool which all I/O happens in (by default 4 threads and can be changed with the `UV_THREADPOOL_SIZE` environment variable).  So you can aboslutely be doing 4 blocking reads/writes (by default) before you actually run into issues where you need asynchronous FS.  For example, if you are running a web server where you read a file and send it back, it is possible that you could receive 4 connections at the same time, they all concurrently read some file and send the responses back without interrupting each other.
+The tradeoff you make by using asynchronous FS is performance, synchronous I/O are much faster but they block a thread in the threadpool, while asynchronous I/O is much slower but won't block any threads. Unless you are running a very busy server, I can't imagine you need asynchronous FS!
+
+Another Note: Luvit built-in async fs *ALREADY* has coroutine support which achieve a similar purpose to this module:
+```lua
+local fs = require('fs')
+local co = coroutine.running()
+local contents = fs.readFile('./my_file.txt', co)
+print("The file contains: ", contents)
+```
+vs
+```lua
+local coro_fs = require('coro-fs')
+local contents = coro_fs.readFile('./my_file.txt')
+print("The file contains: ", contents)
+```
 
 ----
 
 ## Errors
 
-All of the functions documented here will return a fail tuple in case of failure, that is, `nil, errMsg`, hence why all of the first returns have the `/nil`. The `errMsg` return is a string that looks something similar to `EEXIST: file already exists: foo`. Be aware that this only applies to operation failure, meaning, if you for example supply the wrong amount/type of parameters it WILL raise an error.
+All of the functions documented here will return a fail tuple in case of failure, that is, `nil, errMsg`, therefor all of the first returns could also return `nil`. The `errMsg` return is a string that looks something similar to `EEXIST: file already exists: foo.txt`. Be aware that this only applies to IO failure, meaning, if you for example supply the wrong amount/type of parameters it may raise an error.
 
-The first part of the error is the error code, those are defined by libuv and listed up by [man7](https://man7.org/linux/man-pages/man2/) (each fs method individually). The second part explains what went wrong exactly, and the last part explains what file/directory the error refers to.
+The first part of the error is the error code (the `EEXIST:` in the previous example), those are defined by libuv and listed up by [man7](https://man7.org/linux/man-pages/man2/) (each fs method individually). The second part explains what went wrong exactly, and the last part explains what file/directory path the error refers to.
 
 ----
 
@@ -43,8 +61,8 @@ The owner of the created directory __should__ be the effective user/group ID of 
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -69,7 +87,7 @@ The owner of a created file __should__ be the effective user/group ID of said pr
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | descriptor | number/nil | The file descriptor number of the opened file on success, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -90,8 +108,8 @@ Deletes (unlinks) a file from the filesystem.
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -112,7 +130,7 @@ Retrieves information about the file/directory pointed out by `path`.
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | info | table/nil | The information about said file/directory on success, see ***TODO***, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -133,7 +151,7 @@ Identical to [stat](#stat), except if the path was for a symbolic link, the info
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | info | table/nil | The information about said file/directory on success, see ***TODO***, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -154,7 +172,7 @@ Identical to [stat](#stat), except that instead of accepting a path to file/dire
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | info | table/nil | The information about said file/directory on success, see ***TODO***, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -178,8 +196,8 @@ Creates a symbolic link (also known as soft link) at `path` that points up to `t
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -200,7 +218,7 @@ Retrieves the target path (the content) of the said symbolic link `path`.
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | cont | string/nil | The target path (the content) of the symlink on success, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -221,8 +239,8 @@ Changes the inode mode bits (e.g. the permissions) of said file.
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -243,8 +261,8 @@ Identical to [chmod](#chmod), except that instead of accepting a file path, you 
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -267,7 +285,7 @@ Reads `length` bytes of `fd` file's contents.
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | data | string/nil | The read contents on success, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -289,8 +307,8 @@ Writes data to file using its descriptor `fd`.
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -310,8 +328,8 @@ Closes the opened file `fd`, so `fd` don't refer to anything anymore.
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -333,7 +351,7 @@ Checks whether the current process have permissions to access the file/directory
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | perm | boolean/nil | Boolean indicts whether you have permissions to access said file/directory or not on success, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -354,8 +372,8 @@ Renames a file or a directory to `newPath`. Can be also used to move a file/dire
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -375,8 +393,8 @@ Removes and deletes an empty (and only an empty) directory. For recursive remove
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -388,7 +406,7 @@ Tries to recursively delete `path`, while handling most possible scenarios. Most
 - If the path is a file it will be deleted.
 - If the path is a symbolic link it will be unlinked.
 
-***WARNING***: You cannot undo this!
+***WARNING***: You cannot undo this! There is no Recycle Bin.
 
 ***This method MUST be run in a coroutine***
 
@@ -402,8 +420,8 @@ Tries to recursively delete `path`, while handling most possible scenarios. Most
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -424,7 +442,7 @@ An iterator that iterates a directory for files and sub-directories.
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | entry| table/nil | A table that contains two fields `name` and `type` on success, otherwise nil. | Always |
-| err  | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err  | string | A string describing the error. | Failure Only |
 
 ***TODO***: Example.
 
@@ -449,7 +467,7 @@ Fully reads a file and returns its contents as a single string.
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
 | data | string/nil | The contents of the file on success, otherwise nil. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -471,8 +489,8 @@ Writes data to file `path` in a one go.
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
@@ -495,8 +513,8 @@ For example `mkdir("./a/b/c/")` this call will create a directory `a` that conta
 
 | Name | Type   | Description | Provided On |
 |:-----|:------:|:------------|:-----------:|
-| success | boolean/nil | Whether or not said operation have succeeded. | Always |
-| err | string | A string explaining what went wrong when executing said operation. | Failure Only |
+| success | boolean/nil | Whether or not the operation has succeeded. | Always |
+| err | string | A string describing the error. | Failure Only |
 
 ----
 
