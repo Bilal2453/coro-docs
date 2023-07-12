@@ -4,13 +4,15 @@ layout: doc
 
 # Documentation
 
-Unofficial documentation for the library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua), version 3.2.0.
+Documentation for the library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua), version 3.2.3.
 
-[coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) is a library for manipulating the HTTP(s) protocol in a sync code-style making use of Lua coroutines, while actually keeping it async behind the scenes.
+[coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua) is a library implementing an HTTP 1.1 client and server. It uses a sync code-style making use of Lua coroutines, while keeping everything asynchronous behind the scenes. That is, it yields but it does NOT block any threads.
 
-Can be used as a great replacement for the Luvit 2 built-in http & https libraries, to get rid of the callback code-style, with a more user-friendly interface. This is achieved through coroutines yielding and resuming without blocking the main event loop of [luv](https://github.com/luvit/luv/).
+Can be used as a great replacement for the Luvit built-in http & https libraries, to get rid of the callback code-style, with a more user-friendly interface. This is achieved through coroutines yielding and resuming without blocking the main event loop of [luv](https://github.com/luvit/luv/).
 
-Many thanks for [@trumedian](https://github.com/truemedian) for helping out with correcting many details, better wording, and pointing out typos.
+Keep in mind, Luvit (starting with [version 2.18](https://github.com/luvit/luvit/pull/1139)) already wraps the main file in a coroutine for you!
+
+Many thanks for [@trumedian](https://github.com/truemedian) for helping out with this!
 
 ----
 
@@ -20,11 +22,13 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out with
 
 ### request(method, url[, headers[, body[, options]]]) {#request}
 
-Synchronously performs an HTTP(s) request after establishing a connection with the said host.
+Synchronously performs a non-blocking HTTP(s) request after establishing a connection with the said host.
 
-- This method will raise an error up upon failure. Advised to be called with pcall/xpcall.
+- This method will raise an error on network failure. Advised to be called with `pcall`/`xpcall`.
 
-- If said connection \[with the host specified in `url`\] was already established and is still alive, it will be used instead of establishing another connection. Generally this is done either by a previous `request` call or by manually calling `saveConnection`.
+- If the needed connection \[with the host specified in `url`\] has been previously established and is still alive, it will be reused instead of establishing a new one. Generally this happen by a previous `request` call or by manually calling `saveConnection`.
+
+- Be aware that coro-http will try to auto-set some headers if the user doesn't supply them, specifically `Content-Length` and `Host`.  `Host` will be set to the hostname if not provided.  `Content-Length` is set to the length of `body` when the request is not chunked (`Content-Encoding` is not `chunked`) and it wasn't already provided by the user.
 
 ***This method MUST be run in a coroutine***
 
@@ -33,7 +37,7 @@ Synchronously performs an HTTP(s) request after establishing a connection with t
 | Param | Type   | Description | Optional |
 |:------|:------:|:------------|:--------:|
 | method| string | An all uppercase HTTP method name. | ❌ |
-| url   | string | An HTTP URL to send the request to. | ❌ |
+| url   | string | An HTTP(s) URL to send the request to. | ❌ |
 |headers| [http-header](#http-header) | The HTTP headers of the request. | ✔ |
 | body  | string | The request's payload (if needed). | ✔ |
 | options | [Request-Options](#request-options)/[Timeout](#timeout) | - If a number is supplied, this will act as the timeout to wait before giving up on receiving a response.<br>- If a table is supplied, this will act as a table to provide additional configurations. See [Request-Options](#request-options) for more details.  | ✔ |
@@ -57,7 +61,7 @@ end
 print("Received Google main page HTML: " .. body)
 ```
 
-- Sending a Discord webhook using coro-http POST
+- Sending a Discord webhook using POST request
 
 ```lua
 local json = require("json")
@@ -72,7 +76,7 @@ local body = json.encode{
 
 local headers = {
    {"Content-Type", "application/json"}, -- we are sending a JSON form string for the body
-   {"User-Agent", "MyWebhookClient"}. -- an example UA
+   {"User-Agent", "MyWebhookClient"}. -- an optional example UA
 }
 
 -- Send the POST request
@@ -109,11 +113,11 @@ Creates a new server instance and asynchronously binds it to host:port.
 
 #### onConnect {#createServer-onConnect}
 
-A callback that will asynchronously be called each time a new connection is established to the server. That is, each time a client is connecting to the created server.
+A callback that will be asynchronously called each time a new connection is established to the server. That is, when a connection is received.
 
-- You are suppose to return at least one value each time this callback is executed, as in: `head, body`. Where `head` is a [Response](#request-response) structure, and `body` is optionally a string representing the response payload.
+- For a response the callback **must** return at least one value, and at most two values, those returns are: `head, body`. Where `head` is a [Response](#request-response) structure, and `body` is an optional string payload.
 
-- Be aware that coro-http will try to auto-set some headers, namely `Content-Length` and `Host`. `Host` is always set to the hostname if wasn't provided, and `Content-Length` is only set if `body` is provided and the response is not chunked.
+- If a second value was returned (for the payload), a `Content-Length` header must be set to the length of the returned payload. Chunked responses **are not** supported.
 
 The callback has the following parameters:
 
@@ -136,6 +140,8 @@ local res_headers = {
    code = 200,
    reason = "OK",
 }
+
+-- 127.0.0.1 is localhost
 createServer("127.0.0.1", 8080, function(req, body)
    print(req.method .. " request with the payload of '" .. body .. "'")
    return res_headers, res_payload -- respond with this to every request
@@ -232,11 +238,15 @@ Saves a pre-established [TCP connection](#tcp-connection) to be used later inste
 
 ## Structures
 
-Here are the data structures (tables mostly) used by the library's methods, either for a returned value or for.
+Here are the data structures (tables mostly) used by the library's methods, either as returns or as arguments.
+
+Whenever one of those structures is used throughout the documentation, it will be linked to here for further details.
+
+Each structure has a description, and possibly a `Structure` section that describes the table value.  The syntax `{foo, bar}` represents an array that has exactly two elements, `tbl[1]` and `tbl[2]`, what those values exactly are will be described below it in the `Where` section.  The syntax `{foo...}` represents an array that could contain any size of element `foo`.  The syntax `{foo = (type)}` represents a dictionary table that has a field `foo` which is of type `(type)`.  Table values could contain multiple of those syntaxes.
 
 ### HTTP Header
 
-A table structure representing an HTTP(s) header. The structure is an array of two strings, the first entry is the header-name, and the second entry is the header-value. See the [rfc2616 paper](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP headers.
+A table structure representing an HTTP(s) header. The structure is an array of two strings, the first entry is the header-name, and the second entry is the header-value. See [RFC2616 specification Section 14](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for more details about the officially acceptable HTTP 1.1 headers.
 
 #### Structure {#http-header-structure}
 
