@@ -113,7 +113,7 @@ A callback that will asynchronously be called each time a new connection is esta
 
 - You are suppose to return at least one value each time this callback is executed, as in: `head, body`. Where `head` is a [Response](#request-response) structure, and `body` is optionally a string representing the response payload.
 
-- Be aware that coro-http __WILL NOT__ auto-set any headers, meaning if you are going to provide a `body`, make sure you set `Content-Length` header as well.
+- Be aware that coro-http will try to auto-set some headers, namely `Content-Length` and `Host`. `Host` is always set to the hostname if wasn't provided, and `Content-Length` is only set if `body` is provided and the response is not chunked.
 
 The callback has the following parameters:
 
