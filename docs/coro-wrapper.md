@@ -80,5 +80,3 @@ Returns an adapter of `write`, where it allows you to write the returns of `enco
 | Return | Type   | Description |
 |:------:|:------:|:------------|
 | ...    | Any    | Returns everything `write` returns. |
-
-----

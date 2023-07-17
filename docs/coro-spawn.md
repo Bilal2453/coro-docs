@@ -113,5 +113,3 @@ A table structure that represents the the spawned process.
 | stdin | [stdio](#stdio)/nil | The used stdin stream, or nil if no handle is created. |
 | stdout| [stdio](#stdio)/nil | The used stdout stream, or nil if no handle is created. |
 | stderr| [stdio](#stdio)/nil | The used stderr stream, or nil if no handle is created. |
-
-----

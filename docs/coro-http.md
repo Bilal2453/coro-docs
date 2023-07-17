@@ -408,5 +408,3 @@ A table that could configure some of [Request](#request) behavior.
 |:---------------|:------:|:------------|
 | timeout        | [Timeout](#timeout) | See [Timeout](#timeout) for description. |
 | followRedirects| boolean | whether or not to follow redirect requests. ***default***: `true`. |
-
-----

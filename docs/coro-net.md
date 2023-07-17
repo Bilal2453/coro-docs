@@ -157,5 +157,3 @@ Note: when using [createServer](#createServer) you must supply `cert` and `key`.
 | cert | string | The SSL/TLS x509 certification used for the handshake as string. Used alongside with field `key` or it gets ignored. |
 | ca | string/table | The x509 root certificates authority to check against.<br> Default: a root certification authority (`root_ca.dat` file) when available. |
 | insecure | boolean | Weather or not to accept invalid certificates on handshakes.<br> Default: `false`. |
-
-----

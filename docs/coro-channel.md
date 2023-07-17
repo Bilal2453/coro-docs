@@ -232,5 +232,3 @@ Closes the wrapped stream handle if it hasn't been already closed.
 You cannot read or write from/to a closed stream.
 
 Note: This call returns immediately, even if the stream hasn't fully closed yet.
-
-----

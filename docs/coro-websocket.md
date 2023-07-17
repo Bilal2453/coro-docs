@@ -302,5 +302,3 @@ A table structure that represents a successfully established TCP connection.
 | socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket handle the WebSocket connection was bound to. |
 
 {% endraw %}
-
-----

@@ -80,5 +80,3 @@ split(
 ```
 
 TODO:  This example is awful and meaningless, rewrite is needed.
-
-----
