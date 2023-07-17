@@ -8,7 +8,7 @@ Documentation for the [coro-spawn](https://github.com/luvit/lit/blob/master/deps
 
 [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) is single-function module that provides spawning child-processes with a synchronous interface making use of Lua coroutines.
 
-Throughout the documentation, we will refer to the function return of this module as `spawn`. And it is obtained by calling `require("coro-spawn")`.
+Throughout the documentation, we will refer to the function return of this module as `spawn`.  And it is obtained by calling `require("coro-spawn")`.
 
 ### Installation
 
@@ -27,7 +27,7 @@ lit install creationix/coro-spawn
 
 Spawns a process of an executable at `path` using the provided `options`.
 
-Note:  The `options` parameter is *NOT* optional, if you don't want to provide any options, pass an empty table.
+> Note:  The `options` parameter is *NOT* optional, if you don't want to provide any options, pass an empty table.
 
 *This method does not require running in a coroutine*
 

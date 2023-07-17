@@ -58,7 +58,7 @@ closer() -- close the handle if reading has stopped
 print("You have exited")
 ```
 
-Note: In the above example we won't receive an End of Stream (EoS), so we break manually on new lines, but this is not always the case, for example the coro-net reader will return `nil` when an EoS is received which would automatically break out of the for loop.
+> Note:  In the above example we won't receive an End of Stream (EoS), so we break manually on new lines, but this is not always the case, for example the coro-net reader will return `nil` when an EoS is received which would automatically break out of the for loop.
 
 ----
 
@@ -103,7 +103,7 @@ local timer = uv.new_timer() -- create a timer handle
 timer:start(1000, 1000, callback) -- start it and repeat every second
 ```
 
-Note: In the previous example the callback could be defined in the following way to avoid creating a new one everytime:
+In the previous example the callback can also be created in the following way to avoid creating new coroutine each time:
 ```lua
 local callback = coroutine.wrap(function()
   while true do
@@ -221,7 +221,7 @@ if not success then
 end
 ```
 
-Note: usually though this example is not how you use it with a TTY handle, the example is simplified and for explanation purposes only.
+> Note:  Usually though, this example is not how you use it with a TTY handle, the example is simplified and for explanation purposes only.
 
 ----
 
@@ -231,4 +231,4 @@ Note: usually though this example is not how you use it with a TTY handle, the e
 Closes the wrapped stream handle if it hasn't been already closed.
 You cannot read or write from/to a closed stream.
 
-Note: This call returns immediately, even if the stream hasn't fully closed yet.
+> Note:  This call returns immediately, even if the stream hasn't fully closed yet.

@@ -10,8 +10,10 @@ Documentation for the module [coro-fs](https://github.com/luvit/lit/blob/master/
 
 Luvit's built-in `fs` module already has asynchronous non-blocking operations (the calls not suffixed with `Sync`, as `Sync` calls *will* block a thread in the threadpool!) but they use the ugly callbacks!
 
-Note: that by choosing to do asynchronous FS, you are making a tradeoff.
-First off, Luvit (and coro-fs) uses Libuv for filesystem IO, while the synchronous blocking calls in the Luvit `fs` API (e.x. `fs.writeFileSync`) will block the main thread (when executed outside of a luv callback), they *still* allow other I/O operations to happen, and the event loop can still tick just fine, this is because Libuv has a threadpool which all I/O happens in (by default 4 threads and can be changed with the `UV_THREADPOOL_SIZE` environment variable).  So you can aboslutely be doing 4 blocking reads/writes (by default) before you actually run into issues where you need asynchronous FS.  For example, if you are running a web server where you read a file and send it back, it is possible that you could receive 4 connections at the same time, they all concurrently read some file and send the responses back without interrupting each other.
+This allows you to perform all the FS operations Luvit built-in `fs` has, but with a synchronous code style making use of Lua coroutines.
+
+Note:  By choosing to do asynchronous FS, you are making a tradeoff.
+First off, Luvit (and coro-fs) uses Libuv for filesystem IO, while the synchronous blocking calls in the Luvit `fs` API (e.x. `fs.writeFileSync`) will block a thread, they *still* allow other I/O operations to happen, and the event loop can still tick just fine, this is because Libuv has a threadpool which all I/O happens in (by default 4 threads and can be changed with the `UV_THREADPOOL_SIZE` environment variable), one of those threads is blocked instead.  So you can aboslutely be doing 4 blocking reads/writes (by default) before you actually run into issues where you need asynchronous FS.  For example, if you are running a web server where you read a file and send it back, it is possible that you could receive 4 connections at the same time, they all concurrently read some file and send the responses back without interrupting each other.
 The tradeoff you make by using asynchronous FS is performance, synchronous I/O is much faster but it blocks a thread in the threadpool, while asynchronous I/O is much slower but won't block any threads. Unless you are running a very busy server, I can't imagine you need asynchronous FS!
 
 Another Note: Luvit built-in async fs *ALREADY* has coroutine support which achieve a similar purpose to this module:
@@ -411,7 +413,7 @@ Tries to recursively delete `path`, while handling most possible scenarios. Most
 - If the path is a file it will be deleted.
 - If the path is a symbolic link it will be unlinked.
 
-***WARNING***: You cannot undo this! There is no Recycle Bin.
+> ***WARNING***: You cannot undo this! There is no Recycle Bin.
 
 ***This method MUST be run in a coroutine***
 
@@ -457,7 +459,7 @@ An iterator that iterates a directory for files and sub-directories.
 
 Fully reads a file and returns its contents as a single string.
 
-***NOTE***: In some rare and system specific cases, only a chunk of the file will be read.
+> Note:  In some rare and system specific cases, only a chunk of the file will be read.
 
 ***This method MUST be run in a coroutine***
 
@@ -530,7 +532,7 @@ This is supposed to be safe and unescapable, and is used in sensitive places suc
 
 The table returned is identical to the module table, except an additional `base` field that is equal to the passed argument.
 
-***WARNING***: In version 2.2.1 and before, there was a bug that allowed an attacker to escape the chroot.   If you are using a vulnerable version, please update to `2.2.2` or newer!
+> ***WARNING***: In version 2.2.1 and before, there was a bug that allowed an attacker to escape the chroot.   If you are using a vulnerable version, please update to `2.2.2` or newer!
 
 *This method does not require running in a coroutine*
 

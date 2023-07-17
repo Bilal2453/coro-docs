@@ -6,7 +6,7 @@ layout: doc
 
 Documentation for the module [coro-net](https://github.com/luvit/lit/blob/master/deps/coro-net.lua), version 3.2.1.
 
-[coro-net](https://github.com/luvit/lit/blob/master/deps/coro-net.lua) is a library for handling TCP, UDP and generally pipes, with an optional secure-layer support using a synchronous style interface.
+[coro-net](https://github.com/luvit/lit/blob/master/deps/coro-net.lua) is a library for handling TCP and generally pipes, with an optional secure-layer support using a synchronous style interface.
 
 ### Installation
 
@@ -23,7 +23,7 @@ lit install creationix/coro-net
 
 ### connect(options) {#connect}
 
-Establishes a connection with a TCP handle, or with a pipe handle.
+Establishes a connection with a TCP handle or with a pipe handle.
 
 - Both IPv4 and IPv6 can be used for TCP connections.
 - Pipe handles created by this cannot be used for IPC.
@@ -145,7 +145,7 @@ A string-indexed table structure offering different configurations of how coro-n
 
 An optional string-indexed table that offers further configurations over the used secure-layer.
 
-Note: when using [createServer](#createServer) you must supply `cert` and `key`.
+> Note:  When using [createServer](#createServer) you must supply `cert` and `key`.
 
 #### Fields {#tls-options-fields}
 
