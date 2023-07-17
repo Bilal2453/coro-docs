@@ -2,11 +2,18 @@
 layout: doc
 ---
 
-# Documentation
+# coro-channel
 
-Unofficial documentation for the [coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) module, version 3.0.2.
+Documentation for the [coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) module, version 3.0.3.
 
-[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper module that provides manipulating read/write streams in a sync style of code using Lua coroutines without blocking the event loop.
+[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper module that wraps [stream handles](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) (or any other handle that inherits stream) to provide a sync style read/write interface making use of Lua coroutines, and without blocking the event loop.
+
+### Installation
+
+```sh
+lit install creationix/coro-channel
+```
+[On Lit search.](https://luvit.io/lit.html#coro-channel)
 
 ----
 
@@ -16,7 +23,7 @@ Unofficial documentation for the [coro-channel](https://github.com/luvit/lit/blo
 
 ### wrapRead(socket) {#wrapRead}
 
-Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for a coroutine based reading.
+Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for coroutine based reading.
 
 *This method does not require running in a coroutine*
 
@@ -38,28 +45,32 @@ Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stre
 - A standard input echo example<br>(Type something in the console to get an echo)
 
 ```lua
-local uv = require("uv") -- or luv outside of Luvi
-local stdin = uv.new_tty(0, true) -- Create a readable stream, a TTY stream in this case
-local reader, closer = wrapRead(stdin) -- Wrap the readable stream
-for chunk in reader do -- Each time something is typed in console: execute reader and store the result in chunk
-  if not chunk or chunk == '\n' then break end -- If the user inputs an empty chunk then stop reading
-  print("You typed: " .. chunk) -- Output what the user have input
+local uv = require("uv") -- or "luv" outside of Luvi
+local wrapRead = require("coro-channel").wrapRead
+
+local stdin = uv.new_tty(0, true) -- create a readable stream, a TTY stream in this case
+local reader, closer = wrapRead(stdin) -- wrap the readable stream
+for chunk in reader do -- each time something is typed in console: execute reader and store the result in chunk
+  if chunk == '\n' then break end -- if the input is a new line (Enter) stop reading 
+  print("You typed: " .. chunk) -- output the user input
 end
-closer() -- Close the handle if reading has stopped
+closer() -- close the handle if reading has stopped
 print("You have exited")
 ```
+
+Note: In the above example we won't receive an End of Stream (EoS), so we break manually on new lines, but this is not always the case, for example the coro-net reader will return `nil` when an EoS is received which would automatically break out of the for loop.
 
 ----
 
 ### wrapWrite(socket) {#wrapWrite}
 
-Wraps a [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle for a coroutine based writing.
+Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for coroutine based writing.
 
 #### Parameters {#wrapWrite-parameters}
 
 | Param  | Type   | Description |
 |:------:|:------:|:------------|
-| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The stream [handle](https://github.com/luvit/luv/blob/master/docs.md#uv_handle_t--base-handle) to be wrapped for writing. |
+| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_handle_t--base-handle) to be wrapped for writing. |
 
 #### Returns {#wrapWrite-returns}
 
@@ -73,24 +84,26 @@ Wraps a [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--s
 - Timer writing to stdout TTY every second
 
 ```lua
-local uv = require("uv") -- or luv outside of Luvi
-local stdout = uv.new_tty(1, false) -- Create a writable stdout stream
-local writer, closer = wrapWrite(stdout) -- Wrap the writable stream
+local uv = require("uv") -- or "luv" outside of Luvi
+local wrapWrite = require("coro-channel").wrapWrite
 
-local passed = 0 -- How many second have passed?
-local function callback() -- A callback to be executed every second
-  coroutine.wrap(function() -- A new coroutine each time
+local stdout = uv.new_tty(1, false) -- create a writable stdout stream
+local writer, closer = wrapWrite(stdout) -- wrap the writable stream
+
+local passed = 0 -- how many second have passed?
+local function callback() -- a callback to be executed every second
+  coroutine.wrap(function() -- a new coroutine each time
     passed = passed + 1
-    writer(passed .. " seconds has passed!\n") -- Write to stdout
+    writer(passed .. " seconds has passed!\n") -- write to stdout
   end)()
 end
 
 writer("Hello to the timer! To exit press Ctrl + C\n")
-local timer = uv.new_timer() -- Create a timer handle
-timer:start(1000, 1000, callback) -- Start it and repeat every second
+local timer = uv.new_timer() -- create a timer handle
+timer:start(1000, 1000, callback) -- start it and repeat every second
 ```
 
-Note: In the previous example the callback could be defined in the following way:
+Note: In the previous example the callback could be defined in the following way to avoid creating a new one everytime:
 ```lua
 local callback = coroutine.wrap(function()
   while true do
@@ -105,9 +118,9 @@ end)
 
 ### wrapSteam(socket) {#wrapStream}
 
-Wraps a [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle for both writing and reading.
+Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for both writing and reading.
 
-Has the same effect to calling `wrapRead` and `wrapWrite` on a stream, such as:
+Has the same effect to calling `wrapRead` and `wrapWrite` on the handle, such as:
 ```lua
 local reader = wrapRead(stream)
 local writer, closer = wrapWrite(stream)
@@ -117,7 +130,7 @@ local writer, closer = wrapWrite(stream)
 
 | Param  | Type   | Description |
 |:------:|:------:|:------------|
-| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The stream [handle](https://github.com/luvit/luv/blob/master/docs.md#uv_handle_t--base-handle) to be wrapped for writing. |
+| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_handle_t--base-handle) to be wrapped for reading and writing. |
 
 #### Returns {#wrapStream-returns}
 
@@ -136,6 +149,7 @@ local writer, closer = wrapWrite(stream)
 ### reader() {#reader}
 
 Yields the running coroutine and resumes it after receiving a chunk of data.
+Effectively: wait until there is data to read, then return the read data.
 
 #### Returns {#reader-returns}
 
@@ -148,13 +162,18 @@ Yields the running coroutine and resumes it after receiving a chunk of data.
 
 - Using a reader in an iterator
 
-```lua
+```lua                             
+local uv = require("uv") -- or "luv" outside of luvi
+local wrapRead = require("coro-channel").wrapRead
+
 local handle = uv.new_tty(1, true) -- or any kind of streams
-local reader = coro_channel.wrapRead(handle)
+local reader = wrapRead(handle)
 
 for chunk, err in reader do
   if err then
     print("An error has occurred: " .. err)
+    break
+  elseif chunk == '\n' then -- press Enter to exit the tty
     break
   end
   print("Data chunk successfully read: " .. chunk)
@@ -168,12 +187,13 @@ print("Reading data done")
 ### writer(chunk) {#writer}
 
 Yields the running coroutine and resumes it when done writing the provided chunk of data.
+Effectively: write the data and wait until it has been written, then return.
 
 #### Parameters {#writer-parameters}
 
 | Param  | Type   | Description |
 |:------:|:------:|:------------|
-| chunk  | string / table / nil | `nil` indicates EOF and will completely close the stream if there's nothing to read, otherwise it will shutdown the writing duplex only.<br> If the provided value is a string it will be written to the stream as a single chunk.<br> If a table of strings is provided the strings will be written in a one system call as if they were concatenated. |
+| chunk  | string / table / nil | `nil` indicates End of Stream and will completely close the stream if there's nothing to read, if there is, it will only shutdown the writing duplex.<br> If the provided value is a string it will be written to the stream as a single chunk.<br> If a table of strings is provided the string values will be concatenated and written in a single system call. |
 
 #### Returns {#writer-returns}
 
@@ -187,8 +207,11 @@ Yields the running coroutine and resumes it when done writing the provided chunk
 Assuming the following example of using `writer` with a TTY handle running in a coroutine:
 
 ```lua
+local uv = require("uv") -- or "luv" outside of Luvi
+local wrapWrite = require("coro-channel").wrapWrite
+
 local handle = uv.new_tty(0, false) -- or any kind of streams
-local writer = coro_channel.wrapWrite(handle)
+local writer = wrapWrite(handle)
 
 local tbl = {"Hello ", "There", "!!", "\n"}
 local success, err = writer(tbl)
@@ -198,13 +221,16 @@ if not success then
 end
 ```
 
-Note: usually though you don't use it like this with a TTY handle, it was used like this in the above example just to make it simple.
+Note: usually though this example is not how you use it with a TTY handle, the example is simplified and for explanation purposes only.
 
 ----
 
 
 ### closer() {#closer}
 
-Closes the wrapped stream completely if it wasn't already closed. You cannot read or write from a closed stream. Note that this returns immediately, even if the stream isn't closed yet.
+Closes the wrapped stream handle if it hasn't been already closed.
+You cannot read or write from/to a closed stream.
+
+Note: This call returns immediately, even if the stream hasn't fully closed yet.
 
 ----

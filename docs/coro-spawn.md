@@ -2,13 +2,20 @@
 layout: doc
 ---
 
-# Documentation
+# coro-spawn
 
-Unofficial docs for the [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) module, version 3.0.3.
+Documentation for the [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) module, version 3.0.3.
 
-[coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) is single-function module that provides manipulating child-process in a sync style of code using Lua coroutines.
+[coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) is single-function module that provides spawning child-processes with a synchronous interface making use of Lua coroutines.
 
-We will call the only function return of this module `spawn`.
+Throughout the documentation, we will refer to the function return of this module as `spawn`. And it is obtained by calling `require("coro-spawn")`.
+
+### Installation
+
+```sh
+lit install creationix/coro-spawn
+```
+[On Lit search.](https://luvit.io/lit.html#coro-spawn)
 
 ----
 
@@ -18,9 +25,9 @@ We will call the only function return of this module `spawn`.
 
 ### spawn(path, options) {#spawn}
 
-Spawns a process of an executable at `path` using the said `options`.
+Spawns a process of an executable at `path` using the provided `options`.
 
-Note: The `options` parameter is NOT optional, if you don't want to provide any options just pass an empty table.
+Note:  The `options` parameter is *NOT* optional, if you don't want to provide any options, pass an empty table.
 
 *This method does not require running in a coroutine*
 
@@ -28,7 +35,7 @@ Note: The `options` parameter is NOT optional, if you don't want to provide any 
 
 | Param | Type   | Description |
 |:-----:|:------:|:------------|
-| path  | string | The path of the executable (defined by system) to be spawned. |
+| path  | string | The path of the executable to spawn. |
 | options | table| Various options to control the process flow. See [Spawn Options](#spawn-options). |
 
 #### Returns {#spawn-returns}

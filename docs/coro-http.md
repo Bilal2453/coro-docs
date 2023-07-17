@@ -2,7 +2,7 @@
 layout: doc
 ---
 
-# Documentation
+# coro-http
 
 Documentation for the library [coro-http](https://github.com/luvit/lit/blob/master/deps/coro-http.lua), version 3.2.3.
 
@@ -13,6 +13,13 @@ Can be used as a great replacement for the Luvit built-in http & https libraries
 Keep in mind, Luvit (starting with [version 2.18](https://github.com/luvit/luvit/pull/1139)) already wraps the main file in a coroutine for you!
 
 Many thanks for [@trumedian](https://github.com/truemedian) for helping out with this!
+
+### Installation
+
+```sh
+lit install creationix/coro-http
+```
+[On Lit search.](https://luvit.io/lit.html#coro-http)
 
 ----
 

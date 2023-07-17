@@ -2,13 +2,20 @@
 layout: doc
 ---
 
-# Documentation
+# coro-split
 
-Unofficial docs for the [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) module, version 2.0.2.
+Documentation for the [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) module, version 2.0.2.
 
-[coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) is single-function module that takes multiple functions as input, and runs them in concurrent coroutines.
+[coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) is single-function module that takes multiple functions as input, wraps each of them in a coroutine and runs it, and yields until all of the provided tasks are completed.
 
-We will call the only function return of this module `split`. You should always call this inside a coroutine.
+Throughout the documentation, we will refer to the function return of this module as `split`. And it is obtained by calling `require("coro-split")`.
+
+### Installation
+
+```sh
+lit install creationix/coro-split
+```
+[On Lit search.](https://luvit.io/lit.html#coro-split)
 
 ----
 
@@ -18,7 +25,9 @@ We will call the only function return of this module `split`. You should always 
 
 ### split(...) {#split}
 
-Takes multiple functions (tasks) and concurrently run them in coroutines while yielding the coroutine that called this, then resume it when all of the supplied tasks finishes.
+Takes multiple functions (tasks) and runs them in coroutines while yielding the coroutine that made this call, then resumes it when all of the supplied tasks finishes.
+
+Returns the first return of every task.
 
 The tasks will be called directly without running them in protected mode, therefor any errors raised out by any of the provided tasks will be propagated, unless you call `split` using [pcall](https://www.lua.org/manual/5.4/manual.html#pdf-pcall) or [similar](https://www.lua.org/manual/5.4/manual.html#pdf-xpcall) functions.
 
@@ -38,7 +47,7 @@ The tasks will be called directly without running them in protected mode, theref
 
 #### Examples {#split-examples}
 
-- Concurrent FileSystem manipulations
+- Concurrent Filesystem manipulations
 
 ```lua
 local fs = require('fs')
@@ -69,5 +78,7 @@ split(
   end
 )
 ```
+
+TODO:  This example is awful and meaningless, rewrite is needed.
 
 ----

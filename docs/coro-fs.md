@@ -2,17 +2,17 @@
 layout: doc
 ---
 
-# Documentation
+# coro-fs
 
 Documentation for the module [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua), version 2.2.4.
 
-[coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) is a library for asynchronous non-blocking filesystem manipulations while keeping the sync style of your code, making use of Lua coroutines.
+[coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) is a library for asynchronous non-blocking filesystem operations that keeps the synchronous code style, making use of Lua coroutines.
 
-Luvit's built-in `fs` module already has asynchronous non-blocking operations (the calls not suffixed with `Sync`, as `Sync` calls *are* blocking!) but they use the ugly callbacks!
+Luvit's built-in `fs` module already has asynchronous non-blocking operations (the calls not suffixed with `Sync`, as `Sync` calls *will* block a thread in the threadpool!) but they use the ugly callbacks!
 
 Note: that by choosing to do asynchronous FS, you are making a tradeoff.
-First Luvit (and coro-fs) uses Libuv for filesystem IO, while the synchronous blocking calls in the Luvit `fs` API (e.x. `fs.writeFileSync`) will block the main thread (when executed outside of a luv callback), they *still* allow other I/O operations to happen, and the event loop can still tick just fine, this is because Libuv has a threadpool which all I/O happens in (by default 4 threads and can be changed with the `UV_THREADPOOL_SIZE` environment variable).  So you can aboslutely be doing 4 blocking reads/writes (by default) before you actually run into issues where you need asynchronous FS.  For example, if you are running a web server where you read a file and send it back, it is possible that you could receive 4 connections at the same time, they all concurrently read some file and send the responses back without interrupting each other.
-The tradeoff you make by using asynchronous FS is performance, synchronous I/O are much faster but they block a thread in the threadpool, while asynchronous I/O is much slower but won't block any threads. Unless you are running a very busy server, I can't imagine you need asynchronous FS!
+First off, Luvit (and coro-fs) uses Libuv for filesystem IO, while the synchronous blocking calls in the Luvit `fs` API (e.x. `fs.writeFileSync`) will block the main thread (when executed outside of a luv callback), they *still* allow other I/O operations to happen, and the event loop can still tick just fine, this is because Libuv has a threadpool which all I/O happens in (by default 4 threads and can be changed with the `UV_THREADPOOL_SIZE` environment variable).  So you can aboslutely be doing 4 blocking reads/writes (by default) before you actually run into issues where you need asynchronous FS.  For example, if you are running a web server where you read a file and send it back, it is possible that you could receive 4 connections at the same time, they all concurrently read some file and send the responses back without interrupting each other.
+The tradeoff you make by using asynchronous FS is performance, synchronous I/O is much faster but it blocks a thread in the threadpool, while asynchronous I/O is much slower but won't block any threads. Unless you are running a very busy server, I can't imagine you need asynchronous FS!
 
 Another Note: Luvit built-in async fs *ALREADY* has coroutine support which achieve a similar purpose to this module:
 ```lua
@@ -27,6 +27,13 @@ local coro_fs = require('coro-fs')
 local contents = coro_fs.readFile('./my_file.txt')
 print("The file contains: ", contents)
 ```
+
+### Installation
+
+```sh
+lit install creationix/coro-fs
+```
+[On Lit search.](https://luvit.io/lit.html#coro-fs)
 
 ----
 
@@ -176,12 +183,9 @@ Identical to [stat](#stat), except that instead of accepting a path to file/dire
 
 ----
 
-### symlink(target, path) {#symlink}
+### symlink(target, path, flags) {#symlink}
 
 Creates a symbolic link (also known as soft link) at `path` that points up to `target`.
-
-***WARNING***: There is currently a bug with this, it was fixed in the latest GH version but not yet published to Lit.
-***TODO***: In the next release of coro-fs a new parameter will be added, document it when it is published to Lit.
 
 ***This method MUST be run in a coroutine***
 
@@ -191,6 +195,7 @@ Creates a symbolic link (also known as soft link) at `path` that points up to `t
 |:------|:------:|:------------|
 | target| string | The path of the file you want to link against. |
 | path  | string | The path to where to create the said link at. |
+| flags | table / integer / nil | Optional table with `dir` and `junction` boolean fields that control how the symlink is created on Windows. See [Libuv page](https://docs.libuv.org/en/v1.x/fs.html#c.uv_fs_symlink) for more details. |
 
 #### Returns {#symlink-returns}
 
@@ -520,6 +525,23 @@ For example `mkdir("./a/b/c/")` this call will create a directory `a` that conta
 
 ### chroot(base) {#chroot}
 
-***TODO***: Document this.
+Returns a version of this module that can only operate inside `base` directory.
+This is supposed to be safe and unescapable, and is used in sensitive places such as the Lit server.
+
+The table returned is identical to the module table, except an additional `base` field that is equal to the passed argument.
+
+***WARNING***: In version 2.2.1 and before, there was a bug that allowed an attacker to escape the chroot.   If you are using a vulnerable version, please update to `2.2.2` or newer!
 
 *This method does not require running in a coroutine*
+
+#### Parameters {#mkdirp-parameters}
+
+| Param | Type   | Description | Optional |
+|:------|:------:|:------------|:--------:|
+| base  | string | The path to the directory FS operations will be contained in. | ❌ |
+
+#### Returns {#mkdirp-returns}
+
+| Name | Type   | Description | Provided On |
+|:-----|:------:|:------------|:-----------:|
+| chroot | table | A table containing all methods this module contains. | Always |

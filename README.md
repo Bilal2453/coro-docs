@@ -1,6 +1,6 @@
 # coro-docs
 
-Unofficial docs for the luvit libraries coro-*.
+Documentation for the [Luvit](https://luvit.io/) coro-* libraries.
 
 ## Index
 

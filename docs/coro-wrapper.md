@@ -2,11 +2,21 @@
 layout: doc
 ---
 
-# Documentation
+# coro-wrapper
 
-Unofficial docs for the [coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) module, version 3.1.0.
+Documentation for the [coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) module, version 3.1.0.
 
-[coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) is an adapter module for applying decoders to [coro-channel](https://bilal2453.github.io/coro-docs/docs/coro-channel.html).
+[coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) is an adapter module for applying decoders/encoders/merger adapters to [coro-channel](https://bilal2453.github.io/coro-docs/docs/coro-channel.html) readers and writers.
+
+Understanding this and how it works can be a bit tricky.  But think about it like this:  You have a reader that returns an HTTP chunk back as the raw HTTP string, and you want to make that reader return a parsed version of that HTTP chunk, so you apply the `decoder` adapter on that reader to provide an abstraction over the lower level return, this is in fact how [coro-http](https://bilal2453.github.io/coro-docs/docs/coro-http.html) does it!
+The rest of the adapters has a similar concept.
+
+### Installation
+
+```sh
+lit install creationix/coro-wrapper
+```
+[On Lit search.](https://luvit.io/lit.html#coro-wrapper)
 
 ----
 
