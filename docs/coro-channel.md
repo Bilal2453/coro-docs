@@ -116,7 +116,7 @@ end)
 
 ----
 
-### wrapSteam(socket) {#wrapStream}
+### wrapStream(socket) {#wrapStream}
 
 Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for both writing and reading.
 
