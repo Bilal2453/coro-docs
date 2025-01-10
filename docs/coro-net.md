@@ -4,16 +4,17 @@ layout: doc
 
 # coro-net
 
-Documentation for the module [coro-net](https://github.com/luvit/lit/blob/master/deps/coro-net.lua), version 3.2.1.
+Documentation for the [coro-net](https://github.com/luvit/lit/blob/master/deps/coro-net.lua) library, version 3.2.1.
 
 [coro-net](https://github.com/luvit/lit/blob/master/deps/coro-net.lua) is a library for handling TCP and generally pipes, with an optional secure-layer support using a synchronous style interface.
 
 ### Installation
 
 ```sh
-lit install creationix/coro-net
+lit install luvit/coro-net
 ```
-[On Lit search.](https://luvit.io/lit.html#coro-net)
+
+[On Lit search.](https://luvit.io/lit.html#author:luvit%20coro-net)
 
 ----
 

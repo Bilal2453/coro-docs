@@ -4,16 +4,17 @@ layout: doc
 
 # coro-channel
 
-Documentation for the [coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) module, version 3.0.3.
+Documentation for the [coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) library, version 3.0.3.
 
-[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper module that wraps [stream handles](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) (or any other handle that inherits stream) to provide a sync style read/write interface making use of Lua coroutines, and without blocking the event loop.
+[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper library that wraps [stream handles](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) (or any other handle that inherits stream) to provide a sync style read/write interface making use of Lua coroutines, and without blocking the event loop.
 
 ### Installation
 
 ```sh
-lit install creationix/coro-channel
+lit install luvit/coro-channel
 ```
-[On Lit search.](https://luvit.io/lit.html#coro-channel)
+
+[On Lit search.](https://luvit.io/lit.html#author:luvit%20coro-channel)
 
 ----
 

@@ -4,16 +4,17 @@ layout: doc
 
 # coro-websocket
 
-Documentation for the module [coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua), version 3.1.0.
+Documentation for the [coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua) library, version 3.1.0.
 
-[coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua) is a library that implements the WebSocket WS(s) protocol with a synchronous style interface making use of Lua coroutines.
+[coro-websocket](https://github.com/luvit/lit/blob/master/deps/coro-websocket.lua) is a library that implements the [WebSocket](https://en.wikipedia.org/wiki/WebSocket) WS(s) protocol with a synchronous style interface making use of Lua coroutines.
 
 ### Installation
 
 ```sh
-lit install creationix/coro-websocket
+lit install luvit/coro-websocket
 ```
-[On Lit search.](https://luvit.io/lit.html#coro-websocket)
+
+[On Lit search.](https://luvit.io/lit.html#author:luvit%20coro-websocket)
 
 ----
 

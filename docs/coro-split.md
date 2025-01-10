@@ -4,17 +4,18 @@ layout: doc
 
 # coro-split
 
-Documentation for the [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) module, version 2.0.2.
+Documentation for the [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) library, version 2.0.2.
 
 [coro-split](https://github.com/luvit/lit/blob/master/deps/coro-split.lua) is single-function module that takes multiple functions as input, wraps each of them in a coroutine and runs it, and yields until all of the provided tasks are completed.
 
-Throughout the documentation, we will refer to the function return of this module as `split`. And it is obtained by calling `require("coro-split")`.
+Throughout the documentation, we will refer to the function return of this module as `split`. It is accessed by calling `require("coro-split")`.
 
 ### Installation
 
 ```sh
 lit install creationix/coro-split
 ```
+
 [On Lit search.](https://luvit.io/lit.html#coro-split)
 
 ----

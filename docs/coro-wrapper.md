@@ -4,7 +4,7 @@ layout: doc
 
 # coro-wrapper
 
-Documentation for the [coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) module, version 3.1.0.
+Documentation for the [coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) library, version 3.1.0.
 
 [coro-wrapper](https://github.com/luvit/lit/blob/master/deps/coro-wrapper.lua) is an adapter module for applying decoders/encoders/merger adapters to [coro-channel](https://bilal2453.github.io/coro-docs/docs/coro-channel.html) readers and writers.
 
@@ -14,9 +14,9 @@ The rest of the adapters have a similar concept.
 ### Installation
 
 ```sh
-lit install creationix/coro-wrapper
+lit install luvit/coro-wrapper
 ```
-[On Lit search.](https://luvit.io/lit.html#coro-wrapper)
+[On Lit search.](https://luvit.io/lit.html#author:luvit%20coro-wrapper)
 
 ----
 

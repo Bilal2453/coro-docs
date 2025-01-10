@@ -17,9 +17,10 @@ Many thanks for [@trumedian](https://github.com/truemedian) for helping out with
 ### Installation
 
 ```sh
-lit install creationix/coro-http
+lit install luvit/coro-http
 ```
-[On Lit search.](https://luvit.io/lit.html#coro-http)
+
+[On Lit search.](https://luvit.io/lit.html#author:luvit%20coro-http)
 
 ----
 

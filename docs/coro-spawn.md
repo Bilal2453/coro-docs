@@ -4,18 +4,19 @@ layout: doc
 
 # coro-spawn
 
-Documentation for the [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) module, version 3.0.3.
+Documentation for the [coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) library, version 3.0.3.
 
-[coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) is single-function module that provides spawning child-processes with a synchronous interface making use of Lua coroutines.
+[coro-spawn](https://github.com/luvit/lit/blob/master/deps/coro-spawn.lua) is single-function library that provides spawning child-processes with a synchronous interface making use of Lua coroutines.
 
-Throughout the documentation, we will refer to the function return of this module as `spawn`.  And it is obtained by calling `require("coro-spawn")`.
+Throughout the documentation, we will refer to the function return of this library as `spawn`.  It is accessed by calling `require("coro-spawn")`.
 
 ### Installation
 
 ```sh
-lit install creationix/coro-spawn
+lit install luvit/coro-spawn
 ```
-[On Lit search.](https://luvit.io/lit.html#coro-spawn)
+
+[On Lit search.](https://luvit.io/lit.html#author:luvit%20coro-spawn)
 
 ----
 
