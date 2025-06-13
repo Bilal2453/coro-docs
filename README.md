@@ -59,7 +59,7 @@ Keep in mind that when dealing with synchronous vs asynchronous APIs there is a 
 
 First of all, Luvit (and by extension, the coro libraries) utilize the libuv backend to do the synchronous/asynchronous calls. For performance reasons libuv spawns a number of threads and stores them in a thread-pool for when they are needed.
 
-> [!TIP]
+> **Tip**:
 > by default 4 threads are spawned, and may be increased by setting `UV_THREADPOOL_SIZE` environment variable.
 
 Now when you need to do a synchronous blocking call (such as a `fs.readFileSync`), instead of blocking the main thread where the event-loop handle everything, it offloads this job to one of the available threads in the thread-pool, which lets you run multiple blocking operations without halting the entire program.

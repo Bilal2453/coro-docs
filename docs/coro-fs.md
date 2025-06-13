@@ -4,34 +4,27 @@ layout: doc
 
 # coro-fs
 
-Documentation for the [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) library, version 2.2.4.
+Documentation for the [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) library, version 2.2.5.
 
 [coro-fs](https://github.com/luvit/lit/blob/master/deps/coro-fs.lua) is a library for asynchronous non-blocking filesystem operations that keeps the synchronous code style, making use of Lua coroutines.
 
-Luvit's built-in `fs` module already has asynchronous non-blocking operations (the calls not suffixed with `Sync`, as `Sync` calls *will* block a thread in the threadpool!) but they use the ugly callbacks!
-
-This allows you to perform all the FS operations Luvit built-in `fs` has, but with a synchronous code style making use of Lua coroutines.
-
-> Note:  By choosing to do asynchronous FS, you are making a tradeoff.
-> First off, Luvit (and coro-fs) uses Libuv for filesystem IO, while the synchronous blocking calls in the Luvit `fs` API (e.x. `fs.writeFileSync`) will block a thread, they *still* allow other I/O operations to happen, and the event loop can still tick just fine, this is because Libuv has a threadpool which all I/O happens in (by default 4 threads and can be changed with the `UV_THREADPOOL_SIZE` environment variable), so one of those threads is blocked instead of the main thread.
->
-> In other words you may execute up to 4 blocking reads/writes (by default) concurrently before you actually run into issues where you need asynchronous FS.  For example, if you are running a web server where you read a file and send it back, it is possible that you could receive 4 connections at the same time, they all concurrently read some file and send the responses back without interrupting each other.
->
-> The tradeoff you make by using asynchronous FS is performance, synchronous I/O is much faster but it blocks a thread in the threadpool, while asynchronous I/O is much slower but won't block any threads. Unless you are running a very busy server, I can't imagine you need asynchronous FS!
-
-> Note: Luvit built-in async fs *ALREADY* has coroutine support which achieve a similar purpose to this module:
+> Note: Luvit's built-in asynchronous fs *already* has coroutine support which achieve a similar purpose to this module:
 > ```lua
 > local fs = require('fs')
 > local co = coroutine.running()
-> local contents = fs.readFile('./> my_file.txt', co)
+> local contents = fs.readFile('./my_file.txt', co)
 > print("The file contains: ", contents)
 > ```
+>
 > vs
+>
 > ```lua
 > local coro_fs = require('coro-fs')
 > local contents = coro_fs.readFile('./my_file.txt')
 > print("The file contains: ", contents)
 > ```
+
+Preferably read this section [Thread-pool & Event-loop](https://bilal2453.github.io/coro-docs/#thread-pool--event-loop) first to utilize the module to its potential.
 
 ### Installation
 
