@@ -43,7 +43,7 @@ Establishes a connection with a TCP handle or with a pipe handle.
 |:-----|:------:|:------------|
 | read | function | The stream read wrapper, if one of `options.decode` or `options.scan` is supplied; this would be a [coro-wrapper's adapter](https://bilal2453.github.io/coro-docs/docs/coro-wrapper.html#functions), otherwise it'd be [coro-channel's reader](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#reader). Adapters can be stacked up if multiple options are passed. |
 | write| function | The stream write wrapper, if `options.encode` is supplied; this would be a [coro-wrapper's adapter](https://bilal2453.github.io/coro-docs/docs/coro-wrapper.html#encoder), otherwise it'd be [coro-channel's writer](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#writer). |
-| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle of the said established connection. |
+| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) handle of the said established connection. |
 | updateDecoder | function | A function that takes a single function argument and sets `options.decode` to that input. |
 | updateEncoder | function | A function that takes a single function argument and sets `options.encode` to that input. |
 | close | function | Waits for any queued operations to finish and closes the socket completely using [coro-channel's closer](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#closer). |
@@ -72,7 +72,7 @@ Creates and binds a server instance to a TCP or pipe handle, while asynchronousl
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
-| server | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle representing the bound server. |
+| server | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) handle representing the bound server. |
 
 #### Callback: onConnect(read, write, socket, updateDecoder, updateEncoder) {#createServer-callback-onConnect}
 
@@ -84,7 +84,7 @@ A callback that'd be called every time a new incoming connection is received.
 |:------|:--------:|:------------|
 | read  | function | The stream read wrapper. |
 | write | function | The stream write wrapper. |
-| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) handle the server was bound to. |
+| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_pipe_t--pipe-handle) | The [stream](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) handle the server was bound to. |
 | updateDecoder | function | A function that takes a single function argument and sets `options.decode` to that input. |
 | updateEncoder | function | A function that takes a single function argument and sets `options.encode` to that input. |
 

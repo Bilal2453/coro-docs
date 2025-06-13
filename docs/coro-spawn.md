@@ -74,7 +74,7 @@ A table that contains various configurations to control the process flow. All of
 
 | Field | Type   | Description |
 |:-----:|:------:|:------------|
-| stdio | table  | An array of listed values from index 1 to 3 where each index represents stdin, stdout, stderr in order.<br>- If the value is a boolean, true means automatically create and assign a [pipe](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) for the corresponding handle, false and nil to ignore.<br>- If the value is a [pipe](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) it will be assigned to the corresponding handle index as read-write stream.<br>- If it's a number, then the child process inherits that same zero-indexed fd from the parent process. |
+| stdio | table  | An array of listed values from index 1 to 3 where each index represents stdin, stdout, stderr in order.<br>- If the value is a boolean, true means automatically create and assign a [pipe](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_pipe_t--pipe-handle) for the corresponding handle, false and nil to ignore.<br>- If the value is a [pipe](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_pipe_t--pipe-handle) it will be assigned to the corresponding handle index as read-write stream.<br>- If it's a number, then the child process inherits that same zero-indexed fd from the parent process. |
 | args | table  | The command line arguments as a list of strings. |
 | env  | table  | Set environment variables for the new process. |
 | cwd  | string | Set the current working directory for the sub-process. |
@@ -94,7 +94,7 @@ A table structure that represents a stdio handle, either a stdin, stdout or stde
 
 | Field | Type   | Description | Provided On |
 |:-----:|:------:|:------------|:-----------:|
-| handle| [pipe](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The uv pipe handle used to bind said stream. | Always |
+| handle| [pipe](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_pipe_t--pipe-handle) | The uv pipe handle used to bind said stream. | Always |
 | read  | function | Reads data from a readable stream. See [coro-channel reader](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#reader). | stdout & stderr Only |
 | write | function | Writes data to a writable stream. See [coro-channel writer](https://bilal2453.github.io/coro-docs/docs/coro-channel.html#writer). | stdin Only |
 
@@ -108,7 +108,7 @@ A table structure that represents the the spawned process.
 
 | Field | Type   | Description |
 |:-----:|:------:|:------------|
-| handle| [uv_process_t](https://github.com/luvit/luv/blob/master/docs.md#uv_process_t--process-handle) | The handle object of the spawned process. |
+| handle| [uv_process_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_process_t--process-handle) | The handle object of the spawned process. |
 | pid   | number | The PID process number assigned to the spawned process. |
 | waitExit | function | Calling this will yield the current coroutine and resume it when the process finishes, will immediately returns if the process has already finished. Returns `exitCode` and `exitSignal`. |
 | stdin | [stdio](#stdio)/nil | The used stdin stream, or nil if no handle is created. |

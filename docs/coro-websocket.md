@@ -300,6 +300,6 @@ A table structure that represents a successfully established TCP connection.
 | reason       | string | The reason for getting the past status code (Reason-Phrase). |
 | version      | number | The version of the used HTTP protocol as decimal number. |
 | keepAlive    | boolean| Whether or not the connection should be kept alive. This would be `false` most often. |
-| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket handle the WebSocket connection was bound to. |
+| socket | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_tcp_t--tcp-handle) | The TCP socket handle the WebSocket connection was bound to. |
 
 {% endraw %}

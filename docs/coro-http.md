@@ -117,7 +117,7 @@ Creates a new server instance and asynchronously binds it to host:port.
 
 | Name | Type   | Description |
 |:-----|:------:|:------------|
-| server | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket of the created server. Server connection can be stopped and manipulated using this. |
+| server | [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_tcp_t--tcp-handle) | The TCP socket of the created server. Server connection can be stopped and manipulated using this. |
 
 #### onConnect {#createServer-onConnect}
 
@@ -133,7 +133,7 @@ The callback has the following parameters:
 |:------|:------:|:------------|
 | req   | [Request](#request-response) | The request's headers and general information. |
 | body  | string | The provided request's payload as a string, empty string incase no payload is provided. |
-| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs.md#uv_pipe_t--pipe-handle) | The socket that the connection was bound to. |
+| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_tcp_t--tcp-handle)/[uv_pipe_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_pipe_t--pipe-handle) | The socket that the connection was bound to. |
 
 #### Examples {#createServer-examples}
 
@@ -330,7 +330,7 @@ A table structure that represents a TCP connection (wrapped using coro-channel).
 
 | Field | Type   | Description |
 |:------|:------:|:------------|
-| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs.md#uv_tcp_t--tcp-handle) | The TCP socket (handle) used to bind the established connection. |
+| socket| [uv_tcp_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_tcp_t--tcp-handle) | The TCP socket (handle) used to bind the established connection. |
 | host | string | Same as the passed parameter `host` when establishing. |
 | port | number | Same as the passed parameter `port` when establishing. |
 | tls  | table/boolean | Same as the passed parameter `tls` when establishing. |

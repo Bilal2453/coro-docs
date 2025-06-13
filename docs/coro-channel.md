@@ -6,7 +6,7 @@ layout: doc
 
 Documentation for the [coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) library, version 3.0.3.
 
-[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper library that wraps [stream handles](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) (or any other handle that inherits stream) to provide a sync style read/write interface making use of Lua coroutines, and without blocking the event loop.
+[coro-channel](https://github.com/luvit/lit/blob/master/deps/coro-channel.lua) is a wrapper library that wraps [stream handles](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) (or any other handle that inherits stream) to provide a sync style read/write interface making use of Lua coroutines, and without blocking the event loop.
 
 ### Installation
 
@@ -24,7 +24,7 @@ lit install luvit/coro-channel
 
 ### wrapRead(socket) {#wrapRead}
 
-Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for coroutine based reading.
+Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) for coroutine based reading.
 
 *This method does not require running in a coroutine*
 
@@ -32,7 +32,7 @@ Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stre
 
 | Param  | Type   | Description |
 |:------:|:------:|:------------|
-| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The stream [handle](https://github.com/luvit/luv/blob/master/docs.md#uv_handle_t--base-handle) to be wrapped for reading. |
+| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) | The stream [handle](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_handle_t--base-handle) to be wrapped for reading. |
 
 #### Returns {#wrapRead-returns}
 
@@ -65,13 +65,13 @@ print("You have exited")
 
 ### wrapWrite(socket) {#wrapWrite}
 
-Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for coroutine based writing.
+Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) for coroutine based writing.
 
 #### Parameters {#wrapWrite-parameters}
 
 | Param  | Type   | Description |
 |:------:|:------:|:------------|
-| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_handle_t--base-handle) to be wrapped for writing. |
+| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) | The [stream handle](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_handle_t--base-handle) to be wrapped for writing. |
 
 #### Returns {#wrapWrite-returns}
 
@@ -119,7 +119,7 @@ end)
 
 ### wrapStream(socket) {#wrapStream}
 
-Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) for both writing and reading.
+Wraps a [stream handle](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) for both writing and reading.
 
 Has the same effect to calling `wrapRead` and `wrapWrite` on the handle, such as:
 ```lua
@@ -131,7 +131,7 @@ local writer, closer = wrapWrite(stream)
 
 | Param  | Type   | Description |
 |:------:|:------:|:------------|
-| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs.md#uv_stream_t--stream-handle) | The [stream handle](https://github.com/luvit/luv/blob/master/docs.md#uv_handle_t--base-handle) to be wrapped for reading and writing. |
+| socket | [uv_stream_t](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_stream_t--stream-handle) | The [stream handle](https://github.com/luvit/luv/blob/master/docs/docs.md#uv_handle_t--base-handle) to be wrapped for reading and writing. |
 
 #### Returns {#wrapStream-returns}
 
